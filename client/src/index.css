@@ -1,0 +1,86 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.active hr{
+  display: block;
+}
+
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+      "Source Han Sans CN", sans-serif, "Lato", "PingFang SC", "Hiragino Sans GB";
+      
+  }
+  
+  .main-container {
+    overflow: hidden;
+  }
+  
+  .main-container,
+  .main-container * {
+    box-sizing: border-box;
+  }
+  
+  input,
+  select,
+  textarea,
+  button {
+    outline: 0;
+  }
+
+  /* CSS spinner */
+.spinner {
+  border: 4px solid #f3f3f3; /* Màu nền */
+  border-top: 4px solid #3498db; /* Màu spinner */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.meow-script-regular {
+  font-family: "Meow Script", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pacifico-regular {
+  font-family: "Pacifico", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ole-regular {
+  font-family: "Ole", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sigmar-regular {
+  font-family: "Sigmar", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.league-script-regular {
+  font-family: "League Script", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+}
+
+.-autosmooth {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
