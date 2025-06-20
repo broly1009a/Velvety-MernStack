@@ -8,6 +8,11 @@ import {
   Grid,
   TextField,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import Sidebar from "../../components/ManagerSidebar";
 import {
@@ -42,11 +47,12 @@ const Dashboard = () => {
   const [selectedServiceDetail, setSelectedServiceDetail] = useState(null);
   const [monthlyServiceRevenue, setMonthlyServiceRevenue] = useState([]);
   const [serviceRatings, setServiceRatings] = useState([]);
+   const [openDetailModal, setOpenDetailModal] = useState(false);
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get("/api/orders");
-        console.log(response.data); // Kiểm tra dữ liệu trả về
+        // console.log(response.data); // Kiểm tra dữ liệu trả về
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -182,9 +188,16 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`/api/services/detail-stats/${serviceId}`);
       setSelectedServiceDetail(res.data);
+      setOpenDetailModal(true);
     } catch (err) {
       setSelectedServiceDetail(null);
+      setOpenDetailModal(false);
     }
+  };
+
+  const handleCloseDetailModal = () => {
+    setOpenDetailModal(false);
+    setSelectedServiceDetail(null);
   };
 
 
@@ -479,16 +492,27 @@ const Dashboard = () => {
                 )}
 
                 {/* Hiển thị chi tiết dịch vụ nếu có */}
-                {selectedServiceDetail && (
-                  <Card sx={{ mt: 3, p: 2 }}>
-                    <Typography variant="h6">Service Detail</Typography>
-                    <Typography>Name: {selectedServiceDetail.name}</Typography>
-                    <Typography>Price: {selectedServiceDetail.price} VND</Typography>
-                    <Typography>Total Orders: {selectedServiceDetail.totalOrders}</Typography>
-                    <Typography>Total Revenue: {selectedServiceDetail.totalRevenue} VND</Typography>
-                    <Typography>Average Rating: {selectedServiceDetail.avgRating?.toFixed(2)} ⭐</Typography>
-                  </Card>
-                )}
+               <Dialog open={openDetailModal} onClose={handleCloseDetailModal} maxWidth="sm" fullWidth>
+          <DialogTitle>Service Detail</DialogTitle>
+          <DialogContent dividers>
+            {selectedServiceDetail ? (
+              <>
+                <Typography><b>Name:</b> {selectedServiceDetail.name}</Typography>
+                <Typography><b>Price:</b> {selectedServiceDetail.price} VND</Typography>
+                <Typography><b>Total Orders:</b> {selectedServiceDetail.totalOrders}</Typography>
+                <Typography><b>Total Revenue:</b> {selectedServiceDetail.totalRevenue} VND</Typography>
+                <Typography><b>Average Rating:</b> {selectedServiceDetail.avgRating?.toFixed(2)} ⭐</Typography>
+              </>
+            ) : (
+              <Typography color="error">No detail available.</Typography>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDetailModal} color="primary" variant="contained">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
               </CardContent>
             </Card>
           </Grid>

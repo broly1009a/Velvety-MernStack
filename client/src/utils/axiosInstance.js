@@ -6,14 +6,14 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken"); // Retrieve token from localStorage
-  console.log("Token being sent:", token);  // 🛑 Debug log
+  // console.log("Token being sent:", token);  // 🛑 Debug log
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    console.log(config.headers);
+    // console.log(config.headers);
   }else {
     console.warn("No token found in localStorage!");
   }
-  console.log("Sending request:", config); // Debugging
+  // console.log("Sending request:", config); // Debugging
   return config;
 });
 

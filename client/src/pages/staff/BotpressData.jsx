@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import client from '../../botpressConfig';
-import ManagerSidebar from '../../components/ManagerSidebar';
+import StaffSidebar from '../../components/StaffSidebar';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, CircularProgress, TextField, MenuItem, Button, Pagination, IconButton, Tooltip
 } from '@mui/material';
@@ -15,23 +15,68 @@ const sentimentOptions = [
 
 const ROWS_PER_PAGE = 10;
 
-// Regex nhận diện nhiều trường hợp đặt lịch thành công
-const bookingSuccessRegex = /(confirm(ed|ation)?|successfully booked|has been booked|appointment is booked|booking is successful|has been scheduled|look forward to seeing you|đặt lịch thành công|đã được đặt|cảm ơn bạn đã đặt lịch)/i;
+// Hàm lấy summary từ transcript nếu summary bị null
+const getSummaryFromTranscript = (transcript) => {
+  if (!Array.isArray(transcript)) return "";
+  const botMsgs = transcript.filter(msg => msg.sender === "bot").reverse();
+  const regexArr = [
+    /(has been (successfully )?booked|has been confirmed|has been scheduled|booking is successful|successfully booked|look forward to seeing you|appointment.*has been (successfully )?booked)/i,
+    /(couldn[’']?t confirm|not available|would you like me to check|I couldn[’']?t confirm)/i,
+    /(thank you|we look forward|feel free to let me know)/i
+  ];
+  for (const regex of regexArr) {
+    const found = botMsgs.find(msg => regex.test(msg.preview));
+    if (found) return found.preview;
+  }
+  return botMsgs[0]?.preview || "";
+};
+
+// Hàm lấy sentiment từ transcript nếu sentiment bị null
+const getSentimentFromTranscript = (transcript) => {
+  if (!Array.isArray(transcript)) return "N/A";
+  const botMsgs = transcript.filter(msg => msg.sender === "bot").reverse();
+  if (botMsgs.some(msg => /successfully|confirmed|look forward|thank you|happy|great|wonderful|glad/i.test(msg.preview))) {
+    return "positive";
+  }
+  if (botMsgs.some(msg => /couldn[’']?t|not available|unfortunately|sorry|fail|unable|problem|issue/i.test(msg.preview))) {
+    return "negative";
+  }
+  if (botMsgs.some(msg => /please confirm|could you|would you|let me know|need more information|waiting/i.test(msg.preview))) {
+    return "neutral";
+  }
+  return "N/A";
+};
+
+// Hàm lấy topics từ transcript nếu topics bị null hoặc rỗng
+const getTopicsFromTranscript = (transcript) => {
+  if (!Array.isArray(transcript)) return ["N/A"];
+  // Lấy các message của user
+  const userMsgs = transcript.filter(msg => msg.sender === "user");
+  // Regex các từ khóa dịch vụ phổ biến
+  const serviceRegex = /(booking|service|facial|massage|treatment|appointment|consultant|pro|skin|hydrat|bright|dermaplaning)/i;
+  // Tìm message user chứa từ khóa
+  const found = userMsgs.find(msg => serviceRegex.test(msg.preview));
+  if (found) {
+    // Lấy tất cả từ khóa khớp trong message
+    const matches = found.preview.match(new RegExp(serviceRegex, "gi"));
+    if (matches && matches.length > 0) return matches.map(m => m.trim());
+    return [found.preview];
+  }
+  // Nếu không có, lấy message đầu tiên của user
+  if (userMsgs.length > 0) return [userMsgs[0].preview];
+  return ["N/A"];
+};
 
 const BotpressData = () => {
   const [allRows, setAllRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Filter states
   const [date, setDate] = useState('');
   const [sentiment, setSentiment] = useState('');
   const [keyword, setKeyword] = useState('');
 
-  // Fetch data function (tách riêng để dùng lại khi refresh)
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -43,15 +88,8 @@ const BotpressData = () => {
         orderBy: 'row_id',
         orderDirection: 'asc'
       });
-
-      // Lọc các record có message cuối chứa các từ khóa thành công
-      const confirmed = rows.filter(row => {
-        const lastMsg = row.transcript?.[row.transcript.length - 1]?.preview || '';
-        return bookingSuccessRegex.test(lastMsg);
-      });
-
-      setAllRows(confirmed);
-      setFilteredRows(confirmed);
+      setAllRows(rows);
+      setFilteredRows(rows);
       setCurrentPage(1);
     } catch (error) {
       console.error('Error fetching Botpress data:', error);
@@ -64,7 +102,6 @@ const BotpressData = () => {
     fetchData();
   }, []);
 
-  // Filter handler
   const handleFilter = (e) => {
     e.preventDefault();
     let result = [...allRows];
@@ -72,16 +109,21 @@ const BotpressData = () => {
       result = result.filter(row => row.updatedAt && row.updatedAt.startsWith(date));
     }
     if (sentiment) {
-      result = result.filter(row => row.sentiment === sentiment);
+      result = result.filter(row => {
+        const sentimentValue = row.sentiment || getSentimentFromTranscript(row.transcript);
+        return sentimentValue === sentiment;
+      });
     }
     if (keyword) {
-      result = result.filter(row => row.summary && row.summary.toLowerCase().includes(keyword.toLowerCase()));
+      result = result.filter(row => {
+        const summary = row.summary || getSummaryFromTranscript(row.transcript);
+        return summary && summary.toLowerCase().includes(keyword.toLowerCase());
+      });
     }
     setFilteredRows(result);
-    setCurrentPage(1); // Reset về trang đầu khi filter
+    setCurrentPage(1);
   };
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredRows.length / ROWS_PER_PAGE);
   const paginatedRows = filteredRows.slice(
     (currentPage - 1) * ROWS_PER_PAGE,
@@ -92,18 +134,17 @@ const BotpressData = () => {
     setCurrentPage(value);
   };
 
-  // Nút refresh
   const handleRefresh = () => {
     fetchData();
   };
 
   return (
     <div className="flex min-h-screen bg-[#f4f4f4]">
-      <ManagerSidebar />
+       <StaffSidebar />
       <div className="flex-1 p-8">
         <div className="flex items-center justify-between mb-4">
           <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: '#C86C79' }}>
-            Confirmed Bookings (Botpress)
+            All Conversations (Chatbot Argent AI)
           </Typography>
           <Tooltip title="Refresh data">
             <IconButton onClick={handleRefresh} color="primary" sx={{ ml: 2 }}>
@@ -151,7 +192,7 @@ const BotpressData = () => {
           </Box>
         ) : paginatedRows.length === 0 ? (
           <Typography variant="body1" color="text.secondary">
-            No confirmed bookings found.
+            No conversations found.
           </Typography>
         ) : (
           <>
@@ -159,6 +200,7 @@ const BotpressData = () => {
               <Table>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: '#F9FAEF' }}>
+                    <TableCell><b>ID</b></TableCell>
                     <TableCell><b>Time</b></TableCell>
                     <TableCell><b>Topics</b></TableCell>
                     <TableCell><b>Summary</b></TableCell>
@@ -170,12 +212,18 @@ const BotpressData = () => {
                 <TableBody>
                   {paginatedRows.map((row) => {
                     const lastMsg = row.transcript?.[row.transcript.length - 1]?.preview || '';
+                    const summary = row.summary || getSummaryFromTranscript(row.transcript);
+                    const sentimentValue = row.sentiment || getSentimentFromTranscript(row.transcript);
+                    const topicsValue = (Array.isArray(row.topics) && row.topics.length > 0)
+                      ? row.topics.join(', ')
+                      : getTopicsFromTranscript(row.transcript).join(', ');
                     return (
                       <TableRow key={row.id} hover>
+                        <TableCell>{row.id}</TableCell>
                         <TableCell>{new Date(row.updatedAt).toLocaleString()}</TableCell>
-                        <TableCell>{Array.isArray(row.topics) ? row.topics.join(', ') : ''}</TableCell>
-                        <TableCell>{row.summary}</TableCell>
-                        <TableCell>{row.sentiment}</TableCell>
+                        <TableCell>{topicsValue}</TableCell>
+                        <TableCell>{summary}</TableCell>
+                        <TableCell>{sentimentValue}</TableCell>
                         <TableCell>{lastMsg}</TableCell>
                         <TableCell>{row.conversationId}</TableCell>
                       </TableRow>

@@ -12,8 +12,7 @@ const ManagerSidebar = () => {
     { name: "Dashboard", path: "/dashboard" },
     { name: "Services", path: "/service-management" },
     { name: "Blogs", path: "/blog-management" },
-    { name: "Questions", path: "/question-management" },
-     { name: "Chatbox Data", path: "/chatbox-data" },
+    { name: "Questions", path: "/question-management" }
   ];  const handleLogout = () => {
     if (!window.confirm("Are you sure you want to log out?")) return;
     axios.post("/api/auth/logout")

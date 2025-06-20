@@ -37,7 +37,7 @@ import { PayFailed } from "./pages/customer/PayFailed";
 import QuizResultHistory from "./pages/customer/QuizResultHistory";
 import ChangeCalendar from "./pages/customer/ChangeCalendar"
 import ChangeConsultant from "./pages/customer/ChangeConsultant";
-import BotpressData from "./pages/manager/BotpressData";
+import BotpressData from "./pages/staff/BotpressData";
 
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
@@ -108,7 +108,6 @@ function App() {
           <Route path="/service-management" element={<ServiceManagement />} />
           <Route path="/blog-management" element={<BlogManagement />} />
           <Route path="/question-management" element={<QuestionManagement />} />
-          <Route path="/chatbox-data" element={<BotpressData/>} />
         </Route>
 
         {/* Admin Pages */}
@@ -125,7 +124,7 @@ function App() {
         {/* Staff Pages */}
         <Route element={<ProtectedRoute allowedRoles={["Staff"]} />}>
           <Route path="/view-booking" element={<ViewBooking />} />
-
+                   <Route path="/chatbox-data" element={<BotpressData/>} />
         </Route>
 
 
