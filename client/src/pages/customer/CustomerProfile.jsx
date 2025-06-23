@@ -492,8 +492,8 @@ const CustomerProfile = () => {
             onClick={() => navigate("/")}
             sx={{
               position: "fixed",
-              bottom: 20,
-              right: 20,
+            bottom: 110,
+                       right: 30,
               backgroundColor: "#E27585",
               "&:hover": { backgroundColor: "#a92a4e" },
             }}
