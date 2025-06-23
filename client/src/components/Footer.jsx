@@ -1,9 +1,11 @@
 import React from "react";
-
+import { useTranslation } from "react-i18next";
 const Footer = () => {
+  const { t } = useTranslation();
   return (
-    <div className="w-full bg-[#f7f5f4] pt-10 px-5" style={{ boxShadow: "0 -4px 6px rgba(0, 0, 0, 0.1)" }}>
 
+    <div className="w-full bg-[#f7f5f4] pt-10 px-5" style={{ boxShadow: "0 -4px 6px rgba(0, 0, 0, 0.1)" }}>
+      <div>{t("hello world")}</div>
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:justify-between">
         {/* Tiêu đề chính */}
         <div className="lg:w-1/4 flex flex-col items-start mb-8">
