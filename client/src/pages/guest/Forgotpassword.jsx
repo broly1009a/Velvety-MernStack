@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
+import axios from "axios";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -14,27 +15,20 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/auth/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      const response = await axios.post(`/api/auth/forgot-password`, {
+        email,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // If the response is not ok, throw an error with the message from the server
-        throw new Error(data.message || "Something went wrong");
+      if (response.status === 200) {
+        setMessage("Password reset link sent to your email.");
+        setEmail("");
+      } else {
+        setError("Failed to send password reset link. Please try again.");
       }
-
-      setMessage("Password reset link sent! Check your email.");
-      setEmail("");
     } catch (err) {
-      // Display the error message (in case of user not found or other errors)
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      console.error("Error sending password reset link:", err);
+      setError("Failed to send password reset link. Please check your email and try again.");
     }
+    setLoading(false);
   };
 
   return (

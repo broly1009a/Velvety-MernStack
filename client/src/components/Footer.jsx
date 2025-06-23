@@ -24,7 +24,7 @@ const Footer = () => {
             <h3 className="text-2xl font-normal tracking-tight pacifico-regular text-[#E27585] mb-4">You need support</h3>
             <p className="text-2xl mt-2.5 mb-5"><strong>0823263509</strong></p>
             <p><strong>Adress:</strong> Lot E2a-7, Road D1, D1 Street, Long Thanh My, Thu Duc City, Ho Chi Minh City 700000</p>
-            <p className="mt-1.5"><strong>Email:</strong> ngocnhat0103@gmail.com</p>
+            <p className="mt-1.5"><strong>Email:</strong> oceanmistspa25@gmail.com</p>
           </div>
 
           {/* Cột Extras */}
