@@ -31,12 +31,12 @@ const ChangePassword = () => {
     setSuccess("");
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setError("New passwords do not match.");
+      setError("Mật khẩu mới không khớp.");
       return;
     }
 
     if (!passwordRegex.test(formData.newPassword)) {
-      setError("Password must be at least 8 characters, include uppercase, lowercase, number, and special character.");
+      setError("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.");
       return;
     }
 
@@ -47,75 +47,81 @@ const ChangePassword = () => {
         newPassword: formData.newPassword,
       });
 
-      setSuccess(response.data.message);
+      setSuccess("Đổi mật khẩu thành công!");
       setTimeout(() => navigate(roleName === "Admin" ? "/staff-management" : "/dashboard"), 2000);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to change password.");
+      setError(err.response?.data?.message || "Đổi mật khẩu thất bại.");
     }
   };
 
   return (
     <Box maxWidth={400} mx="auto" mt={5} p={3} boxShadow={3} borderRadius={2}>
-      <Typography variant="h5" gutterBottom>Change Password</Typography>
+      <Typography variant="h5" gutterBottom>Đổi mật khẩu</Typography>
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Current Password"
+          label="Mật khẩu hiện tại"
           type={showCurrentPassword ? "text" : "password"}
           name="CurrentPassword"
           fullWidth
           required
           margin="normal"
           onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowCurrentPassword(!showCurrentPassword)} edge="end">
-                  {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowCurrentPassword(!showCurrentPassword)} edge="end">
+                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
         <TextField
-          label="New Password"
+          label="Mật khẩu mới"
           type={showNewPassword ? "text" : "password"}
           name="newPassword"
           fullWidth
           required
           margin="normal"
           onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowNewPassword(!showNewPassword)} edge="end">
-                  {showNewPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowNewPassword(!showNewPassword)} edge="end">
+                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
         <TextField
-          label="Confirm New Password"
+          label="Xác nhận mật khẩu mới"
           type={showConfirmNewPassword ? "text" : "password"}
           name="confirmPassword"
           fullWidth
           required
           margin="normal"
           onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)} edge="end">
-                  {showConfirmNewPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)} edge="end">
+                    {showConfirmNewPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-          Update Password
+          Cập nhật mật khẩu
         </Button>
       </form>
       <Button
@@ -142,9 +148,8 @@ const ChangePassword = () => {
               navigate("/not-authorized"); // hoặc trang nào bạn muốn
           }
         }}
-
       >
-        Back
+        Quay lại
       </Button>
     </Box>
   );

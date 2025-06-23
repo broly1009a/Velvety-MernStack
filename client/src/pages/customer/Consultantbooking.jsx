@@ -32,7 +32,7 @@ export default function ConsultantGuest() {
       );
       setConsultants(consultantsWithRatings);
     } catch (err) {
-      toast.error("Failed to fetch consultants");
+      toast.error("Lỗi khi tải chuyên viên tư vấn");
     }
   };
 
@@ -52,7 +52,7 @@ export default function ConsultantGuest() {
 
         <div className="flex items-center">
           <span className="text-[32px] font-bold leading-[32.01px] text-[#C54759] text-center whitespace-nowrap z-[2]">
-            Choose your consultant
+            Chọn chuyên viên của bạn
           </span>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function ConsultantGuest() {
           onClick={() => navigate("/services")}
           className="mb-2 text-lg text-[#C86C79] hover:text-[#ffc0cb] self-start"
         >
-          ← Back to Services
+          ← Quay lại Dịch vụ
         </button>
         {consultants.map((consultant, index) => (
           <div key={consultant._id} className="flex flex-row items-start bg-white p-6 rounded-lg shadow-lg gap-5 mb-5">
@@ -96,12 +96,12 @@ export default function ConsultantGuest() {
                 })}
               </div>
               <div className="mt-2 text-sm text-gray-600">
-                <strong>Specializes in:</strong>{" "}
-                {consultant.category?.join(", ") || "No Categories"}
+                <strong>Chuyên môn:</strong>{" "}
+                {consultant.category?.join(", ") || "Không có chuyên mục"}
               </div>
               {visibleNoteIndex === index && (
                 <span className="mt-2 text-[14px] font-normal leading-[20px] text-[#555] tracking-[-0.4px]">
-                  No additional notes available.
+                  Không có ghi chú bổ sung.
                 </span>
               )}
               <div className="flex gap-2 mt-4">
@@ -110,7 +110,7 @@ export default function ConsultantGuest() {
                   onClick={() => handleBookingNow(consultant._id)}
                 >
                   <span className="text-[16px] font-bold leading-[20px] text-[#C54759]">
-                    Choose
+                    Chọn
                   </span>
                 </button>
               </div>
@@ -119,7 +119,7 @@ export default function ConsultantGuest() {
         ))}
       </div>
 
-      {/* dat lich khi khach hang cho phep cua hang chon chuyen vien */}
+      {/* Đặt lịch khi khách hàng cho phép cửa hàng chọn chuyên viên */}
       <div className="flex justify-center mt-8 mb-8">
         <button
           className="w-[220px] h-[50px] bg-[#ffc0cb] rounded-full border-solid border-[2px] border-[#C54759] flex items-center justify-center hover:bg-[#ff8a8a] transition duration-300 shadow-lg"
@@ -131,7 +131,7 @@ export default function ConsultantGuest() {
           }}
         >
           <span className="text-[20px] font-bold leading-[24px] text-[#C54759]">
-            We can choose consultant for you
+            Để chúng tôi chọn chuyên viên cho bạn
           </span>
         </button>
 

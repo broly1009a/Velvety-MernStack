@@ -12,6 +12,7 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+// ...existing code...
 const ServiceCard = ({ image, name, description, price, rating, category, onChoose }) => {
   return (
     <motion.div
@@ -36,16 +37,15 @@ const ServiceCard = ({ image, name, description, price, rating, category, onChoo
         <br />
       </span>
 
-      
-            {/* Recommended for */}
-            <div className="text-[15px] font-bold leading-[20px] text-[#fb8c9e] text-center">
-              <h3>
-                Recommended for:{" "}
-                {category && category.length > 0 
-                  ? category.join(", ") 
-                  : "All skin types"}
-              </h3>
-            </div>
+      {/* Recommended for */}
+      <div className="text-[15px] font-bold leading-[20px] text-[#fb8c9e] text-center">
+        <h3>
+          Phù hợp cho:{" "}
+          {category && category.length > 0 
+            ? category.join(", ") 
+            : "Mọi loại da"}
+        </h3>
+      </div>
 
       {/* Price */}
       <span className="text-[16px] font-normal leading-[19px] text-[#000] mt-2">
@@ -82,12 +82,12 @@ const ServiceCard = ({ image, name, description, price, rating, category, onChoo
           onClick={onChoose}
         >
           <span className="text-[20px] font-bold leading-[24px] text-[#C54759]">
-            Choose
+            Đặt lịch ngay
           </span>
         </motion.button>
       </div>
     </motion.div>
   );
 };
-
+// ...existing code...
 export default ServiceCard;

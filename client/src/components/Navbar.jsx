@@ -31,7 +31,6 @@ const Navbar = () => {
     };
   }, [showModal]);
 
-
   const isLoginPage = location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/customer-profile" || location.pathname === "/forgot-password";
 
   const handleLogout = () => {
@@ -74,12 +73,14 @@ const Navbar = () => {
             key={item}
             to={`/${item.toLowerCase()}`}
             className={({ isActive }) =>
-              `text-center text-[20px] font-semibold transition-all text-[#E27585] hover:text-[#fadade] ${isActive
-
-              }`
+              `text-center text-[20px] font-semibold transition-all text-[#E27585] hover:text-[#fadade] ${isActive ? "underline" : ""}`
             }
           >
-            {item}
+            {item === "About" ? "Giới thiệu" :
+             item === "Services" ? "Dịch vụ" :
+             item === "Blog" ? "Blog" :
+             item === "Consultant" ? "Tư vấn" :
+             item === "Quiz" ? "Trắc nghiệm" : item}
           </NavLink>
         ))}
       </nav>
@@ -92,20 +93,20 @@ const Navbar = () => {
             </button>
           ) : (
             <NavLink to="/login" className="hidden md:block bg-[#e78999] text-white text-[18px] px-4 py-2 rounded-full shadow-sm hover:opacity-80">
-              Login
+              Đăng nhập
             </NavLink>
           )}
 
           {isProfilePopupOpen && token && (
             <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
               <div className="block px-4 py-2 text-gray-800">
-                Welcome, {fullName}
+                Xin chào, {fullName}
               </div>
               <NavLink to="/customer-profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                Profile
+                Hồ sơ cá nhân
               </NavLink>
               <button onClick={() => setShowModal(true)} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
-                Log out
+                Đăng xuất
               </button>
             </div>
           )}
@@ -115,20 +116,20 @@ const Navbar = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Log out Confirmation</h3>
-            <p className="text-gray-600">Are you sure you want to log out?</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Xác nhận đăng xuất</h3>
+            <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 className="py-2 px-6 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
                 onClick={() => setShowModal(false)}
               >
-                Cancel
+                Hủy
               </button>
               <button
                 className="py-2 px-6 bg-[#f1baba] text-white rounded-lg hover:bg-[#e78999] transition"
                 onClick={handleLogout}
               >
-                Log out
+                Đăng xuất
               </button>
             </div>
           </div>

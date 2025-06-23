@@ -73,13 +73,13 @@ const QuizResultHistory = () => {
       const response = await axios.delete(`/api/quiz-results/${id}`);
       if (response.status === 200) {
         setQuizResults((prevResults) => prevResults.filter((result) => result._id !== id));
-        toast.success("Quiz result deleted successfully!");
+        toast.success("Xóa kết quả bài kiểm tra thành công!");
       } else {
-        toast.error("Failed to delete quiz result. Please try again.");
+        toast.error("Xóa kết quả bài kiểm tra thất bại. Vui lòng thử lại.");
       }
     } catch (err) {
       console.error("Error deleting quiz result:", err.response?.data || err.message);
-      toast.error(err.response?.data?.message || "Failed to delete quiz result.");
+      toast.error(err.response?.data?.message || "Xóa kết quả bài kiểm tra thất bại.");
     }
   };
 
@@ -93,7 +93,7 @@ const QuizResultHistory = () => {
       (skinTypeFilter ? result.skinType === skinTypeFilter : true)
   );
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_unused, newPage) => {
     setPage(newPage);
   };
 
@@ -107,11 +107,11 @@ const QuizResultHistory = () => {
       <CustomerSidebar />
       <div className="w-full">
         <Typography variant="h4" className="mb-4 text-[#c86c79] text-center">
-          Quiz Result History
+          Lịch sử kết quả bài kiểm tra
         </Typography>
         <div className="flex justify-between mb-4">
           <TextField
-            label="Search by Skin Type"
+            label="Tìm kiếm theo loại da"
             variant="outlined"
             size="small"
             value={searchQuery}
@@ -166,16 +166,16 @@ const QuizResultHistory = () => {
               },
             }}
           >
-            <InputLabel>Skin Type</InputLabel>
+            <InputLabel>Loại da</InputLabel>
             <Select
               value={skinTypeFilter}
               onChange={(e) => setSkinTypeFilter(e.target.value)}
             >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="Oily">Oily</MenuItem>
-              <MenuItem value="Dry">Dry</MenuItem>
-              <MenuItem value="Combination">Combination</MenuItem>
-              <MenuItem value="Normal">Normal</MenuItem>
+              <MenuItem value="">Tất cả</MenuItem>
+              <MenuItem value="Oily">Da dầu</MenuItem>
+              <MenuItem value="Dry">Da khô</MenuItem>
+              <MenuItem value="Combination">Da hỗn hợp</MenuItem>
+              <MenuItem value="Normal">Da thường</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -189,7 +189,7 @@ const QuizResultHistory = () => {
           </Typography>
         ) : filteredQuizResults.length === 0 ? (
           <Typography className="text-center">
-            No quiz results found.
+            Không tìm thấy kết quả bài kiểm tra nào.
           </Typography>
         ) : (
           <>
@@ -197,12 +197,12 @@ const QuizResultHistory = () => {
               <Table>
                 <TableHead className="bg-[#E27585] text-white">
                   <TableRow>
-                    <TableCell align="center">No</TableCell>
-                    <TableCell align="center">Date</TableCell>
-                    <TableCell align="center">Time</TableCell>
-                    <TableCell align="center">Skin Type</TableCell>
-                    <TableCell align="center">Recommend Services</TableCell>
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">STT</TableCell>
+                    <TableCell align="center">Ngày</TableCell>
+                    <TableCell align="center">Giờ</TableCell>
+                    <TableCell align="center">Loại da</TableCell>
+                    <TableCell align="center">Dịch vụ đề xuất</TableCell>
+                    <TableCell align="center">Thao tác</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -257,12 +257,12 @@ const QuizResultHistory = () => {
                                   }}
                                   className="flex items-center gap-4 hover:scale-105 hover:text-[#C54759] mt-2"
                                 >
-                                  {result.showAll ? "View Less" : "View More"}
+                                  {result.showAll ? "Ẩn bớt" : "Xem thêm"}
                                 </button>
                               )}
                             </div>
                           ) : (
-                            "N/A"
+                            "Không có"
                           )}
                         </TableCell>
                         <TableCell align="center">
@@ -304,6 +304,7 @@ const QuizResultHistory = () => {
             backgroundColor: "#E27585",
             "&:hover": { backgroundColor: "#a92a4e" },
           }}
+          title="Về trang chủ"
         >
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#a92a4e] opacity-75"></span>
           <HomeIcon />

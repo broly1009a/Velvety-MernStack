@@ -32,7 +32,6 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import { motion } from "framer-motion";
 import { FaTrash, FaComment } from "react-icons/fa";
-import { axios } from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Nội dung tiếng việt
@@ -155,7 +154,7 @@ const ViewBookingHistory = () => {
     try {
       await axios.put(`/api/booking-requests/${bookingId}/cancel`);
       // ✅ Success Toast
-      toast.success("✅ Booking successfully canceled!", {
+      toast.success("✅ Đăt lịch đã được hủy thành công", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -171,7 +170,7 @@ const ViewBookingHistory = () => {
         err.response?.data || err.message
       );
       // ❌ Error Toast
-      toast.error("❌ Failed to cancel booking", {
+      toast.error("❌ Không thể hủy đặt lịch", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -201,7 +200,7 @@ const ViewBookingHistory = () => {
       setSelectedConsultant(response.data);
     } catch (error) {
       console.error("Error fetching consultant details:", error);
-      setError("Failed to fetch consultant details.");
+      setError("Không thể lấy thông tin tư vấn viên.");
     }
   };
 
@@ -212,7 +211,7 @@ const ViewBookingHistory = () => {
   const handleFeedbackClick = (bookingRequestId) => {
     const booking = bookings.find((b) => b._id === bookingRequestId);
     if (booking.feedbackSubmitted) {
-      toast.error("Feedback has already been submitted for this booking.");
+      toast.error("Phản hồi đã được gửi cho lịch đặt này.");
       return; // Prevent opening the feedback modal if feedback is already submitted
     }
 
@@ -226,14 +225,14 @@ const ViewBookingHistory = () => {
   const handleSubmitFeedback = async () => {
     const booking = bookings.find((b) => b._id === feedbackData.bookingRequestId);
     if (booking.feedbackSubmitted) {
-      toast.error("Feedback has already been submitted for this booking.");
+      toast.error("Phản hồi đã được gửi cho lịch đặt này.");
       return; // Prevent duplicate feedback submission
     }
 
     try {
       const response = await axios.post("/api/feedbacks", feedbackData);
       if (response.status === 201) {
-        toast.success("Feedback submitted successfully!");
+        toast.success("Phản hồi đã được gửi thành công!");
         setShowFeedbackModal(false);
         setFeedbackData({
           consultantRating: 0,
@@ -256,7 +255,7 @@ const ViewBookingHistory = () => {
         setRefresh((prev) => !prev);
       }
     } catch (error) {
-      toast.error("Failed to submit feedback");
+      toast.error("Đã xảy ra lỗi khi gửi phản hồi. Vui lòng thử lại.");
     }
   };
 
@@ -294,11 +293,11 @@ const ViewBookingHistory = () => {
           variant="h4"
           className="mb-4 text-[#c86c79] text-center"
         >
-          Booking History
+          Lịch sử đặt lịch
         </Typography>
         <div className="flex justify-between mb-4">
           <TextField
-            label="Search by Service or Consultant"
+            label="Tìm kiếm theo dịch vụ hoặc tư vấn viên"
             variant="outlined"
             size="small"
             value={searchQuery}
@@ -353,23 +352,23 @@ const ViewBookingHistory = () => {
               },
             }}
           >
-            <InputLabel>Status</InputLabel>
+            <InputLabel>Trạng thái</InputLabel>
             <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="">Tất cả</MenuItem>
               <MenuItem value="Pending" sx={{ color: "#e0f131" }}>
-                Pending
+                Đang chờ
               </MenuItem>
               <MenuItem value="Confirmed" sx={{ color: "#3139f1" }}>
-                Confirmed
+                Đã xác nhận
               </MenuItem>
               <MenuItem value="Completed" sx={{ color: "#31f131" }}>
-                Completed
+                Đã hoàn thành
               </MenuItem>
               <MenuItem value="Cancelled" sx={{ color: "#E27585" }}>
-                Cancelled
+                Đã hủy
               </MenuItem>
             </Select>
           </FormControl>
@@ -384,7 +383,7 @@ const ViewBookingHistory = () => {
           </Typography>
         ) : filteredBookings.length === 0 ? (
           <Typography className="text-center">
-            No booking history found.
+            Không tìm thấy lịch sử đặt lịch.
           </Typography>
         ) : (
           <>
@@ -392,16 +391,16 @@ const ViewBookingHistory = () => {
               <Table>
                 <TableHead className="bg-[#E27585] text-white">
                   <TableRow>
-                    <TableCell align="center">Service</TableCell>
-                    <TableCell align="center">Date</TableCell>
-                    <TableCell align="center">Time</TableCell>
-                    <TableCell align="center">Consultant</TableCell>
-                    <TableCell align="center">Status</TableCell>
-                    <TableCell align="center">Create Date</TableCell>
-                    <TableCell align="center">Cancel</TableCell>
-                    <TableCell align="center">Feedback</TableCell>
-                    <TableCell align="center">Change Date</TableCell>
-                    <TableCell align="center">Checkin Code</TableCell>
+                    <TableCell align="center">Dịch vụ</TableCell>
+                    <TableCell align="center">Ngày</TableCell>
+                    <TableCell align="center">Giờ</TableCell>
+                    <TableCell align="center">Tư vấn viên</TableCell>
+                    <TableCell align="center">Trạng thái</TableCell>
+                    <TableCell align="center">Ngày tạo</TableCell>
+                    <TableCell align="center">Hủy</TableCell>
+                    <TableCell align="center">Phản hồi</TableCell>
+                    <TableCell align="center">Đổi ngày</TableCell>
+                    <TableCell align="center">Mã check-in</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -411,14 +410,14 @@ const ViewBookingHistory = () => {
                       className="transition duration-300 hover:bg-gray-100"
                     >
                       <TableCell align="center">
-                        {booking.serviceID?.name || "N/A"}
+                        {booking.serviceID?.name || "Không có"}
                       </TableCell>
                       <TableCell align="center">
-                        {new Date(booking.date).toLocaleDateString("en-GB")}
+                        {new Date(booking.date).toLocaleDateString("vi-VN")}
                       </TableCell>
                       <TableCell align="center">{booking.time}</TableCell>
                       <TableCell align="center">
-                        <Tooltip title="View Consultant Details">
+                        <Tooltip title="Xem chi tiết tư vấn viên">
                           <span
                             className="cursor-pointer text-[#E27585] hover:underline"
                             onClick={() =>
@@ -428,7 +427,7 @@ const ViewBookingHistory = () => {
                             {booking.consultantID?.firstName
                               ? `${booking.consultantID.firstName} ${booking.consultantID.lastName || ""
                               }`
-                              : "Not Assigned"}
+                              : "Chưa phân công"}
                           </span>
                         </Tooltip>
                       </TableCell>
@@ -443,11 +442,19 @@ const ViewBookingHistory = () => {
                                 : "text-red-500"
                             }`}
                         >
-                          {booking.status}
+                          {booking.status === "Pending"
+                            ? "Đang chờ"
+                            : booking.status === "Confirmed"
+                              ? "Đã xác nhận"
+                              : booking.status === "Completed"
+                                ? "Đã hoàn thành"
+                                : booking.status === "Cancelled"
+                                  ? "Đã hủy"
+                                  : booking.status}
                         </span>
                       </TableCell>
                       <TableCell align="center">
-                        {new Date(booking.createdDate).toLocaleString("en-GB", {
+                        {new Date(booking.createdDate).toLocaleString("vi-VN", {
                           day: "2-digit",
                           month: "2-digit",
                           year: "numeric",
@@ -497,7 +504,7 @@ const ViewBookingHistory = () => {
                           disabled={booking.isUpdated || booking.status === "Completed" || booking.status === "Cancelled" || booking.status === "Confirmed"}
                           className="text-xs py-1 px-3 min-w-auto whitespace-nowrap disabled:opacity-50"
                         >
-                          Change Date
+                          Đổi ngày
                         </Button>
                       </TableCell>
                       <TableCell align="center">
@@ -507,7 +514,7 @@ const ViewBookingHistory = () => {
                               <span className="bg-gray-100 px-3 py-1 rounded-md font-mono text-sm border border-gray-300">
                                 {booking.CheckinCode}
                               </span>
-                              <Tooltip title="Hide Check-in Code">
+                              <Tooltip title="Ẩn mã check-in">
                                 <IconButton
                                   size="small"
                                   onClick={() => toggleCheckinCode(booking._id)}
@@ -518,7 +525,7 @@ const ViewBookingHistory = () => {
                               </Tooltip>
                             </>
                           ) : (
-                            <Tooltip title="Show Check-in Code">
+                            <Tooltip title="Hiện mã check-in">
                               <IconButton
                                 size="small"
                                 onClick={() => toggleCheckinCode(booking._id)}
@@ -564,26 +571,26 @@ const ViewBookingHistory = () => {
 
             {/* Modal Title */}
             <Typography variant="h5" className="text-gray-800 font-bold mb-4">
-              Consultant Details
+              Thông tin tư vấn viên
             </Typography>
 
             {selectedConsultant && (
               <div className="space-y-3 text-gray-500">
                 <Typography>
-                  <strong>First Name:</strong> {selectedConsultant.firstName}
+                  <strong>Họ:</strong> {selectedConsultant.firstName}
                 </Typography>
                 <Typography>
-                  <strong>Last Name:</strong> {selectedConsultant.lastName}
+                  <strong>Tên:</strong> {selectedConsultant.lastName}
                 </Typography>
                 <Typography>
                   <strong>Email:</strong> {selectedConsultant.email}
                 </Typography>
                 <Typography>
-                  <strong>Phone:</strong>{" "}
-                  {selectedConsultant.phoneNumber || "Not Available"}
+                  <strong>Số điện thoại:</strong>{" "}
+                  {selectedConsultant.phoneNumber || "Không có"}
                 </Typography>
                 <Typography className="flex items-center">
-                  <strong>Verified:</strong>
+                  <strong>Đã xác thực:</strong>
                   <span
                     className={`ml-2 flex items-center ${selectedConsultant.verified
                       ? "text-green-600"
@@ -593,7 +600,7 @@ const ViewBookingHistory = () => {
                     {selectedConsultant.verified ? (
                       <MdVerified size={18} className="ml-1" />
                     ) : (
-                      "No"
+                      "Chưa xác thực"
                     )}
                   </span>
                 </Typography>
@@ -608,7 +615,7 @@ const ViewBookingHistory = () => {
                 className="rounded-full px-6 shadow-md"
                 onClick={closeConsultantModal}
               >
-                Close
+                Đóng
               </Button>
             </div>
           </motion.div>
@@ -634,24 +641,23 @@ const ViewBookingHistory = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
-              Cancel Confirmation
+              Xác nhận hủy lịch
             </h3>
             <p className="text-gray-600">
-              Are you sure you want to cancel this booking ? This action cannot
-              be undone. The money will not be refunded.
+              Bạn có chắc chắn muốn hủy lịch đặt này không? Hành động này không thể hoàn tác. Số tiền sẽ không được hoàn lại.
             </p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 className="py-2 px-6 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
                 onClick={() => setShowModal(false)}
               >
-                Cancel
+                Hủy bỏ
               </button>
               <button
                 className="py-2 px-6 bg-[#f1baba] text-white rounded-lg hover:bg-[#e78999] transition"
                 onClick={() => handleCancelBooking(selectedBookingId)}
               >
-                Yes
+                Đồng ý
               </button>
             </div>
           </div>
@@ -665,10 +671,10 @@ const ViewBookingHistory = () => {
         >
           <div className="fixed inset-0 flex items-center justify-center">
             <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
-              <h3 className="text-xl font-bold mb-4">Leave Feedback</h3>
+              <h3 className="text-xl font-bold mb-4">Gửi phản hồi</h3>
 
               <div className="mb-4">
-                <Typography component="legend">Consultant Rating</Typography>
+                <Typography component="legend">Đánh giá tư vấn viên</Typography>
                 <Rating
                   value={feedbackData.consultantRating}
                   onChange={(_, value) =>
@@ -682,7 +688,7 @@ const ViewBookingHistory = () => {
                   fullWidth
                   multiline
                   rows={2}
-                  label="Consultant Comment"
+                  label="Nhận xét về tư vấn viên"
                   value={feedbackData.consultantComment}
                   onChange={(e) =>
                     setFeedbackData((prev) => ({
@@ -695,7 +701,7 @@ const ViewBookingHistory = () => {
               </div>
 
               <div className="mb-4">
-                <Typography component="legend">Service Rating</Typography>
+                <Typography component="legend">Đánh giá dịch vụ</Typography>
                 <Rating
                   value={feedbackData.serviceRating}
                   onChange={(_, value) =>
@@ -709,7 +715,7 @@ const ViewBookingHistory = () => {
                   fullWidth
                   multiline
                   rows={2}
-                  label="Service Comment"
+                  label="Nhận xét về dịch vụ"
                   value={feedbackData.serviceComment}
                   onChange={(e) =>
                     setFeedbackData((prev) => ({
@@ -723,10 +729,10 @@ const ViewBookingHistory = () => {
 
               <div className="flex justify-end gap-2">
                 <Button onClick={() => setShowFeedbackModal(false)}>
-                  Cancel
+                  Hủy
                 </Button>
                 <Button variant="contained" onClick={handleSubmitFeedback}>
-                  Submit Feedback
+                  Gửi phản hồi
                 </Button>
               </div>
             </div>

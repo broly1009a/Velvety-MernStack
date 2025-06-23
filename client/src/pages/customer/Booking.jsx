@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Card, CardContent, Button, TextField } from "@mui/material";
-import { axios } from "axios";
+import axios from "axios";
 const BookingPage = () => {
   const [formData, setFormData] = useState({
     name: "",

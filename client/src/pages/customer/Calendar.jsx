@@ -43,7 +43,7 @@ const SkincareBooking = () => {
                 setServiceName(res.data.name);
                 setServicePrice(res.data.price); // Set the service price
             } catch (err) {
-                console.error("Failed to fetch service name and price");
+                console.error("Không thể lấy tên và giá dịch vụ");
             }
         };
 
@@ -64,7 +64,7 @@ const SkincareBooking = () => {
                     setConsultants(res.data);
                 }
             } catch (err) {
-                toast.error("Failed to fetch consultant");
+                toast.error("Không thể lấy thông tin chuyên gia");
             }
         };
 
@@ -86,7 +86,7 @@ const SkincareBooking = () => {
 
                     setBookedSlots(bookedTimes);
                 })
-                .catch(error => console.error("Error fetching booked slots:", error));
+                .catch(error => console.error("Lỗi khi lấy các khung giờ đã đặt:", error));
         }
     }, [selectedConsultant, selectedDate]);
 
@@ -131,23 +131,23 @@ const SkincareBooking = () => {
 
     const handleConfirmAndPay = async () => {
         try {
-            console.log("🔄 Sending booking request...");
+            console.log("🔄 Đang gửi yêu cầu đặt lịch...");
             const response = await createBookingRequest();
 
             if (response && response.status === 201) {
-                console.log("✅ Booking successful! Redirecting to payment...");
+                console.log("✅ Đặt lịch thành công! Đang chuyển đến trang thanh toán...");
                 const bookingId = response.data._id; // Extract booking ID from response
                 setCreatedBookingId(bookingId); // Store booking ID in state
 
                 const apiUrl = `/api/payments/create-payment/${bookingId}`;
-                console.log("🌐 Initiating payment for booking ID:", bookingId);
+                console.log("🌐 Khởi tạo thanh toán cho mã đặt lịch:", bookingId);
 
                 const paymentResponse = await axios.post(apiUrl);
                 const checkoutUrl = paymentResponse?.data?.data?.checkoutUrl; // Correct path
                 const orderCode = paymentResponse?.data?.data?.orderCode; // Check if orderCode exists
 
                 if (!checkoutUrl) {
-                    throw new Error("checkoutUrl is missing from API response");
+                    throw new Error("Không tìm thấy checkoutUrl trong phản hồi API");
                 }
 
                 localStorage.setItem("orderCode", orderCode);
@@ -155,26 +155,26 @@ const SkincareBooking = () => {
                 localStorage.setItem("bookingId", bookingId);
                 sessionStorage.setItem("bookingId", bookingId);
 
-                console.log("✅ Redirecting to payment URL:", checkoutUrl);
+                console.log("✅ Chuyển hướng đến trang thanh toán:", checkoutUrl);
                 window.location.href = checkoutUrl; // Redirect to payment page
-                toast.success(`Payment link created successfully for booking #${bookingId}`);
+                toast.success(`Tạo liên kết thanh toán thành công cho mã đặt lịch #${bookingId}`);
             } else {
-                console.log("❌ Booking request did not return expected status:", response);
+                console.log("❌ Yêu cầu đặt lịch không trả về trạng thái mong đợi:", response);
             }
         } catch (error) {
-            console.error("❌ Error during booking or payment:", error);
+            console.error("❌ Lỗi khi đặt lịch hoặc thanh toán:", error);
             if (error.response) {
-                console.error("⚠️ Backend response error:", error.response.data);
-                toast.error(`Failed to create booking or payment: ${error.response.data.message || "Unknown error"}`);
+                console.error("⚠️ Lỗi phản hồi từ máy chủ:", error.response.data);
+                toast.error(`Không thể tạo đặt lịch hoặc thanh toán: ${error.response.data.message || "Lỗi không xác định"}`);
             } else {
-                toast.error("Failed to create booking or payment. Please try again.");
+                toast.error("Không thể tạo đặt lịch hoặc thanh toán. Vui lòng thử lại.");
             }
         }
     };
 
     const handleCancel = () => {
         localStorage.setItem("serviceId", serviceId); // Lưu dịch vụ đã chọn
-        window.location.href = "/consultant-customer"; // Chuyển về trang consultant khi bấm Cancel
+        window.location.href = "/consultant-customer"; // Chuyển về trang chuyên gia khi bấm Hủy
     };
 
     const isTimeDisabled = (time) => {
@@ -213,7 +213,7 @@ const SkincareBooking = () => {
 
     const createBookingRequest = async () => {
         if (!serviceId || !selectedTime || !selectedDate) {
-            toast.error("Please select a service, date, and time.");
+            toast.error("Vui lòng chọn dịch vụ, ngày và giờ.");
             return null; // Return null explicitly to avoid undefined issues
         }
 
@@ -230,22 +230,22 @@ const SkincareBooking = () => {
                 isConsultantAssignedByCustomer: !!id,
             };
 
-            console.log("📤 Sending request with payload:", payload);
+            console.log("📤 Đang gửi yêu cầu với dữ liệu:", payload);
             const response = await axios.post("/api/booking-requests/", payload);
 
-            console.log("📥 API Response:", response);
+            console.log("📥 Phản hồi từ API:", response);
 
             if (response.status === 201) {
-                toast.success("Booking request created successfully!");
+                toast.success("Tạo yêu cầu đặt lịch thành công!");
                 return response; // ✅ Ensure response is returned
             } else {
-                console.error("❌ Unexpected response status:", response.status);
+                console.error("❌ Trạng thái phản hồi không mong đợi:", response.status);
                 return null;
             }
         } catch (error) {
-            console.error("❌ Error creating booking request:", error);
+            console.error("❌ Lỗi khi tạo yêu cầu đặt lịch:", error);
 
-            toast.error("This consultant is already booked at the selected date and time.");
+            toast.error("Chuyên gia này đã được đặt vào ngày và giờ đã chọn.");
             return null; // Return null in case of error
         }
     };
@@ -256,7 +256,7 @@ const SkincareBooking = () => {
             <div className="max-w-4xl mx-auto p-4">
                 {consultants && id !== "null" && id && (
                     <h1 className="text-center text-2xl font-semibold my-4">
-                        Skincare Consultation with <span className="text-[#C54759]">{consultants.firstName} {consultants.lastName}</span>
+                        Tư vấn chăm sóc da với <span className="text-[#C54759]">{consultants.firstName} {consultants.lastName}</span>
                     </h1>
                 )}
 
@@ -271,7 +271,7 @@ const SkincareBooking = () => {
                     </div>
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold mb-2">
-                            Available Times for <span className="text-[#C54759]">{selectedDate.toDateString()}</span>
+                            Khung giờ còn trống cho <span className="text-[#C54759]">{selectedDate.toLocaleDateString("vi-VN", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         </h3>
                         <div className="grid grid-cols-3 gap-3">
                             {times.map((time, index) => (
@@ -285,7 +285,7 @@ const SkincareBooking = () => {
                                                 : 'bg-gray-100 hover:bg-pink-100 hover:text-pink-600'
                                         }`}
                                     onClick={() => handleTimeSelect(time)}
-                                    aria-label={`Select time ${time}`}
+                                    aria-label={`Chọn giờ ${time}`}
                                     disabled={isTimeDisabled(time)}
                                 >
                                     {time}
@@ -296,16 +296,16 @@ const SkincareBooking = () => {
                             <button
                                 className="bg-pink-500 text-white px-8 py-3 rounded-xl shadow-lg hover:bg-pink-600 transition duration-300"
                                 onClick={handleConfirmBooking}
-                                aria-label="Confirm booking"
+                                aria-label="Xác nhận đặt lịch"
                             >
-                                Choose
+                                Chọn
                             </button>
                             <button
                                 className="bg-gray-300 px-8 py-3 rounded-xl hover:bg-gray-400 transition duration-300"
                                 onClick={handleCancel}
-                                aria-label="Cancel booking"
+                                aria-label="Hủy đặt lịch"
                             >
-                                Cancel
+                                Hủy
                             </button>
                         </div>
                     </div>
@@ -314,42 +314,42 @@ const SkincareBooking = () => {
                 {showConfirmModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center transition-opacity duration-300 backdrop-blur-sm">
                         <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
-                            <h2 className="text-2xl font-bold text-center text-[#C54759] mb-6">Booking Confirmation</h2>
+                            <h2 className="text-2xl font-bold text-center text-[#C54759] mb-6">Xác nhận đặt lịch</h2>
                             <div className="text-gray-700 space-y-3">
                                 <p>
-                                    <strong className="text-[#C54759]">Service:</strong> {serviceName}
+                                    <strong className="text-[#C54759]">Dịch vụ:</strong> {serviceName}
                                 </p>
                                 <p>
-                                    <strong className="text-[#C54759]">Price:</strong> {formatPrice(servicePrice)}
+                                    <strong className="text-[#C54759]">Giá:</strong> {formatPrice(servicePrice)}
                                 </p>
                                 <p>
-                                    <strong className="text-[#C54759]">Date:</strong> {selectedDate.toDateString()}
+                                    <strong className="text-[#C54759]">Ngày:</strong> {selectedDate.toLocaleDateString("vi-VN", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                                 </p>
                                 <p>
-                                    <strong className="text-[#C54759]">Time:</strong> {selectedTime}
+                                    <strong className="text-[#C54759]">Giờ:</strong> {selectedTime}
                                 </p>
                                 {consultants && id !== "null" && (
                                     <p>
-                                        <strong className="text-[#C54759]">Consultant:</strong> {consultants.firstName} {consultants.lastName}
+                                        <strong className="text-[#C54759]">Chuyên gia:</strong> {consultants.firstName} {consultants.lastName}
                                     </p>
                                 )}
                             </div>
                             <p className="text-sm text-red-600 mt-6 text-center font-medium">
-                                ⚠️ PLEASE NOTE: A 100% upfront payment is required to confirm your booking. <br />
-                                Cancellations are non-refundable.
+                                ⚠️ LƯU Ý: Quý khách cần thanh toán trước 100% để xác nhận đặt lịch.<br />
+                                Đặt lịch đã thanh toán sẽ không được hoàn tiền nếu hủy.
                             </p>
                             <div className="flex justify-end gap-4 mt-8">
                                 <button
                                     className="bg-pink-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-pink-600 transition duration-300"
                                     onClick={handleConfirmAndPay}
                                 >
-                                    Confirm & Pay
+                                    Xác nhận & Thanh toán
                                 </button>
                                 <button
                                     className="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition duration-300"
                                     onClick={() => setShowConfirmModal(false)}
                                 >
-                                    Cancel
+                                    Hủy
                                 </button>
                             </div>
                         </div>

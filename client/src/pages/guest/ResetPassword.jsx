@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { EyeIcon } from "lucide-react";
 import { EyeOffIcon } from "lucide-react";
-import { axios } from "axios";
+import axios from "axios";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };

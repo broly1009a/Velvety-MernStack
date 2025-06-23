@@ -241,7 +241,7 @@ const SkincareBookingChagne = () => {
             <div className="max-w-4xl mx-auto p-4">
                 {consultants && id !== "null" && id && (
                     <h1 className="text-center text-2xl font-semibold my-4">
-                        Skincare Consultation with <span className="text-[#C54759]">{consultants.firstName} {consultants.lastName}</span>
+                        Tư vấn chăm sóc da với <span className="text-[#C54759]">{consultants.firstName} {consultants.lastName}</span>
                     </h1>
                 )}
 
@@ -256,7 +256,7 @@ const SkincareBookingChagne = () => {
                     </div>
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold mb-2">
-                            Available Times for <span className="text-[#C54759]">{selectedDate.toDateString()}</span>
+                            Khung giờ còn trống cho <span className="text-[#C54759]">{selectedDate.toLocaleDateString("vi-VN")}</span>
                         </h3>
                         <div className="grid grid-cols-3 gap-3">
                             {times.map((time, index) => (
@@ -270,7 +270,7 @@ const SkincareBookingChagne = () => {
                                                 : 'bg-gray-100 hover:bg-pink-100 hover:text-pink-600'
                                         }`}
                                     onClick={() => handleTimeSelect(time)}
-                                    aria-label={`Select time ${time}`}
+                                    aria-label={`Chọn giờ ${time}`}
                                     disabled={isTimeDisabled(time)}
                                 >
                                     {time}
@@ -281,16 +281,16 @@ const SkincareBookingChagne = () => {
                             <button
                                 className="bg-pink-500 text-white px-8 py-3 rounded-xl shadow-lg hover:bg-pink-600 transition duration-300"
                                 onClick={handleConfirmBooking}
-                                aria-label="Confirm booking"
+                                aria-label="Xác nhận thay đổi"
                             >
-                                Change
+                                Thay đổi
                             </button>
                             <button
                                 className="bg-gray-300 px-8 py-3 rounded-xl hover:bg-gray-400 transition duration-300"
                                 onClick={handleCancel}
-                                aria-label="Cancel booking"
+                                aria-label="Hủy thay đổi"
                             >
-                                Cancel
+                                Hủy
                             </button>
                         </div>
                     </div>
@@ -299,36 +299,36 @@ const SkincareBookingChagne = () => {
                 {showConfirmModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center transition-opacity duration-300 backdrop-blur-sm">
                         <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
-                            <h2 className="text-2xl font-bold text-center text-[#C54759] mb-6">Change Confirmation</h2>
+                            <h2 className="text-2xl font-bold text-center text-[#C54759] mb-6">Xác nhận thay đổi</h2>
                             <div className="text-gray-700 space-y-3">
                                 <p>
-                                    <strong className="text-[#C54759]">Date:</strong> {selectedDate.toDateString()}
+                                    <strong className="text-[#C54759]">Ngày:</strong> {selectedDate.toLocaleDateString("vi-VN")}
                                 </p>
                                 <p>
-                                    <strong className="text-[#C54759]">Time:</strong> {selectedTime}
+                                    <strong className="text-[#C54759]">Giờ:</strong> {selectedTime}
                                 </p>
                                 {consultants && id !== "null" && (
                                     <p>
-                                        <strong className="text-[#C54759]">Consultant:</strong> {consultants.firstName} {consultants.lastName}
+                                        <strong className="text-[#C54759]">Chuyên viên:</strong> {consultants.firstName} {consultants.lastName}
                                     </p>
                                 )}
                             </div>
                             <p className="text-sm text-red-600 mt-6 text-center font-medium">
-                                This is the only time you can change your booking. <br />
-                                Please check your booking details again before confirming.
+                                Đây là lần duy nhất bạn có thể thay đổi lịch hẹn.<br />
+                                Vui lòng kiểm tra lại thông tin trước khi xác nhận.
                             </p>
                             <div className="flex justify-end gap-4 mt-8">
                                 <button
                                     className="bg-pink-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-pink-600 transition duration-300"
                                     onClick={handleConfirmChange}
                                 >
-                                    Confirm Change
+                                    Xác nhận thay đổi
                                 </button>
                                 <button
                                     className="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition duration-300"
                                     onClick={() => setShowConfirmModal(false)}
                                 >
-                                    Cancel
+                                    Hủy
                                 </button>
                             </div>
                         </div>
