@@ -251,7 +251,6 @@ export default function ConsultantGuest() {
             style={{
               background: "linear-gradient(135deg, #6B8E23, #32CD32)",
               boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
-               marginBottom: "100px",
             }}
             variants={{
               float: {

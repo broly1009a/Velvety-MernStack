@@ -268,7 +268,7 @@ export default function About() {
       </div>
 
       {/* Booking Now Button */}
-      <div className="fixed bottom-4 right-4">
+      <div className="fixed bottom-28 right-4">
         {/* Ping effect */}
         <span className="absolute -inset-1 inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
 
@@ -279,7 +279,6 @@ export default function About() {
           style={{
             background: "linear-gradient(135deg, #6B8E23, #32CD32)",
             boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
-            marginBottom: "100px",
           }}
           animate={{
             y: [0, -5, 5, -5, 0], // Floating animation
