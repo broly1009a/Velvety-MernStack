@@ -62,11 +62,11 @@ const ConsultantSidebar = () => {
       </Toolbar>
       <Typography variant="h6">
         <div className="text-center">
-          Welcome consultant <br />
+          Chào mừng tư vấn viên <br />
           {fullName}
         </div>
         <div className="text-center text-sm text-gray-300">
-          ⭐ Average Rating: {averageRating}
+          ⭐ Đánh giá trung bình: {averageRating}
         </div>
       </Typography>
       <Divider sx={{ backgroundColor: "gray" }} />
@@ -74,7 +74,7 @@ const ConsultantSidebar = () => {
       <List>
         <NavLink to="/view-booked" style={{ textDecoration: "none", color: "inherit" }}>
           <ListItemButton selected={location.pathname === "/view-booked"}>
-            <ListItemText primary="Work Schedule" />
+            <ListItemText primary="Lịch làm việc" />
           </ListItemButton>
         </NavLink>
       </List>
@@ -92,7 +92,7 @@ const ConsultantSidebar = () => {
           "&:hover": { backgroundColor: "#1565c0" },
         }}
       >
-        Change Password
+        Đổi mật khẩu
       </Button>
 
       <Button
@@ -108,7 +108,7 @@ const ConsultantSidebar = () => {
           "&:hover": { backgroundColor: "#d32f2f" },
         }}
       >
-        Logout
+        Đăng xuất
       </Button>
     </Drawer>
   );

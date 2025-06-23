@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function VerifyEmailPage() {
-  const [message, setMessage] = useState("Verifying...");
+  const [message, setMessage] = useState("Đang xác minh...");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get("token");
@@ -12,7 +12,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     if (!token) {
-      setMessage("Invalid verification link.");
+      setMessage("Liên kết xác minh không hợp lệ.");
       return;
     }
 
@@ -26,7 +26,7 @@ export default function VerifyEmailPage() {
         setTimeout(() => navigate("/login"), 3000);
       })
       .catch((error) => {
-        setMessage(error.response?.data?.message || "Verification failed.");
+        setMessage(error.response?.data?.message || "Xác minh thất bại.");
       });
 
   }, [token, navigate]);
@@ -34,7 +34,7 @@ export default function VerifyEmailPage() {
   return (
     <div className="h-screen flex justify-center items-center bg-[#f9faef]">
       <div className="bg-white p-8 rounded-lg shadow-md text-center">
-        <h2 className="text-2xl font-bold text-[#c86c79]">Email Verification</h2>
+        <h2 className="text-2xl font-bold text-[#c86c79]">Xác minh Email</h2>
         <p className="mt-4 text-gray-700">{message}</p>
       </div>
     </div>

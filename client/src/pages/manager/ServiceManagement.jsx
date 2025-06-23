@@ -163,76 +163,76 @@ const ServiceManagement = () => {
       <Sidebar />
       <div className="p-6 w-full">
         <ToastContainer />
-        <h2 className="text-2xl font-bold mb-4">Service Management</h2>
+        <h2 className="text-2xl font-bold mb-4">Quản lý dịch vụ</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 rounded-lg shadow-md">
-          <h3 className="text-2xl font-semibold mb-4">Service Details</h3>
+          <h3 className="text-2xl font-semibold mb-4">Chi tiết dịch vụ</h3>
 
           {/* Service Name */}
           <div>
-            <label className="block text-gray-700 mb-2">Service Name</label>
+            <label className="block text-gray-700 mb-2">Tên dịch vụ</label>
             <input
               {...register("name", { required: true })}
-              placeholder="Enter service name"
+              placeholder="Nhập tên dịch vụ"
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Price */}
           <div>
-            <label className="block text-gray-700 mb-2">Price</label>
+            <label className="block text-gray-700 mb-2">Giá</label>
             <input
               {...register("price", { required: true })}
               type="number"
-              placeholder="Enter price"
+              placeholder="Nhập giá"
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Images Section */}
           <div>
-            <h4 className="block text-gray-700 mb-2">Images</h4>
+            <h4 className="block text-gray-700 mb-2">Hình ảnh</h4>
             <div className="space-y-4">
               <div>
                 <input
                   {...register("image")}
-                  placeholder="Image URL"
+                  placeholder="URL hình ảnh"
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {editingService?.image && (
-                  <img src={editingService.image} alt="Service Preview" className="w-32 h-32 object-cover mt-2" />
+                  <img src={editingService.image} alt="Xem trước dịch vụ" className="w-32 h-32 object-cover mt-2" />
                 )}
               </div>
 
               <div>
                 <input
                   {...register("effectimage")}
-                  placeholder="Effect Image URL"
+                  placeholder="URL hình ảnh hiệu quả"
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {editingService?.effectimage && (
-                  <img src={editingService.effectimage} alt="Effect Preview" className="w-32 h-32 object-cover mt-2" />
+                  <img src={editingService.effectimage} alt="Xem trước hiệu quả" className="w-32 h-32 object-cover mt-2" />
                 )}
               </div>
 
               <div>
                 <input
                   {...register("resultimage")}
-                  placeholder="Result Image URL"
+                  placeholder="URL hình ảnh kết quả"
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {editingService?.resultimage && (
-                  <img src={editingService.resultimage} alt="Result Preview" className="w-32 h-32 object-cover mt-2" />
+                  <img src={editingService.resultimage} alt="Xem trước kết quả" className="w-32 h-32 object-cover mt-2" />
                 )}
               </div>
 
               <div>
                 <input
                   {...register("sensationimage")}
-                  placeholder="Sensation Image URL"
+                  placeholder="URL hình ảnh cảm nhận"
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {editingService?.sensationimage && (
-                  <img src={editingService.sensationimage} alt="Sensation Preview" className="w-32 h-32 object-cover mt-2" />
+                  <img src={editingService.sensationimage} alt="Xem trước cảm nhận" className="w-32 h-32 object-cover mt-2" />
                 )}
               </div>
             </div>
@@ -240,17 +240,17 @@ const ServiceManagement = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-gray-700 mb-2">Description</label>
+            <label className="block text-gray-700 mb-2">Mô tả</label>
             <textarea
               {...register("description")}
-              placeholder="Enter a brief description"
+              placeholder="Nhập mô tả ngắn gọn"
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-gray-700 mb-2">Category</label>
+            <label className="block text-gray-700 mb-2">Loại da</label>
             <div className="space-x-4">
               {["Oily", "Dry", "Combination", "Normal"].map((category) => (
                 <label key={category} className="inline-flex items-center">
@@ -262,7 +262,9 @@ const ServiceManagement = () => {
                     onChange={handleCategoryChange}
                     className="form-checkbox"
                   />
-                  <span className="ml-2">{category}</span>
+                  <span className="ml-2">
+                    {category === "Oily" ? "Da dầu" : category === "Dry" ? "Da khô" : category === "Combination" ? "Da hỗn hợp" : "Da thường"}
+                  </span>
                 </label>
               ))}
             </div>
@@ -270,7 +272,7 @@ const ServiceManagement = () => {
 
           {/* Status */}
           <div>
-            <label className="block text-gray-700 mb-2">Status</label>
+            <label className="block text-gray-700 mb-2">Trạng thái</label>
             <div className="space-x-4">
               {["active", "inactive"].map((statusOption) => (
                 <label key={statusOption} className="inline-flex items-center">
@@ -278,11 +280,13 @@ const ServiceManagement = () => {
                     {...register("status", { required: true })}
                     type="radio"
                     value={statusOption}
-                    checked={selectedStatus === statusOption} // Check if this is the selected status
-                    onChange={handleStatusChange} // Update state when the status changes
+                    checked={selectedStatus === statusOption}
+                    onChange={handleStatusChange}
                     className="form-radio"
                   />
-                  <span className="ml-2 capitalize">{statusOption}</span>
+                  <span className="ml-2 capitalize">
+                    {statusOption === "active" ? "Đang hoạt động" : "Ngừng hoạt động"}
+                  </span>
                 </label>
               ))}
             </div>
@@ -293,7 +297,7 @@ const ServiceManagement = () => {
             <ReactQuill
               value={watch("detaildescription") || ""}
               onChange={(value) => setValue("detaildescription", value)}
-              placeholder="Enter detailed description"
+              placeholder="Nhập mô tả chi tiết"
               className="w-full border rounded-md"
             />
           </div>
@@ -303,24 +307,24 @@ const ServiceManagement = () => {
             type="submit"
             className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
           >
-            {editingService ? "Update" : "Create"} Service
+            {editingService ? "Cập nhật" : "Tạo mới"} dịch vụ
           </button>
         </form>
 
         <div className="mt-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Service List</h3>
+            <h3 className="text-xl font-semibold">Danh sách dịch vụ</h3>
             <div className="flex space-x-2">
-              <input type="text" placeholder="Search Services" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="p-2 border rounded w-64" />
+              <input type="text" placeholder="Tìm kiếm dịch vụ" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="p-2 border rounded w-64" />
               <button onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")} className="bg-gray-500 text-white px-4 py-2 rounded">
-                {sortOrder === "asc" ? "Sort Z-A" : "Sort A-Z"}
+                {sortOrder === "asc" ? "Sắp xếp Z-A" : "Sắp xếp A-Z"}
               </button>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {currentServices.map((service) => (
               <div key={service._id} className="border p-4">
-                {service.image && <img src={service.image} alt="Service" className="w-10 h-10 object-cover mb-2" />}
+                {service.image && <img src={service.image} alt="Dịch vụ" className="w-10 h-10 object-cover mb-2" />}
                 <h4 className="text-lg font-bold">{service.name}</h4>
                 <p>{service.description}</p>
                 <div className="flex space-x-2 mt-4">
@@ -348,7 +352,7 @@ const ServiceManagement = () => {
             <Pagination
               count={totalPages}
               page={currentPage}
-              onChange={(event, value) => setCurrentPage(value)}
+              onChange={(_, value) => setCurrentPage(value)}
               color="primary"
             />
           </div>
@@ -356,11 +360,11 @@ const ServiceManagement = () => {
       </div>
 
       <Dialog open={openDeleteDialog} onClose={closeDeleteConfirmation}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>Are you sure you want to delete this service?</DialogContent>
+        <DialogTitle>Xác nhận xóa</DialogTitle>
+        <DialogContent>Bạn có chắc chắn muốn xóa dịch vụ này không?</DialogContent>
         <DialogActions>
-          <Button onClick={closeDeleteConfirmation} color="primary">Cancel</Button>
-          <Button onClick={handleDelete} color="secondary">Delete</Button>
+          <Button onClick={closeDeleteConfirmation} color="primary">Hủy</Button>
+          <Button onClick={handleDelete} color="secondary">Xóa</Button>
         </DialogActions>
       </Dialog>
     </div>

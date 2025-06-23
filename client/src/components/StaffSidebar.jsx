@@ -19,11 +19,11 @@ const StaffSidebar = () => {
     localStorage.getItem("fullName") || sessionStorage.getItem("fullName");
 
   const menuItems = [
-    { name: "Booking Request", path: "/view-booking" },
-      { name: "Chatbox Data", path: "/chatbox-data" },
+    { name: "Yêu cầu đặt phòng", path: "/view-booking" },
+    { name: "Dữ liệu Chatbox", path: "/chatbox-data" },
   ];
   const handleLogout = () => {
-    if (!window.confirm("Are you sure you want to log out?")) return;
+    if (!window.confirm("Bạn có chắc chắn muốn đăng xuất không?")) return;
     axios
       .post("/api/auth/logout")
       .then(() => {
@@ -68,7 +68,7 @@ const StaffSidebar = () => {
       </Toolbar>
       <Typography variant="h6">
         <div className="text-center">
-          Welcome Staff <br /> {fullName}
+          Chào mừng Nhân viên <br /> {fullName}
         </div>
       </Typography>
       <Divider sx={{ backgroundColor: "gray" }} />
@@ -88,7 +88,7 @@ const StaffSidebar = () => {
         ))}
       </List>
 
-      {/* Change Password Button */}
+      {/* Nút Đổi mật khẩu */}
       <Button
         onClick={() => navigate("/change-password")}
         sx={{
@@ -104,10 +104,10 @@ const StaffSidebar = () => {
           },
         }}
       >
-        Change Password
+        Đổi mật khẩu
       </Button>
 
-      {/* Logout Button */}
+      {/* Nút Đăng xuất */}
       <Button
         onClick={handleLogout}
         sx={{
@@ -123,7 +123,7 @@ const StaffSidebar = () => {
           },
         }}
       >
-        Logout
+        Đăng xuất
       </Button>
     </Drawer>
   );

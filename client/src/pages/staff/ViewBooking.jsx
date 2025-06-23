@@ -30,7 +30,7 @@ const ViewBooking = () => {
   const [checkinInput, setCheckinInput] = useState("");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [checkinLoading, setCheckinLoading] = useState(false);
-  const [checkoutLoadingId, setCheckoutLoadingId] = useState(null);
+  // const [checkoutLoadingId, setCheckoutLoadingId] = useState(null);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
 
   const handleOpenCheckoutModal = (booking) => {
@@ -217,37 +217,37 @@ const ViewBooking = () => {
     }
   };
 
-  const handleStatusUpdate = async (id, newStatus) => {
-    try {
-      await axios.put(`/api/booking-requests/${id}/status`, {
-        status: newStatus,
-      });
-      // Cập nhật trạng thái ngay lập tức
-      setBookings((prev) =>
-        prev.map((booking) =>
-          booking._id === id ? { ...booking, status: newStatus } : booking
-        )
-      );
-      toast.success(`✅ Booking #${id} status updated to ${newStatus}`);
-    } catch (err) {
-      console.error("Error updating status:", err);
-      setError(err.message);
-      toast.error(`❌ Failed to update status for booking #${id}`);
-    }
-  };
+  // const handleStatusUpdate = async (id, newStatus) => {
+  //   try {
+  //     await axios.put(`/api/booking-requests/${id}/status`, {
+  //       status: newStatus,
+  //     });
+  //     // Cập nhật trạng thái ngay lập tức
+  //     setBookings((prev) =>
+  //       prev.map((booking) =>
+  //         booking._id === id ? { ...booking, status: newStatus } : booking
+  //       )
+  //     );
+  //     toast.success(`✅ Booking #${id} status updated to ${newStatus}`);
+  //   } catch (err) {
+  //     console.error("Error updating status:", err);
+  //     setError(err.message);
+  //     toast.error(`❌ Failed to update status for booking #${id}`);
+  //   }
+  // };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
+  // const handleSort = (field) => {
+  //   if (sortField === field) {
+  //     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  //   } else {
+  //     setSortField(field);
+  //     setSortOrder("asc");
+  //   }
+  // };
 
   const handleColumnSort = (field) => {
     if (sortField === field) {
@@ -309,14 +309,14 @@ const ViewBooking = () => {
       <StaffSidebar />
       <div className="p-4 w-full">
         <ToastContainer />
-        <h1 className="text-2xl font-bold mb-4">View Bookings</h1>
-        {loading && <p>Loading...</p>}
+        <h1 className="text-2xl font-bold mb-4">Xem Đặt Lịch</h1>
+        {loading && <p>Đang tải...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="flex justify-between mb-4">
           <input
             type="text"
-            placeholder="Search by customer or service"
+            placeholder="Tìm kiếm theo khách hàng hoặc dịch vụ"
             value={searchTerm}
             onChange={handleSearch}
             className="border p-2 rounded w-1/3"
@@ -330,45 +330,45 @@ const ViewBooking = () => {
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("customerInfo")}
               >
-                Customer Name {sortField === "customerInfo" && (sortOrder === "asc" ? "↑" : "↓")}
+                Tên khách hàng {sortField === "customerInfo" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("serviceID.name")}
               >
-                Service Name {sortField === "serviceID.name" && (sortOrder === "asc" ? "↑" : "↓")}
+                Tên dịch vụ {sortField === "serviceID.name" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("date")}
               >
-                Date {sortField === "date" && (sortOrder === "asc" ? "↑" : "↓")}
+                Ngày {sortField === "date" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("time")}
               >
-                Time {sortField === "time" && (sortOrder === "asc" ? "↑" : "↓")}
+                Giờ {sortField === "time" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("consultantID.firstName")}
               >
-                Consultant {sortField === "consultantID.firstName" && (sortOrder === "asc" ? "↑" : "↓")}
+                Tư vấn viên {sortField === "consultantID.firstName" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
               <th>
-                Created date
+                Ngày tạo
               </th>
               <th>
-                Updated date
+                Ngày cập nhật
               </th>
               <th
                 className="border p-2 text-center cursor-pointer"
                 onClick={() => handleColumnSort("status")}
               >
-                Status {sortField === "status" && (sortOrder === "asc" ? "↑" : "↓")}
+                Trạng thái {sortField === "status" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
-              <th className="border p-2 text-center">Actions</th>
+              <th className="border p-2 text-center">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -432,7 +432,7 @@ const ViewBooking = () => {
                     onClick={() => handleOpenCheckinModal(booking)}
                     disabled={new Date().toLocaleDateString() !== new Date(booking.date).toLocaleDateString()}
                   >
-                    Check In
+                    Điểm danh
                   </Button>
                 )}
 
@@ -447,7 +447,7 @@ const ViewBooking = () => {
                     {checkoutLoadingId === booking._id ? (
                       <CircularProgress size={20} color="inherit" />
                     ) : (
-                      "Checkout"
+                      "Thanh toán"
                     )}
                   </Button>
                 )}
@@ -455,13 +455,13 @@ const ViewBooking = () => {
                 {/* If Completed or Cancelled, show something else instead of status */}
                 {booking.status === "Completed" && (
                   <span className="text-yellow-500 font-semibold">
-                    <i className="fas fa-lock"></i> Locked
+                    <i className="fas fa-lock"></i> Đã khóa
                   </span> // Adding a lock icon for "Locked"
                 )}
 
                 {booking.status === "Cancelled" && (
                   <span className="text-red-500 font-semibold">
-                    <i className="fas fa-ban"></i> Blocked
+                    <i className="fas fa-ban"></i> Đã hủy
                   </span> // Adding a block icon for "Blocked"
                 )}
               </td>
@@ -475,7 +475,7 @@ const ViewBooking = () => {
           <Pagination
             count={totalPages}
             page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
+            onChange={(_, value) => setCurrentPage(value)}
             color="primary"
           />
         </div>
@@ -486,7 +486,7 @@ const ViewBooking = () => {
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
               <div className="flex justify-between items-center border-b pb-3">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  Consultant Details
+                  Thông tin tư vấn viên
                 </h3>
                 <button
                   className="text-gray-500 hover:text-gray-700"
@@ -546,12 +546,12 @@ const ViewBooking = () => {
         )}
 
         <Dialog open={checkinModalOpen} onClose={handleCloseCheckinModal}>
-          <DialogTitle>Enter Check-in Code</DialogTitle>
+          <DialogTitle>Nhập mã điểm danh</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
-              label="Check-in Code"
+              label="Mã điểm danh"
               fullWidth
               value={checkinInput}
               onChange={(e) => setCheckinInput(e.target.value)}
@@ -559,7 +559,7 @@ const ViewBooking = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseCheckinModal} color="secondary">
-              Cancel
+              Hủy
             </Button>
             <Button
               onClick={handleCheckinSubmit}
@@ -568,7 +568,7 @@ const ViewBooking = () => {
               disabled={checkinLoading}
               startIcon={checkinLoading ? <CircularProgress size={18} /> : null}
             >
-              {checkinLoading ? "Checking..." : "Confirm"}
+              {checkinLoading ? "Đang kiểm tra..." : "Xác nhận"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -584,10 +584,10 @@ const ViewBooking = () => {
           <Box className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
               <h2 id="checkout-modal-title" className="text-xl font-semibold mb-4">
-                Confirm Checkout
+                Xác nhận thanh toán
               </h2>
               <p id="checkout-modal-description" className="mb-4">
-                Are you sure you want to check out this customer?
+                Bạn có chắc chắn muốn thanh toán cho khách hàng này không?
               </p>
               <div className="flex justify-between">
                 <Button
@@ -603,7 +603,7 @@ const ViewBooking = () => {
                   disabled={loading}
                   className="ml-2"
                 >
-                  {loading ? <CircularProgress size={20} color="inherit" /> : "Confirm"}
+                  {loading ? <CircularProgress size={20} color="inherit" /> : "Xác nhận"}
                 </Button>
               </div>
             </div>
@@ -617,7 +617,7 @@ const ViewBooking = () => {
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
               <div className="flex justify-between items-center border-b pb-3">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  Assign a Consultant
+                  Gán tư vấn viên
                 </h3>
                 <button
                   className="text-gray-500 hover:text-gray-700"
@@ -647,7 +647,7 @@ const ViewBooking = () => {
                       }
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
                     >
-                      Assign
+                      Gán
                     </button>
                   </div>
                 ))}

@@ -78,10 +78,10 @@ export default function About() {
 
       <Container sx={{ textAlign: "center", py: 5 }}>
         <Typography variant="h3" fontWeight={200} gutterBottom>
-          Since our founding in 1973, Velvety has had one goal. To create safe, effective skin treatments that produce visible results… at a reasonable price.
+          Kể từ khi thành lập năm 1973, Velvety đã có một mục tiêu duy nhất: Tạo ra các giải pháp chăm sóc da an toàn, hiệu quả với kết quả rõ rệt… với mức giá hợp lý.
         </Typography>
         <Typography variant="h5" color="text.secondary" gutterBottom>
-          Great <span style={{ color: "#c86c79" }}>natural skin care</span> that’s affordable and works!
+          <span style={{ color: "#c86c79" }}>Chăm sóc da tự nhiên</span> tuyệt vời, giá cả phải chăng và hiệu quả!
         </Typography>
       </Container>
 
@@ -98,10 +98,10 @@ export default function About() {
 
       <Container sx={{ textAlign: "center", py: 5 }}>
         <Typography variant="h4" fontWeight={600} gutterBottom>
-          Velvety’s skin care spans generations
+          Velvety – Chăm sóc da qua nhiều thế hệ
         </Typography>
         <Typography variant="h6" color="text.secondary" gutterBottom>
-          Get to know us and experience our legacy of quality natural skincare.
+          Hãy tìm hiểu về chúng tôi và trải nghiệm di sản chăm sóc da tự nhiên chất lượng.
         </Typography>
       </Container>
       <motion.div
@@ -120,7 +120,7 @@ export default function About() {
             transition={{ delay: 0.3 }}
             viewport={{ once: true }}
           >
-            But within our walls, visitors quickly discover our "family" also includes other families who have worked here for so long...
+            Bên trong Velvety, bạn sẽ nhanh chóng nhận ra “gia đình” của chúng tôi còn bao gồm nhiều gia đình khác đã gắn bó lâu dài...
           </motion.span>
 
           <motion.span
@@ -130,7 +130,7 @@ export default function About() {
             transition={{ delay: 0.6 }}
             viewport={{ once: true }}
           >
-            It’s almost overwhelming for "us" to recognize Velvety has become a natural brand trusted and shared from one generation to the next.
+            Thật tuyệt vời khi Velvety đã trở thành thương hiệu tự nhiên được tin tưởng và truyền từ thế hệ này sang thế hệ khác.
           </motion.span>
         </div>
 
@@ -154,28 +154,27 @@ export default function About() {
         {/* Đoạn văn bản bên trái */}
         <div className="max-w-[803px] text-left text-[18px] font-light leading-[32px] tracking-[0.8px] text-gray-900">
           <span>
-            Velvety has become a multi-generational natural skin care line in many ways.{" "}
+            Velvety đã trở thành một dòng sản phẩm chăm sóc da tự nhiên đa thế hệ theo nhiều cách khác nhau.{" "}
           </span>
           <span className="text-[#c86c79] font-medium">Stephen Strassler{" "}</span>
           <span>
-            passed away in late 2016 leaving the company in the capable hands of his wife Judy – who has trusted its stewardship to a talented team – Velvety’s newest generation of leadership. Sadly, Velvety lost{" "}
+            đã qua đời vào cuối năm 2016, để lại công ty cho người vợ Judy – người đã tin tưởng giao phó cho một đội ngũ tài năng – thế hệ lãnh đạo mới của Velvety. Đáng buồn, Velvety đã mất{" "}
           </span>
           <span className="text-[#c86c79] font-medium">Judith Strassler{" "}</span>
-          <span>in early 2020 and so Velvety is held in a family trust.</span>
+          <span>vào đầu năm 2020 và hiện Velvety được quản lý bởi một quỹ gia đình.</span>
         </div>
 
         {/* Đoạn văn bản bên phải */}
         <div className="max-w-[500px] text-left text-[18px] font-medium leading-[32px] tracking-[0.8px] text-gray-900">
           <span>
-            Get to know the new Velvety – the natural skin care authority.
-            Call your sales rep, visit our website, or reach out to us on social media. If all else fails, contact Velvety for more information: call{" "}
+            Hãy làm quen với Velvety mới – chuyên gia chăm sóc da tự nhiên.
+            Liên hệ đại diện bán hàng, truy cập website hoặc kết nối với chúng tôi qua mạng xã hội. Nếu cần thêm thông tin, vui lòng gọi{" "}
           </span>
           <span className="text-[#c86c79] font-semibold">800.257.7774</span>
-          <span>{" "}or visit{" "}</span>
+          <span>{" "}hoặc truy cập{" "}</span>
           <span className="text-[#ffc0cb] underline">velvety.com</span>.
         </div>
       </motion.div>
-
 
       <div className="flex flex-col items-center justify-center text-[18px] font-light leading-[32px] tracking-[0.8px] text-gray-900 py-20 mt-10 mb-10">
         <motion.div
@@ -190,7 +189,7 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
           >
-            About Us
+            Về Chúng Tôi
           </motion.h1>
 
           <motion.p
@@ -199,9 +198,9 @@ export default function About() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            We are committed to providing top-notch services to our customers.
-            Our team of experts ensures quality and reliability in every project we undertake.
-            Join us on our journey to excellence.
+            Chúng tôi cam kết mang đến dịch vụ tốt nhất cho khách hàng.
+            Đội ngũ chuyên gia của chúng tôi đảm bảo chất lượng và sự tin cậy trong từng dự án.
+            Hãy đồng hành cùng chúng tôi trên hành trình hướng tới sự xuất sắc.
           </motion.p>
 
           <motion.div
@@ -220,13 +219,13 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
           >
-            Our Values
+            Giá Trị Cốt Lõi
           </motion.h1>
           <Grid container spacing={4} justifyContent="center">
             {[
-              { title: "Quality", desc: "We use only the best natural ingredients in our skincare products." },
-              { title: "Innovation", desc: "Continuous research to bring the most effective skincare solutions." },
-              { title: "Sustainability", desc: "We are committed to eco-friendly packaging and cruelty-free testing." },
+              { title: "Chất lượng", desc: "Chúng tôi chỉ sử dụng những thành phần tự nhiên tốt nhất cho sản phẩm chăm sóc da." },
+              { title: "Đổi mới", desc: "Không ngừng nghiên cứu để mang lại giải pháp chăm sóc da hiệu quả nhất." },
+              { title: "Bền vững", desc: "Cam kết đóng gói thân thiện môi trường và không thử nghiệm trên động vật." },
             ].map((value, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
@@ -247,13 +246,13 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
           >
-            Our Awards
+            Thành Tựu
           </motion.h1>
           <Grid container spacing={4} justifyContent="center">
             {[
-              { image: "/images/award_1.png", text: "Best Natural Skincare Brand 2022" },
-              { image: "/images/award_2.png", text: "Sustainable Beauty Award 2023" },
-              { image: "/images/award_3.png", text: "Over 1 Million Happy Customers" },
+              { image: "/images/award_1.png", text: "Thương hiệu chăm sóc da tự nhiên tốt nhất 2022" },
+              { image: "/images/award_2.png", text: "Giải thưởng làm đẹp bền vững 2023" },
+              { image: "/images/award_3.png", text: "Hơn 1 triệu khách hàng hài lòng" },
             ].map((achievement, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
@@ -293,7 +292,7 @@ export default function About() {
           whileHover={{ scale: 1.1, rotate: 5, boxShadow: "0 8px 25px rgba(0, 0, 0, 0.3)" }}
           whileTap={{ scale: 0.95 }}
         >
-          Book Now
+          Đặt lịch ngay
         </motion.button>
       </div>
 
@@ -306,7 +305,7 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
           >
-            Our Consultants
+            Đội Ngũ Chuyên Viên
           </motion.h1>
           <Slider {...consultantSettings}>
             {consultants.map((consultant) => (
@@ -348,7 +347,7 @@ export default function About() {
                   }}
                 >
                   <Typography variant="body2">
-                    {consultant.note || "Click to learn more."}
+                    {consultant.note || "Nhấn để xem thêm thông tin."}
                   </Typography>
                 </Box>
               </Box>

@@ -28,14 +28,15 @@ export default function ConsultantGuest() {
             const ratingRes = await axios.get(`/api/feedbacks/consultant-rating/${c._id}`);
             return {
               ...c,
-              note: c.note || "No additional notes available.",
+              note: c.note || "Không có mô tả",
               image: c.image || null,
               rating: ratingRes.data[0]?.averageRating || 0, // Add rating
               category: c.category || [], // Add category
             };
           } catch (err) {
             if (err.response && err.response.status === 401) {
-              toast.error("Unauthorized access to ratings");
+              // tiếng việt
+              toast.error('Bạn không có quyền truy cập vào thông tin này. Vui lòng đăng nhập để xem chi tiết.');
             }
             return { ...c, rating: 0, category: c.category || [] }; // Default category if unauthorized
           }
@@ -43,7 +44,7 @@ export default function ConsultantGuest() {
       );
       setConsultants(consultantsWithRatings);
     } catch (err) {
-      toast.error("Failed to fetch consultants");
+      toast.error("Không thể tải danh sách chuyên viên. Vui lòng thử lại sau.");
     }
   };
 
@@ -81,8 +82,8 @@ export default function ConsultantGuest() {
       <div className="w-full max-w-[1800px] h-[48px] relative z-10 mt-[37.33px] mx-auto flex items-center justify-between">
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
         <span className="flex-shrink-0 font-['Lato'] text-[40px] text-[#C54759] pacifico-regular leading-[48px] tracking-[-0.8px] text-center px-[80px]">
-          <span className="text-[50px]">A</span>
-          bout Our Consultants
+           <span className="text-[50px]">Đ</span>
+          ội ngũ Chuyên Viên
         </span>
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
       </div>
@@ -91,14 +92,14 @@ export default function ConsultantGuest() {
       <div className="w-full max-w-[1800px] h-auto relative z-10 mt-[20px] mb-[10px] mx-auto flex justify-end px-4">
         <input
           type="text"
-          placeholder="Search your consultants"
+         placeholder="Tìm kiếm chuyên viên"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full max-w-[300px] px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#C54759] focus:border-transparent border-[#C54759] rounded-lg"
         />
       </div>
 
-      <div className="w-full max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 px-4 mt-10">
+     <div className="w-full max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 px-4 mt-10">
         {currentConsultants.map((consultant, index) => (
           <div
             key={index}
@@ -117,7 +118,7 @@ export default function ConsultantGuest() {
                 className="w-[120px] h-[120px] rounded-full"
               />
             ) : (
-              <span className="text-gray-500">No Image</span>
+              <span className="text-gray-500">Không có ảnh</span>
             )}
             <span className="text-[18px] font-semibold text-[#000] mt-3">
               {consultant.firstName} {consultant.lastName}
@@ -135,8 +136,8 @@ export default function ConsultantGuest() {
               })}
             </div>
             <div className="mt-2 text-sm text-gray-600">
-              <strong>Specializes in:</strong>{" "}
-              {consultant.category?.join(", ") || "No Categories"}
+              <strong>Chuyên môn:</strong>{" "}
+              {consultant.category?.join(", ") || "Không có chuyên môn"}
             </div>
             <motion.div
               className="relative mt-[15px] flex items-center justify-center w-full"
@@ -150,7 +151,7 @@ export default function ConsultantGuest() {
                 onClick={() => handleViewMore(consultant)}
               >
                 <span className="text-[15px] font-bold text-[#C54759]">
-                  View More
+                  Xem thêm
                 </span>
               </button>
             </motion.div>
@@ -198,7 +199,7 @@ export default function ConsultantGuest() {
               </h2>
               <p className="text-sm text-gray-600 mt-2">{selectedConsultant.note}</p>
               <div className="mt-2">
-                <span className="text-sm text-gray-600">Average Rating:</span>
+                <span className="text-sm text-gray-600">Đánh giá trung bình:</span>
                 <span className="flex items-center ml-1">
                   {Array.from({ length: 5 }, (_, index) => {
                     const starValue = index + 1;
@@ -213,26 +214,26 @@ export default function ConsultantGuest() {
                 </span>
               </div>
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-700">Certifications:</h3>
+                <h3 className="text-sm font-semibold text-gray-700">Chứng chỉ:</h3>
                 <ul className="list-disc list-inside text-sm text-gray-600 mt-2">
                   {selectedConsultant.certifications?.length > 0 ? (
                     selectedConsultant.certifications.map((cert, index) => (
                       <li key={index}>{cert}</li>
                     ))
                   ) : (
-                    <li>No Certifications</li>
+                    <li>Không có chứng chỉ</li>
                   )}
                 </ul>
               </div>
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-700">Specializes in:</h3>
+                <h3 className="text-sm font-semibold text-gray-700">Chuyên môn:</h3>
                 <ul className="list-disc list-inside text-sm text-gray-600 mt-2">
                   {selectedConsultant.category?.length > 0 ? (
                     selectedConsultant.category.map((cat, index) => (
                       <li key={index}>{cat}</li>
                     ))
                   ) : (
-                    <li>No Categories</li>
+                    <li>Không có chuyên môn</li>
                   )}
                 </ul>
               </div>
@@ -270,7 +271,7 @@ export default function ConsultantGuest() {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            Book Now
+            Đặt lịch ngay
           </motion.button>
         </div>
       </div>

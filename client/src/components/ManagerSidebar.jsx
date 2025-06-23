@@ -9,29 +9,29 @@ const ManagerSidebar = () => {
   const fullName = localStorage.getItem("fullName") || sessionStorage.getItem("fullName");
 
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Services", path: "/service-management" },
-    { name: "Blogs", path: "/blog-management" },
-    { name: "Questions", path: "/question-management" }
-  ];  const handleLogout = () => {
-    if (!window.confirm("Are you sure you want to log out?")) return;
+    { name: "Bảng điều khiển", path: "/dashboard" },
+    { name: "Dịch vụ", path: "/service-management" },
+    { name: "Bài viết", path: "/blog-management" },
+    { name: "Câu hỏi", path: "/question-management" }
+  ];
+
+  const handleLogout = () => {
+    if (!window.confirm("Bạn có chắc chắn muốn đăng xuất không?")) return;
     axios.post("/api/auth/logout")
       .then(() => {
-        // ✅ Clear auth data from storage
+        // ✅ Xóa dữ liệu xác thực khỏi bộ nhớ
         localStorage.removeItem("authToken");
         localStorage.removeItem("roleName");
         sessionStorage.removeItem("authToken");
         sessionStorage.removeItem("roleName");
 
-        // ✅ Redirect user to login page
+        // ✅ Chuyển hướng người dùng đến trang đăng nhập
         navigate("/login");
       })
       .catch(error => {
-        console.error("Logout failed:", error.response?.data?.message || error.message);
+        console.error("Đăng xuất thất bại:", error.response?.data?.message || error.message);
       });
   };
-  
-  
 
   return (
     <Drawer
@@ -52,7 +52,7 @@ const ManagerSidebar = () => {
      </Toolbar>
      <Typography variant="h6">
         <div className="text-center">
-             Welcome Manager <br /> {fullName} 
+             Xin chào Quản lý <br /> {fullName} 
         </div>
       </Typography>
       <Divider sx={{ backgroundColor: "gray" }} />
@@ -69,7 +69,7 @@ const ManagerSidebar = () => {
       </List>
 
 
-      {/* Change Password Button */}
+      {/* Nút Đổi mật khẩu */}
       <Button
         onClick={() => navigate("/change-password")}
         sx={{
@@ -85,10 +85,10 @@ const ManagerSidebar = () => {
           },
         }}
       >
-        Change Password
+        Đổi mật khẩu
       </Button>
 
-      {/* Logout Button */}
+      {/* Nút Đăng xuất */}
       <Button
         onClick={handleLogout}
         sx={{
@@ -104,7 +104,7 @@ const ManagerSidebar = () => {
           },
         }}
       >
-        Logout
+        Đăng xuất
       </Button>
     </Drawer>
   );

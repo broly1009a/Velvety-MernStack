@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { EyeIcon } from "lucide-react";
 import { EyeOffIcon } from "lucide-react";
-
+// Nội dung bằng tiếng việt
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -89,14 +89,14 @@ export default function LoginPage() {
     }
   };
 
-  return (
+   return (
     <div className="main-container w-full h-screen bg-[#f9faef] relative mx-auto">
       <Navbar />
       <div className="flex items-center justify-center h-[calc(100%-121px)] relative">
         <div className="absolute h-screen inset-0 bg-[url(/images/login.png)] bg-cover bg-center bg-no-repeat opacity-50 z-0" />
         <div className="relative z-10 w-full max-w-[400px] bg-white bg-opacity-90 rounded-xl shadow-lg p-6 md:p-8">
           <h2 className="text-center text-2xl font-bold text-[#c86c79] uppercase mb-6 md:mb-8">
-            Login
+            Đăng nhập
           </h2>
           {error && <div className="text-center text-red-500 mb-4">{error}</div>}
           {success && <div className="text-center text-green-500 mb-4">{success}</div>}
@@ -114,7 +114,7 @@ export default function LoginPage() {
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -137,10 +137,10 @@ export default function LoginPage() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="mr-2"
                 />
-                Remember Me
+                Ghi nhớ đăng nhập
               </label>
               <a href="/forgot-password" className="text-[#c86c79] hover:underline">
-                Forgot Password?
+                Quên mật khẩu?
               </a>
             </div>
 
@@ -150,14 +150,14 @@ export default function LoginPage() {
               className={`w-full h-[50px] text-white font-bold rounded-lg shadow transition duration-300
                 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#c86c79] hover:bg-[#b25668]'}`}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Đang đăng nhập..." : "Đăng nhập"}
             </button>
           </form>
 
           <div className="text-center mt-8 text-gray-700">
-            <span>Don’t have an account?</span>{" "}
+            <span>Bạn chưa có tài khoản?</span>{" "}
             <a href="/register" className="font-bold text-[#c86c79] hover:underline">
-              Register
+              Đăng ký
             </a>
           </div>
         </div>

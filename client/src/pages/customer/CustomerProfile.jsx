@@ -22,12 +22,11 @@ import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { Fab } from "@mui/material";
 
-
 const CustomerProfile = () => {
   const userId =
     localStorage.getItem("userId") || sessionStorage.getItem("userId");
   const [formData, setFormData] = useState({
-    CurrentPassword: "",
+    currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -71,7 +70,7 @@ const CustomerProfile = () => {
     try {
       await axios.put(`/api/customers/${userId}`, customer); // Change to PUT for updating
       setIsEditing(false);
-      setSuccess("Profile updated successfully!");
+      setSuccess("Thông tin đã được cập nhật thành công!");
       localStorage.removeItem("fullName");
       localStorage.setItem(
         "fullName",
@@ -81,7 +80,7 @@ const CustomerProfile = () => {
         window.location.reload();
       }, 1000);
     } catch (error) {
-      setError("Error updating profile. Please try again.");
+      setError("Lỗi khi cập nhật thông tin. Vui lòng thử lại.");
       console.error("Error updating profile", error);
     }
   };
@@ -91,24 +90,24 @@ const CustomerProfile = () => {
     setSuccess("");
 
     if (!formData.currentPassword) {
-      setError("Current password is required.");
+      setError("Mật khẩu hiện tại là bắt buộc.");
       return;
     }
 
     if (!formData.newPassword) {
-      setError("New password is required.");
+      setError("Mật khẩu mới là bắt buộc.");
       return;
     }
 
     if (!passwordRegex.test(formData.newPassword)) {
       setError(
-        "New password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+        "Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt."
       );
       return;
     }
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setError("New password and confirm password do not match.");
+      setError("Mật khẩu mới và xác nhận mật khẩu không khớp.");
       return;
     }
 
@@ -118,14 +117,14 @@ const CustomerProfile = () => {
         currentPassword: formData.currentPassword, // Fixing uppercase issue
         newPassword: formData.newPassword,
       });
-      setSuccess("Password updated successfully!");
+      setSuccess("Mật khẩu đã được cập nhật thành công!");
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          "Error updating password. Please try again."
+        "Lỗi khi cập nhật mật khẩu. Vui lòng thử lại."
       );
       console.error("Error updating password:", error);
     }
@@ -159,7 +158,7 @@ const CustomerProfile = () => {
                       bgcolor: "#c86c79",
                     }}
                   >
-                    User
+                    Người dùng
                   </Avatar>
                   <Typography variant="h6" className="text-[#c86c79]">
                     {customer.firstName} {customer.lastName}
@@ -194,12 +193,12 @@ const CustomerProfile = () => {
                   mt={2}
                   className="text-[#c86c79]"
                 >
-                  General Information
+                  Thông tin cá nhân
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      label="First Name"
+                      label="Tên"
                       name="firstName"
                       fullWidth
                       value={customer.firstName}
@@ -231,7 +230,7 @@ const CustomerProfile = () => {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      label="Last Name"
+                      label="Họ"
                       name="lastName"
                       fullWidth
                       value={customer.lastName}
@@ -263,7 +262,7 @@ const CustomerProfile = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      label="Phone Number"
+                      label="Số điện thoại"
                       name="phoneNumber"
                       fullWidth
                       value={customer.phoneNumber}
@@ -307,7 +306,7 @@ const CustomerProfile = () => {
                     }}
                     onClick={handleSave}
                   >
-                    Save Changes
+                    Lưu Thay Đổi
                   </Button>
                 )}
                 <Typography
@@ -316,12 +315,12 @@ const CustomerProfile = () => {
                   mt={4}
                   className="text-[#c86c79]"
                 >
-                  Change Password
+                  Cập nhật mật khẩu
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
-                      label="Current Password"
+                      label="Mật khẩu Hiện Tại"
                       name="currentPassword"
                       sx={{
                         "& .MuiOutlinedInput-root": {
@@ -371,7 +370,7 @@ const CustomerProfile = () => {
 
                   <Grid item xs={12}>
                     <TextField
-                      label="New Password"
+                      label="Mật khẩu Mới"
                       name="newPassword"
                       sx={{
                         "& .MuiOutlinedInput-root": {
@@ -421,7 +420,7 @@ const CustomerProfile = () => {
 
                   <Grid item xs={12}>
                     <TextField
-                      label="Confirm New Password"
+                      label="Xác Nhận Mật Khẩu Mới"
                       name="confirmPassword"
                       sx={{
                         "& .MuiOutlinedInput-root": {
@@ -482,7 +481,7 @@ const CustomerProfile = () => {
                   fullWidth
                   onClick={handlePasswordUpdate}
                 >
-                  Update Password
+                  Cập nhật mật khẩu
                 </Button>
               </CardContent>
             </Card>
@@ -505,7 +504,7 @@ const CustomerProfile = () => {
         </div>
       </div>
     </div>
-    
+
   );
 };
 

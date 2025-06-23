@@ -50,9 +50,9 @@ const BlogDetail = () => {
     });
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Loading...</p>;
+  if (loading) return <p className="text-center mt-10 text-gray-500">Đang tải...</p>;
 
-  if (!blog) return <p className="text-center text-red-500 mt-10">Blog not found.</p>;
+  if (!blog) return <p className="text-center text-red-500 mt-10">Không tìm thấy bài viết.</p>;
 
   return (
     <div className="">
@@ -60,23 +60,23 @@ const BlogDetail = () => {
       <div className="max-w-6xl mx-auto px-4 py-8 flex">
 
         <div className="w-3/4">
-          {/* ✅ Back Button */}
+          {/* ✅ Nút Quay Lại */}
           <button
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded mb-4"
             onClick={() => navigate('/blog')}
           >
-            ← Back
+            ← Quay lại
           </button>
 
           <h1 className="text-4xl font-bold text-gray-900">{blog.title}</h1>
 
-          <p className="text-gray-500 text-sm mt-2">{new Date(blog.createdDate).toLocaleDateString()}</p>
+          <p className="text-gray-500 text-sm mt-2">{new Date(blog.createdDate).toLocaleDateString("vi-VN")}</p>
 
-          {/* Fix: Ensure HTML content renders properly */}
+          {/* Hiển thị ảnh blog */}
           <div className="w-full h-[60vh] overflow-hidden rounded-lg mt-4 ">
             <img
               src={blog.image}
-              alt="Blog Cover"
+              alt="Ảnh Blog"
             />
           </div>
           <div
@@ -84,9 +84,9 @@ const BlogDetail = () => {
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </div>
-        {/* Related Blogs */}
+        {/* Bài viết liên quan */}
         <div className="w-1/4 pl-8">
-          <h2 className="text-4xl font-bold pacifico-regular text-[#E27585]">Related Blogs</h2>
+          <h2 className="text-4xl font-bold pacifico-regular text-[#E27585]">Bài viết liên quan</h2>
           {relatedBlogs.map((relatedBlog) => (
             <div key={relatedBlog.id} className="mt-4">
               <div onClick={() => navigate(`/blog/${relatedBlog._id}`)} className="block transform transition duration-300 hover:scale-105 cursor-pointer">

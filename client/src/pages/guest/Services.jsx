@@ -85,33 +85,33 @@ export default function ServiceGuest() {
       <div className="w-full h-[70vh] bg-[url(/images/service_0.png)] bg-cover bg-center bg-no-repeat relative"
         style={{ backgroundAttachment: "fixed" }}>
         <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-outline-2 -smooth pacifico-regular text-[90px] font-bold leading-[134.4px] text-[#fff] tracking-[-2.24px] text-center z-[1]">
-          You can choose whoever you want
+          Bạn có thể chọn bất kỳ ai bạn muốn
         </span>
       </div>
 
       {/* Main content section */}
       <div className="w-full max-w-[1490px] h-auto font-['Libre_Franklin'] text-[20px] font-bold leading-[43px] tracking-[1px] relative text-center mx-auto mt-[40px]">
         <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[60px] font-normal leading-[100px] text-[#000] tracking-[-2.24px] relative z-[2] mx-auto">
-          Don’t leave your skincare routine to chance!
+          Đừng để quy trình chăm sóc da của bạn phụ thuộc vào may rủi!
         </span>
 
         <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[20px] font-normal leading-[38.4px] text-[#000] tracking-[-0.64px] relative z-[3] mt-[42.663px] mx-auto">
-          <span className="text-[30px]">W</span>e believe beautiful skin comes from a long-term approach with a seasonal skincare routine and a healthy lifestyle. Using the right products and applications is key to optimal skin health. Our consultations offer anyone, anywhere, the best advice from our expert team.
+          <span className="text-[30px]">C</span>húng tôi tin rằng làn da đẹp đến từ một phương pháp lâu dài với quy trình chăm sóc da theo mùa và lối sống lành mạnh. Sử dụng đúng sản phẩm và phương pháp là chìa khóa cho làn da khỏe mạnh tối ưu. Các buổi tư vấn của chúng tôi mang đến cho bất kỳ ai, ở bất cứ đâu, lời khuyên tốt nhất từ đội ngũ chuyên gia.
         </span>
 
         <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[20px] font-normal leading-[35.2px] text-[#000] tracking-[-0.59px] relative z-[4] mt-[39.331px] mx-auto">
-          <span className="text-[30px]">D</span>uring our virtual consultations, together we’ll evaluate your skin conditions, lifestyle, current products, and goals with an expert. You’ll then receive a customized product “prescription” as emailed guidelines and/or instructions.
+          <span className="text-[30px]">T</span>rong các buổi tư vấn trực tuyến, chúng ta sẽ cùng đánh giá tình trạng da, lối sống, sản phẩm hiện tại và mục tiêu với chuyên gia. Sau đó, bạn sẽ nhận được “đơn thuốc” sản phẩm cá nhân hóa qua email hướng dẫn và/hoặc chỉ dẫn.
         </span>
 
         <div className="w-full max-w-[1384px] h-auto relative z-[6] mt-[54px] mx-auto text-center">
           <div className="w-[1000px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat absolute top-0 left-1/2 transform -translate-x-1/2 z-[10]" />
           <span className="w-full max-w-[1339px] h-auto font-['Lato'] text-[50px] font-normal text-[#000] tracking-[-1.87px] block pt-[30px] z-[6]">
-            We look forward to meeting you…
+            Chúng tôi mong được gặp bạn…
           </span>
         </div>
 
         <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[30px] font-normal leading-[64px] text-[#000] relative text-center z-[7] mt-[37.332px] mx-auto">
-          Reserve your complimentary virtual skincare service today!
+          Đặt lịch tư vấn chăm sóc da trực tuyến miễn phí ngay hôm nay!
         </span>
       </div>
 
@@ -120,7 +120,7 @@ export default function ServiceGuest() {
 
         <div className="flex-shrink-0 font-['Lato'] text-[40px] font-normal leading-[48px] text-[#000] tracking-[-0.8px] text-center px-[80px] text-[#C54759] pacifico-regular">
           <span className="text-[50px]">C</span>
-          hoose Your Service
+          họn dịch vụ của bạn
         </div>
 
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
@@ -134,17 +134,17 @@ export default function ServiceGuest() {
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="w-full max-w-[300px] px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#C54759] focus:border-transparent border-[#C54759] rounded-lg"
         >
-          <option value="All">All Skin Types</option>
-          <option value="Oily">Oily</option>
-          <option value="Dry">Dry</option>
-          <option value="Normal">Normal</option>
-          <option value="Combination">Combination</option>
+          <option value="All">Tất cả loại da</option>
+          <option value="Oily">Da dầu</option>
+          <option value="Dry">Da khô</option>
+          <option value="Normal">Da thường</option>
+          <option value="Combination">Da hỗn hợp</option>
         </select>
 
         {/* Search bar */}
         <input
           type="text"
-          placeholder="Search your services"
+          placeholder="Tìm kiếm dịch vụ của bạn"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full max-w-[300px] px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#C54759] focus:border-transparent border-[#C54759] rounded-lg"

@@ -130,7 +130,7 @@ const BotpressData = () => {
     currentPage * ROWS_PER_PAGE
   );
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (_, value) => {
     setCurrentPage(value);
   };
 
@@ -144,9 +144,9 @@ const BotpressData = () => {
       <div className="flex-1 p-8">
         <div className="flex items-center justify-between mb-4">
           <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: '#C86C79' }}>
-            All Conversations (Chatbot Argent AI)
+            Tất cả cuộc hội thoại (Chatbot Argent AI)
           </Typography>
-          <Tooltip title="Refresh data">
+          <Tooltip title="Làm mới dữ liệu">
             <IconButton onClick={handleRefresh} color="primary" sx={{ ml: 2 }}>
               <RefreshIcon />
             </IconButton>
@@ -156,43 +156,43 @@ const BotpressData = () => {
         {/* Bộ lọc */}
         <form className="flex gap-4 mb-6" onSubmit={handleFilter}>
           <TextField
-            label="Date"
+            label="Ngày"
             type="date"
             size="small"
             value={date}
             onChange={e => setDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
           />
           <TextField
             select
-            label="Sentiment"
+            label="Cảm xúc"
             size="small"
             value={sentiment}
             onChange={e => setSentiment(e.target.value)}
             style={{ minWidth: 120 }}
           >
             {sentimentOptions.map(opt => (
-              <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+              <MenuItem key={opt.value} value={opt.value}>
+                {opt.value === '' ? 'Tất cả' : opt.value === 'positive' ? 'Tích cực' : opt.value === 'neutral' ? 'Trung lập' : 'Tiêu cực'}
+              </MenuItem>
             ))}
           </TextField>
           <TextField
-            label="Keyword in Summary"
+            label="Từ khóa trong tóm tắt"
             size="small"
             value={keyword}
             onChange={e => setKeyword(e.target.value)}
           />
           <Button type="submit" variant="contained" sx={{ background: "#C86C79" }}>
-            Filter
+            Lọc
           </Button>
-        </form>
-
         {loading ? (
           <Box className="flex justify-center items-center h-64">
             <CircularProgress />
           </Box>
         ) : paginatedRows.length === 0 ? (
           <Typography variant="body1" color="text.secondary">
-            No conversations found.
+            Không tìm thấy cuộc hội thoại nào.
           </Typography>
         ) : (
           <>
@@ -201,12 +201,12 @@ const BotpressData = () => {
                 <TableHead>
                   <TableRow sx={{ backgroundColor: '#F9FAEF' }}>
                     <TableCell><b>ID</b></TableCell>
-                    <TableCell><b>Time</b></TableCell>
-                    <TableCell><b>Topics</b></TableCell>
-                    <TableCell><b>Summary</b></TableCell>
-                    <TableCell><b>Sentiment</b></TableCell>
-                    <TableCell><b>Last Message</b></TableCell>
-                    <TableCell><b>Conversation ID</b></TableCell>
+                    <TableCell><b>Thời gian</b></TableCell>
+                    <TableCell><b>Chủ đề</b></TableCell>
+                    <TableCell><b>Tóm tắt</b></TableCell>
+                    <TableCell><b>Cảm xúc</b></TableCell>
+                    <TableCell><b>Tin nhắn cuối</b></TableCell>
+                    <TableCell><b>Mã hội thoại</b></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -223,7 +223,7 @@ const BotpressData = () => {
                         <TableCell>{new Date(row.updatedAt).toLocaleString()}</TableCell>
                         <TableCell>{topicsValue}</TableCell>
                         <TableCell>{summary}</TableCell>
-                        <TableCell>{sentimentValue}</TableCell>
+                        <TableCell>{sentimentValue === 'positive' ? 'Tích cực' : sentimentValue === 'neutral' ? 'Trung lập' : sentimentValue === 'negative' ? 'Tiêu cực' : sentimentValue}</TableCell>
                         <TableCell>{lastMsg}</TableCell>
                         <TableCell>{row.conversationId}</TableCell>
                       </TableRow>
@@ -243,6 +243,7 @@ const BotpressData = () => {
             </Box>
           </>
         )}
+        </form>
       </div>
     </div>
   );

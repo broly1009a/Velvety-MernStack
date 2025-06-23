@@ -51,14 +51,13 @@ export default function Blog() {
       <div className="relative w-screen h-[300px] mx-50px">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-[1]">
           <span className="block font-['Lato'] text-[70px] font-bold leading-[100px] text-[#C54759] whitespace-nowrap">
-            Expert Skincare Tips, Trends, & Insights
+            Chia sẻ bí quyết, xu hướng & kiến thức chăm sóc da
           </span>
 
           <span className="block font-['Lato'] text-[23px] font-normal leading-[30px] text-[#E68A98] mt-4 px-4 mx-auto">
-            Explore our Blog for the latest in skincare science and beauty trends.
-            Discover expert tips, in-depth reviews, and exclusive insights on our
-            natural skincare products. Elevate your skin health and beauty regimen
-            with us today!
+            Khám phá Blog của chúng tôi để cập nhật những kiến thức mới nhất về khoa học làn da và xu hướng làm đẹp.
+            Tìm hiểu bí quyết từ chuyên gia, đánh giá chuyên sâu và những góc nhìn độc quyền về sản phẩm chăm sóc da tự nhiên.
+            Nâng tầm sức khỏe và vẻ đẹp làn da cùng Velvety ngay hôm nay!
           </span>
         </div>
       </div>
@@ -118,7 +117,7 @@ export default function Blog() {
           whileHover={{ scale: 1.1, rotate: 5, boxShadow: "0 8px 25px rgba(0, 0, 0, 0.3)" }}
           whileTap={{ scale: 0.95 }}
         >
-          Book Now
+          Đặt lịch ngay
         </motion.button>
       </div>
       <Footer />

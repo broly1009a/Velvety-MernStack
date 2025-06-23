@@ -71,7 +71,7 @@ const AdminSidebar = () => {
       </Toolbar>
       <Typography variant="h6">
         <div className="text-center">
-          Welcome Admin <br />
+          Chào mừng Quản trị viên <br />
           {fullName}
         </div>
       </Typography>
@@ -86,7 +86,13 @@ const AdminSidebar = () => {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <ListItemButton selected={location.pathname === item.path}>
-              <ListItemText primary={item.name} />
+              <ListItemText primary={
+                item.name === "Consultant"
+                  ? "Tư vấn viên"
+                  : item.name === "Staff"
+                  ? "Nhân viên"
+                  : item.name
+              } />
             </ListItemButton>
           </NavLink>
         ))}
@@ -108,7 +114,7 @@ const AdminSidebar = () => {
           },
         }}
       >
-        Change Password
+        Đổi mật khẩu
       </Button>
 
       {/* Logout Button */}
@@ -127,28 +133,28 @@ const AdminSidebar = () => {
           },
         }}
       >
-        Logout
+        Đăng xuất
       </Button>
       {/* Custom Logout Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
-              Log out Confirmation
+              Xác nhận đăng xuất
             </h3>
-            <p className="text-gray-600">Are you sure you want to log out?</p>
+            <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 className="py-2 px-6 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
                 onClick={() => setShowModal(false)}
               >
-                Cancel
+                Hủy
               </button>
               <button
                 className="py-2 px-6 bg-[#e05151] text-white rounded-lg hover:bg-[#e78999] transition"
                 onClick={handleLogout}
               >
-                Log out
+                Đăng xuất
               </button>
             </div>
           </div>

@@ -10,9 +10,9 @@ const CustomerSidebar = () => {
   const [showModal, setShowModal] = useState(false);
 
   const menuItems = [
-    { name: "Account Details", path: "/customer-profile" },
-    { name: "Booking History", path: "/booking-history" },
-    { name: "Quiz Result History", path: "/quiz-result-history" },
+    { name: "Chi tiết tài khoản", path: "/customer-profile" },
+    { name: "Lịch sử đặt chỗ", path: "/booking-history" },
+    { name: "Lịch sử kết quả Quiz", path: "/quiz-result-history" },
   ];
 
   const handleLogout = () => {
@@ -56,7 +56,7 @@ const CustomerSidebar = () => {
           }}
         />
         <Typography variant="h6" sx={{ color: "#c86c79", textAlign: "center" }}>
-          Welcome <br /> {fullName}
+          Xin chào <br /> {fullName}
         </Typography>
       </Toolbar>
       <Divider sx={{ backgroundColor: "#E27585" }} />
@@ -87,27 +87,27 @@ const CustomerSidebar = () => {
           fontSize: "14px",
         }}
       >
-        Logout
+        Đăng xuất
       </Button>
 
       {/* Custom Logout Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Log out Confirmation</h3>
-            <p className="text-gray-600">Are you sure you want to log out?</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Xác nhận đăng xuất</h3>
+            <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 className="py-2 px-6 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
                 onClick={() => setShowModal(false)}
               >
-                Cancel
+                Hủy
               </button>
               <button
                 className="py-2 px-6 bg-[#f1baba] text-white rounded-lg hover:bg-[#e78999] transition"
                 onClick={handleLogout}
               >
-                Log out
+                Đăng xuất
               </button>
             </div>
           </div>

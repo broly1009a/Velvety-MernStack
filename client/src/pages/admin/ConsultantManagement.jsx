@@ -12,24 +12,24 @@ import { FaEdit, FaLock, FaTrash } from "react-icons/fa";
 const schema = yup.object().shape({
   firstName: yup
     .string()
-    .min(2, "First name must be at least 2 letters")
-    .required("First name is required"),
+    .min(2, "Tên phải có ít nhất 2 ký tự")
+    .required("Tên là bắt buộc"),
   lastName: yup
     .string()
-    .min(2, "Last name must be at least 2 letters")
-    .required("Last name is required"),
+    .min(2, "Họ phải có ít nhất 2 ký tự")
+    .required("Họ là bắt buộc"),
   email: yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email("Định dạng email không hợp lệ")
+    .required("Email là bắt buộc"),
   phoneNumber: yup
     .string()
-    .matches(/^\d{10,15}$/, "Phone number must be 10-15 digits long")
-    .required("Phone number is required"),
+    .matches(/^\d{10,15}$/, "Số điện thoại phải từ 10-15 chữ số")
+    .required("Số điện thoại là bắt buộc"),
   note: yup.string(),
-  image: yup.string().url("Invalid image URL").nullable(),
-  certifications: yup.array().of(yup.string().required("Certification is required")).nullable(),
-  category: yup.array().of(yup.string().required("Category is required")).nullable(),
+  image: yup.string().url("Đường dẫn ảnh không hợp lệ").nullable(),
+  certifications: yup.array().of(yup.string().required("Chứng chỉ là bắt buộc")).nullable(),
+  category: yup.array().of(yup.string().required("Danh mục là bắt buộc")).nullable(),
 });
 
 export default function ConsultantManagement() {
@@ -60,7 +60,7 @@ export default function ConsultantManagement() {
         }))
       );
     } catch (err) {
-      toast.error("Failed to fetch consultants");
+      toast.error("Không thể lấy danh sách chuyên gia tư vấn");
     }
   };
 
@@ -101,25 +101,25 @@ export default function ConsultantManagement() {
     try {
       await axios.delete(`/api/consultants/${id}`);
       setConsultants((prev) => prev.filter((c) => c._id !== id));
-      toast.success("Consultant deleted successfully");
+      toast.success("Xóa chuyên gia tư vấn thành công");
     } catch (err) {
-      toast.error("Error deleting consultant");
+      toast.error("Lỗi khi xóa chuyên gia tư vấn");
     }
   };
 
   const handleResetPassword = async (id) => {
     if (
       !window.confirm(
-        "Are you sure you want to reset this consultant's password?"
+        "Bạn có chắc chắn muốn đặt lại mật khẩu cho chuyên gia tư vấn này không?"
       )
     )
       return;
 
     try {
       await axios.post(`/api/consultants/${id}/reset-password`);
-      toast.success("Password has been reset successfully!");
+      toast.success("Đặt lại mật khẩu thành công!");
     } catch (err) {
-      toast.error("Failed to reset password.");
+      toast.error("Không thể đặt lại mật khẩu.");
     }
   };
 
@@ -146,7 +146,7 @@ export default function ConsultantManagement() {
             c._id === modalData._id ? { ...c, ...res.data.consultant } : c
           )
         );
-        toast.success("Consultant updated successfully");
+        toast.success("Cập nhật chuyên gia tư vấn thành công");
       } else {
         const res = await axios.post("/api/consultants", {
           ...updatedData,
@@ -154,10 +154,10 @@ export default function ConsultantManagement() {
           roleName: "Consultant",
         });
         setConsultants((prev) => [...prev, res.data.consultant]);
-        toast.success("Consultant added successfully");
+        toast.success("Thêm chuyên gia tư vấn thành công");
       }
     } catch (err) {
-      toast.error("Error saving consultant");
+      toast.error("Lỗi khi lưu chuyên gia tư vấn");
     }
     setModalData(null);
   };
@@ -167,17 +167,17 @@ export default function ConsultantManagement() {
       <Sidebar />
       <div className="flex-1 p-8 bg-white shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Consultant Management
+          Quản lý Chuyên gia tư vấn
         </h2>
         <button
           className="bg-blue-500  text-white px-6 py-3 rounded-full mb-6 shadow-lg hover:bg-blue-600 transition-all duration-300"
           onClick={() => setModalData({})}
         >
-          Add Consultant
+          Thêm Chuyên gia tư vấn
         </button>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Tìm kiếm..."
             className="p-2 mb-4 border rounded w-full"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -202,30 +202,37 @@ export default function ConsultantManagement() {
                       onClick={() => handleSort(col)}
                       className="flex items-center"
                     >
-                      {col.charAt(0).toUpperCase() + col.slice(1)}
+                      {{
+                        firstName: "Tên",
+                        lastName: "Họ",
+                        email: "Email",
+                        phoneNumber: "Số điện thoại",
+                        note: "Ghi chú",
+                        verified: "Đã xác thực"
+                      }[col]}
                       {sortColumn === col ? (
                         sortOrder === "asc" ? (
-                          <span className="ml-1">▲</span> // Up arrow for ascending
+                          <span className="ml-1">▲</span> // Mũi tên lên cho tăng dần
                         ) : (
-                          <span className="ml-1">▼</span> // Down arrow for descending
+                          <span className="ml-1">▼</span> // Mũi tên xuống cho giảm dần
                         )
                       ) : (
-                        <span className="ml-1 text-gray-400">↕</span> // Default sort icon
+                        <span className="ml-1 text-gray-400">↕</span> // Biểu tượng sắp xếp mặc định
                       )}
                     </button>
                   </th>
                 ))}
                 <th className="p-3 text-left text-sm font-medium text-gray-700">
-                  Image
+                  Ảnh
                 </th>
                 <th className="p-3 text-left text-sm font-medium text-gray-700">
-                  Certifications
+                  Chứng chỉ
                 </th>
                 <th className="p-3 text-left text-sm font-medium text-gray-700">
-                  Category
+                  Danh mục
                 </th>
                 <th className="p-3 text-left text-sm font-medium text-gray-700">
-                  Actions
+                  Hành động
                 </th>
               </tr>
             </thead>
@@ -260,11 +267,11 @@ export default function ConsultantManagement() {
                     {consultant.image ? (
                       <img
                         src={consultant.image}
-                        alt="Consultant"
+                        alt="Chuyên gia tư vấn"
                         className="w-12 h-12 object-cover rounded-full"
                       />
                     ) : (
-                      "No Image"
+                      "Không có ảnh"
                     )}
                   </td>
                   <td className="p-3 text-sm">
@@ -272,17 +279,17 @@ export default function ConsultantManagement() {
                       className="cursor-pointer text-blue-500 underline"
                       onClick={() =>
                         setSelectedNote(
-                          consultant.certifications?.join(", ") || "No Certifications"
+                          consultant.certifications?.join(", ") || "Không có chứng chỉ"
                         )
                       }
                     >
                       {consultant.certifications?.length > 2
                         ? `${consultant.certifications.slice(0, 2).join(", ")}...`
-                        : consultant.certifications?.join(", ") || "No Certifications"}
+                        : consultant.certifications?.join(", ") || "Không có chứng chỉ"}
                     </span>
                   </td>
                   <td className="p-3 text-sm">
-                    {consultant.category?.join(", ") || "No Categories"}
+                    {consultant.category?.join(", ") || "Không có danh mục"}
                   </td>
                   <td className="p-3 text-sm">
                     <button
@@ -319,13 +326,13 @@ export default function ConsultantManagement() {
         {selectedNote && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="text-xl font-bold mb-4">Full Note</h3>
+              <h3 className="text-xl font-bold mb-4">Nội dung ghi chú</h3>
               <p className="text-gray-700 mb-6">{selectedNote}</p>
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600"
                 onClick={() => setSelectedNote(null)}
               >
-                Close
+                Đóng
               </button>
             </div>
           </div>
@@ -351,7 +358,7 @@ export default function ConsultantManagement() {
 }
 
 function ConsultantForm({ data, onSubmit, onClose }) {
-  const categories = ["Oily", "Dry", "Combination", "Normal"]; // Available categories
+  const categories = ["Da dầu", "Da khô", "Da hỗn hợp", "Da thường"]; // Danh mục có sẵn
   const {
     register,
     handleSubmit,
@@ -387,11 +394,21 @@ function ConsultantForm({ data, onSubmit, onClose }) {
     });
   }, [data, reset]);
 
+  // Mapping for placeholders
+  const placeholderMap = {
+    firstName: "Tên",
+    lastName: "Họ",
+    email: "Email",
+    phoneNumber: "Số điện thoại",
+    note: "Ghi chú",
+    image: "Đường dẫn ảnh (URL)",
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-8 rounded-lg w-1/3 shadow-xl">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          {data?._id ? "Update Consultant" : "Add Consultant"}
+          {data?._id ? "Cập nhật Chuyên gia tư vấn" : "Thêm Chuyên gia tư vấn"}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           {[
@@ -406,7 +423,7 @@ function ConsultantForm({ data, onSubmit, onClose }) {
               <input
                 {...register(field)}
                 className="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                placeholder={placeholderMap[field]}
               />
               {errors[field] && (
                 <p className="text-red-500 text-sm mt-1">
@@ -421,15 +438,15 @@ function ConsultantForm({ data, onSubmit, onClose }) {
             <textarea
               {...register("certifications")}
               className="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Certifications (comma-separated)"
-              defaultValue={data.certifications?.join(", ")} // Display certifications as a comma-separated string
+              placeholder="Chứng chỉ (phân tách bằng dấu phẩy)"
+              defaultValue={data.certifications?.join(", ")}
               onBlur={(e) =>
                 reset({
                   ...watch(),
                   certifications: e.target.value
                     .split(",")
                     .map((cert) => cert.trim())
-                    .filter((cert) => cert), // Convert input to array and remove empty values
+                    .filter((cert) => cert),
                 })
               }
             />
@@ -443,7 +460,7 @@ function ConsultantForm({ data, onSubmit, onClose }) {
           {/* Category Input */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Categories
+              Danh mục
             </label>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((cat) => (
@@ -479,7 +496,7 @@ function ConsultantForm({ data, onSubmit, onClose }) {
               }
             />
             <label htmlFor="verified" className="text-gray-700 font-medium">
-              Verified
+              Đã xác thực
             </label>
           </div>
 
@@ -488,14 +505,14 @@ function ConsultantForm({ data, onSubmit, onClose }) {
               type="submit"
               className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600"
             >
-              Save
+              Lưu
             </button>
             <button
               type="button"
               className="bg-gray-500 text-white px-6 py-3 rounded-full hover:bg-gray-600"
               onClick={onClose}
             >
-              Cancel
+              Hủy
             </button>
           </div>
         </form>
