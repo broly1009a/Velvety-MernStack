@@ -102,48 +102,48 @@ const BlogManagement = () => {
       <Sidebar />
       <div className="p-6 w-full">
         <ToastContainer />
-        <h2 className="text-2xl font-bold mb-4">Blog Management</h2>
+        <h2 className="text-2xl font-bold mb-4">Quản lý Blog</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 bg-gray-100 p-4 rounded">
           <input
-            {...register("title", { required: "Title is required" })}
-            placeholder="Title"
+            {...register("title", { required: "Tiêu đề là bắt buộc" })}
+            placeholder="Tiêu đề"
             className="w-full p-2 border"
           />
           <input
-            {...register("image", { required: "Image URL is required" })}
-            placeholder="Image URL"
+            {...register("image", { required: "Đường dẫn ảnh là bắt buộc" })}
+            placeholder="Đường dẫn ảnh"
             className="w-full p-2 border"
           />
           {editingBlog?.image && (
             <img
               src={editingBlog.image}
-              alt="Blog Preview"
+              alt="Xem trước ảnh Blog"
               className="w-32 h-32 object-cover mt-2 rounded-md"
             />
           )}
           <input
-            {...register("description", { required: "Description is required" })}
-            placeholder="Description"
+            {...register("description", { required: "Mô tả là bắt buộc" })}
+            placeholder="Mô tả"
             className="w-full p-2 border"
           />
           <ReactQuill
             value={getValues("content") || ""}
             onChange={(value) => setValue("content", value, { shouldValidate: true })}
-            placeholder="Content"
+            placeholder="Nội dung"
             className="w-full p-2 border"
           />
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-            {editingBlog ? "Update" : "Create"} Blog
+            {editingBlog ? "Cập nhật" : "Tạo mới"} Blog
           </button>
         </form>
 
         <div className="mt-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Blog List</h3>
+            <h3 className="text-xl font-semibold">Danh sách Blog</h3>
             <div className="flex space-x-2">
               <input
                 type="text"
-                placeholder="Search Blogs"
+                placeholder="Tìm kiếm Blog"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="p-2 border rounded w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -152,7 +152,7 @@ const BlogManagement = () => {
                 onClick={toggleSortOrder}
                 className="bg-gray-500 text-white px-3 py-2 rounded transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
-                Sort {sortOrder === "asc" ? "Z-A" : "A-Z"}
+                Sắp xếp {sortOrder === "asc" ? "Z-A" : "A-Z"}
               </button>
             </div>
           </div>
@@ -162,7 +162,7 @@ const BlogManagement = () => {
                 {blog.image && (
                   <img
                     src={blog.image}
-                    alt="Blog Image"
+                    alt="Ảnh Blog"
                     className="w-full h-48 object-cover rounded-md mb-2"
                   />
                 )}
@@ -193,7 +193,7 @@ const BlogManagement = () => {
             <Pagination
               count={totalPages}
               page={currentPage}
-              onChange={(event, value) => setCurrentPage(value)}
+              onChange={(_, value) => setCurrentPage(value)}
               color="primary"
             />
           </div>
@@ -201,14 +201,14 @@ const BlogManagement = () => {
       </div>
 
       <Dialog open={openDeleteDialog} onClose={closeDeleteConfirmation}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>Are you sure you want to delete this blog?</DialogContent>
+        <DialogTitle>Xác nhận xóa</DialogTitle>
+        <DialogContent>Bạn có chắc chắn muốn xóa blog này không?</DialogContent>
         <DialogActions>
           <Button onClick={closeDeleteConfirmation} color="primary">
-            Cancel
+            Hủy
           </Button>
           <Button onClick={handleDelete} color="secondary">
-            Delete
+            Xóa
           </Button>
         </DialogActions>
       </Dialog>

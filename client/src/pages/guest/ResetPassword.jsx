@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { EyeIcon } from "lucide-react";
 import { EyeOffIcon } from "lucide-react";
-
+import { axios } from "axios";
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
@@ -27,14 +27,14 @@ export default function ResetPassword() {
     let newErrors = {};
 
     if (newPassword.length < 8) {
-      newErrors.newPassword = "Password must be at least 8 characters long.";
+      newErrors.newPassword = "Mật khẩu phải có ít nhất 8 ký tự.";
     }
     if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(newPassword)) {
       newErrors.newPassword =
-        "Password must contain uppercase, lowercase, number, and special character.";
+        "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt.";
     }
     if (newPassword !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "Mật khẩu không khớp.";
     }
 
     setErrors(newErrors);
@@ -53,26 +53,30 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`/api/auth/reset-password?token=${token}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, newPassword }),
+      const response = await axios.post(`/api/auth/reset-password`, {
+        token,
+        newPassword,
+        confirmPassword,
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
-
-      setMessage("Password reset successfully! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 3000); // Redirect after success
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      if (response.status === 200) {
+        setMessage("Mật khẩu đã được đặt lại thành công.");
+        setTimeout(() => navigate("/login"), 3000);
+      } else {
+        setError("Không thể đặt lại mật khẩu. Vui lòng thử lại sau.");
+      }
     }
+    catch (err) {
+      console.error("Lỗi khi đặt lại mật khẩu:", err);
+      setError(
+        err.response?.data?.message ||
+          "Đã xảy ra lỗi khi đặt lại mật khẩu. Vui lòng thử lại sau."
+      );
+    }
+    setLoading(false);
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col bg-[#f9faef] relative">
+   <div className="w-full min-h-screen flex flex-col bg-[#f9faef] relative">
       {/* Navbar */}
       <Navbar />
 
@@ -83,7 +87,7 @@ export default function ResetPassword() {
       <div className="flex flex-grow items-center justify-center relative z-10 px-4">
         <div className="w-full max-w-md bg-white bg-opacity-90 backdrop-blur-lg shadow-lg rounded-2xl p-8">
           <h2 className="text-center text-2xl font-bold text-[#c86c79] uppercase mb-6">
-            Reset Password
+            Đặt lại mật khẩu
           </h2>
 
           {/* Success & Error Messages */}
@@ -94,11 +98,11 @@ export default function ResetPassword() {
           <form onSubmit={handleResetPassword}>
             {/* New Password Input */}
             <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2 text-gray-700">New Password</label>
+              <label className="block text-lg font-semibold mb-2 text-gray-700">Mật khẩu mới</label>
               <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter new password"
+                placeholder="Nhập mật khẩu mới"
                 value={newPassword}
                 onChange={(e) => {
                   setNewPassword(e.target.value);
@@ -120,11 +124,11 @@ export default function ResetPassword() {
 
             {/* Confirm Password Input */}
             <div className="mb-6">
-              <label className="block text-lg font-semibold mb-2 text-gray-700">Confirm Password</label>
+              <label className="block text-lg font-semibold mb-2 text-gray-700">Xác nhận mật khẩu</label>
               <div className="relative w-full">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm new password"
+                placeholder="Xác nhận mật khẩu mới"
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
@@ -151,16 +155,16 @@ export default function ResetPassword() {
                 className="w-full h-12 bg-[#c86c79] text-white text-lg font-semibold rounded-full shadow-md hover:bg-[#b25668] transition duration-300 disabled:opacity-50"
                 disabled={loading}
               >
-                {loading ? "Resetting..." : "Reset Password"}
+                {loading ? "Đang đặt lại..." : "Đặt lại mật khẩu"}
               </button>
             </div>
           </form>
 
           {/* Back to Login */}
           <div className="text-center mt-4 text-gray-700">
-            <span>Remember your password? </span>
+            <span>Bạn đã nhớ mật khẩu? </span>
             <a href="/login" className="font-semibold text-[#c86c79] hover:underline">
-              Login
+              Đăng nhập
             </a>
           </div>
         </div>

@@ -47,7 +47,7 @@ const Dashboard = () => {
   const [selectedServiceDetail, setSelectedServiceDetail] = useState(null);
   const [monthlyServiceRevenue, setMonthlyServiceRevenue] = useState([]);
   const [serviceRatings, setServiceRatings] = useState([]);
-   const [openDetailModal, setOpenDetailModal] = useState(false);
+  const [openDetailModal, setOpenDetailModal] = useState(false);
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -164,19 +164,15 @@ const Dashboard = () => {
     Promise.all(
       sortedServices.map(async ([serviceId, count]) => {
         try {
-          const res = await fetch(`/api/services/${serviceId}`);
-          const data = await res.json();
+          const res = await axios.get(`/api/services/${serviceId}`);
           return {
             serviceId,
-            name: data.name,
+            name: res.data.name,
             count,
           };
         } catch (err) {
-          return {
-            serviceId,
-            name: "Unknown Service",
-            count,
-          };
+          console.error(`Error fetching service ${serviceId}:`, err);
+          return { serviceId, name: "Unknown Service", count };
         }
       })
     ).then((top) => {
@@ -207,7 +203,7 @@ const Dashboard = () => {
       <Sidebar />
       <Box component="main" sx={{ flexGrow: 1, p: 3, backgroundColor: "#f4f4f4" }}>
         <Typography variant="h4" gutterBottom>
-          Dashboard Overview
+          Tổng quan Dashboard
         </Typography>
 
         {/* Bộ lọc */}
@@ -220,9 +216,9 @@ const Dashboard = () => {
               onChange={(e) => setFilter(e.target.value)}
               fullWidth
             >
-              <MenuItem value="day">Day</MenuItem>
-              <MenuItem value="month">Month</MenuItem>
-              <MenuItem value="year">Year</MenuItem>
+              <MenuItem value="day">Ngày</MenuItem>
+              <MenuItem value="month">Tháng</MenuItem>
+              <MenuItem value="year">Năm</MenuItem>
             </TextField>
           </Grid>
 
@@ -230,7 +226,7 @@ const Dashboard = () => {
           {filter === "day" && (
             <Grid item xs={4}>
               <TextField
-                label="Select Date"
+                label="Chọn ngày"
                 type="date"
                 value={selectedDate.day}
                 onChange={(e) => setSelectedDate({ ...selectedDate, day: e.target.value })}
@@ -246,14 +242,14 @@ const Dashboard = () => {
             <Grid item xs={4}>
               <TextField
                 select
-                label="Select Month"
+                label="Chọn tháng"
                 value={selectedDate.month}
                 onChange={(e) => setSelectedDate({ ...selectedDate, month: e.target.value })}
                 fullWidth
               >
                 {[
-                  "January", "February", "March", "April", "May", "June",
-                  "July", "August", "September", "October", "November", "December"
+                  "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                  "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
                 ].map((month, index) => (
                   <MenuItem key={index + 1} value={index + 1}>
                     {month}
@@ -267,7 +263,7 @@ const Dashboard = () => {
             <Grid item xs={4}>
               <TextField
                 select
-                label="Select Year"
+                label="Chọn năm"
                 value={selectedDate.year}
                 onChange={(e) => setSelectedDate({ ...selectedDate, year: e.target.value })}
                 fullWidth
@@ -290,9 +286,9 @@ const Dashboard = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               fullWidth
             >
-              <MenuItem value="all">All</MenuItem>
-              <MenuItem value="Pending">Pending</MenuItem>
-              <MenuItem value="Paid">Paid</MenuItem>
+              <MenuItem value="all">Tất cả</MenuItem>
+              <MenuItem value="Pending">Chờ thanh toán</MenuItem>
+              <MenuItem value="Paid">Đã thanh toán</MenuItem>
             </TextField>
           </Grid>
         </Grid>
@@ -304,7 +300,7 @@ const Dashboard = () => {
             <Card sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#4A90E2' }}>
-                  Total Revenue
+                  Tổng doanh thu
                 </Typography>
                 <Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mt: 1 }}>
                   {totalRevenue.toLocaleString()} VND
@@ -316,7 +312,7 @@ const Dashboard = () => {
             <Card sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#E91E63' }}>
-                  Total Orders
+                  Tổng số đơn hàng
                 </Typography>
                 <Typography variant="h5" color="secondary" sx={{ fontWeight: 'bold', mt: 1 }}>
                   {totalOrders}
@@ -330,14 +326,14 @@ const Dashboard = () => {
             <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }} gutterBottom>
-                  Monthly Revenue
+                  Doanh thu theo tháng
                 </Typography>
                 <Bar
                   data={{
                     labels: Object.keys(stats).map((m) => {
                       const monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
+                        "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                        "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
                       ];
                       return monthNames[m - 1];
                     }),
@@ -366,20 +362,20 @@ const Dashboard = () => {
             <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }} gutterBottom>
-                  Monthly Total Orders
+                  Số đơn hàng theo tháng
                 </Typography>
                 <Bar
                   data={{
                     labels: Object.keys(stats).map((m) => {
                       const monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
+                        "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                        "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
                       ];
                       return monthNames[m - 1];
                     }),
                     datasets: [
                       {
-                        label: "Total Orders",
+                        label: "Số đơn hàng",
                         data: Object.values(stats).map((s) => s.count),
                         backgroundColor: "rgba(255, 99, 132, 0.6)",
                       },
@@ -397,12 +393,12 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Grid>
- {/* Biểu đồ doanh thu theo dịch vụ */}
+          {/* Biểu đồ doanh thu theo dịch vụ */}
           <Grid item xs={12}>
             {monthlyServiceRevenue.length > 0 && (
               <Card sx={{ p: 2 }}>
                 <Typography variant="h6" gutterBottom>
-                  Monthly Revenue by Service
+                  Doanh thu theo dịch vụ từng tháng
                 </Typography>
 
                 {/* Wrapper giới hạn chiều cao biểu đồ */}
@@ -437,14 +433,14 @@ const Dashboard = () => {
           <Grid item xs={12}>
             <Card sx={{ mt: 3, p: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Service Ratings Overview
+                Tổng hợp đánh giá dịch vụ
               </Typography>
               <Grid container spacing={2}>
                 {serviceRatings.map((s, idx) => (
                   <Grid item xs={12} sm={6} md={4} key={idx}>
                     <Box sx={{ p: 1, border: "1px solid #eee", borderRadius: 2 }}>
                       <Typography>{s.name}</Typography>
-                      <Typography>Avg Rating: {s.avgRating.toFixed(2)} ⭐</Typography>
+                      <Typography>Trung bình: {s.avgRating.toFixed(2)} ⭐</Typography>
                     </Box>
                   </Grid>
                 ))}
@@ -456,11 +452,11 @@ const Dashboard = () => {
             <Card sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }} gutterBottom>
-                  Top Ordered Services
+                  Dịch vụ được đặt nhiều nhất
                 </Typography>
                 {topServices.length === 0 ? (
                   <Typography variant="body2" sx={{ color: '#888' }}>
-                    No orders yet.
+                    Chưa có đơn hàng nào.
                   </Typography>
                 ) : (
                   topServices.map((service, index) => (
@@ -485,39 +481,39 @@ const Dashboard = () => {
                         {index + 1}. {service.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {service.count} bookings
+                        {service.count} lượt đặt
                       </Typography>
                     </Box>
                   ))
                 )}
 
                 {/* Hiển thị chi tiết dịch vụ nếu có */}
-               <Dialog open={openDetailModal} onClose={handleCloseDetailModal} maxWidth="sm" fullWidth>
-          <DialogTitle>Service Detail</DialogTitle>
-          <DialogContent dividers>
-            {selectedServiceDetail ? (
-              <>
-                <Typography><b>Name:</b> {selectedServiceDetail.name}</Typography>
-                <Typography><b>Price:</b> {selectedServiceDetail.price} VND</Typography>
-                <Typography><b>Total Orders:</b> {selectedServiceDetail.totalOrders}</Typography>
-                <Typography><b>Total Revenue:</b> {selectedServiceDetail.totalRevenue} VND</Typography>
-                <Typography><b>Average Rating:</b> {selectedServiceDetail.avgRating?.toFixed(2)} ⭐</Typography>
-              </>
-            ) : (
-              <Typography color="error">No detail available.</Typography>
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDetailModal} color="primary" variant="contained">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
+                <Dialog open={openDetailModal} onClose={handleCloseDetailModal} maxWidth="sm" fullWidth>
+                  <DialogTitle>Chi tiết dịch vụ</DialogTitle>
+                  <DialogContent dividers>
+                    {selectedServiceDetail ? (
+                      <>
+                        <Typography><b>Tên:</b> {selectedServiceDetail.name}</Typography>
+                        <Typography><b>Giá:</b> {selectedServiceDetail.price} VND</Typography>
+                        <Typography><b>Tổng số đơn:</b> {selectedServiceDetail.totalOrders}</Typography>
+                        <Typography><b>Tổng doanh thu:</b> {selectedServiceDetail.totalRevenue} VND</Typography>
+                        <Typography><b>Đánh giá trung bình:</b> {selectedServiceDetail.avgRating?.toFixed(2)} ⭐</Typography>
+                      </>
+                    ) : (
+                      <Typography color="error">Không có thông tin chi tiết.</Typography>
+                    )}
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseDetailModal} color="primary" variant="contained">
+                      Đóng
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </CardContent>
             </Card>
           </Grid>
 
-         
+
         </Grid>
       </Box>
     </Box>

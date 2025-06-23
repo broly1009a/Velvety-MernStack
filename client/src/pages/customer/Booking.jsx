@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Card, CardContent, Button, TextField } from "@mui/material";
-
+import { axios } from "axios";
 const BookingPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,21 +20,19 @@ const BookingPage = () => {
     }
 
     try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        alert("Đặt lịch thành công!");
-        setFormData({ name: "", email: "", phone: "", datetime: "" });
-      } else {
-        alert("Có lỗi xảy ra, vui lòng thử lại!");
+      const response = await axios.post("/api/bookings", formData);
+      if (response.status === 201) {
+        alert("Đặt lịch hẹn thành công!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          datetime: ""
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Lỗi khi đặt lịch hẹn:", error);
+      alert("Đặt lịch hẹn thất bại. Vui lòng thử lại sau.");
     }
   };
 

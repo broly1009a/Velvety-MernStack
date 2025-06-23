@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
-
+// Nội dung bằng tiếng việt
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -15,29 +15,29 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   // Validation rules
-  const validate = (name, value) => {
+ const validate = (name, value) => {
     let errorMessage = "";
 
     switch (name) {
       case "firstName":
       case "lastName":
         if (!/^[a-zA-Z\s]{2,}$/.test(value)) {
-          errorMessage = "Must contain only letters and be at least 2 characters.";
+          errorMessage = "Chỉ được chứa chữ cái và ít nhất 2 ký tự.";
         }
         break;
       case "email":
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          errorMessage = "Invalid email format.";
+          errorMessage = "Email không hợp lệ.";
         }
         break;
       case "password":
         if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(value)) {
-          errorMessage = "Must be at least 6 characters, contain an uppercase letter, a number, and a special character.";
+          errorMessage = "Mật khẩu tối thiểu 6 ký tự, có chữ hoa, số và ký tự đặc biệt.";
         }
         break;
       case "phoneNumber":
         if (!/^\d{10,15}$/.test(value)) {
-          errorMessage = "Must contain only digits and be between 10-15 characters.";
+          errorMessage = "Chỉ được chứa số và từ 10-15 ký tự.";
         }
         break;
       default:
@@ -53,21 +53,26 @@ export default function RegisterPage() {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
+     // Validate ngay khi nhập
+    validate(name, value);
     // Clear error message for the specific field when user starts typing
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   // Check if form is valid
-  const isFormValid = () => {
+   const isFormValid = () => {
     return (
       formData.firstName.trim() !== "" &&
       formData.lastName.trim() !== "" &&
       formData.email.trim() !== "" &&
       formData.password.trim() !== "" &&
       formData.phoneNumber.trim() !== "" &&
-      !errors.email && // Ensure there are no active errors
+      !errors.email &&
       !errors.phoneNumber &&
-      !errors.form
+      !errors.form &&
+      !errors.firstName &&
+      !errors.lastName &&
+      !errors.password
     );
   };
 
@@ -76,7 +81,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (!isFormValid()) {
-      alert("Please fill in all fields correctly.");
+      alert("Vui lòng điền đầy đủ và chính xác các trường.");
       return;
     }
 
@@ -87,7 +92,7 @@ export default function RegisterPage() {
       });
 
       if (response.status === 201) {
-        alert("Registration successful! Please check your email to verify your account.");
+        alert("Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.");
         setFormData({
           firstName: "",
           lastName: "",
@@ -105,12 +110,12 @@ export default function RegisterPage() {
 
         setErrors((prev) => ({
           ...prev,
-          email: errorMessage === "Email already in use" ? "This email is already registered." : prev.email,
-          phoneNumber: errorMessage === "Phone number already in use" ? "This phone number is already registered." : prev.phoneNumber,
+          email: errorMessage === "Email already in use" ? "Email này đã được đăng ký." : prev.email,
+          phoneNumber: errorMessage === "Phone number already in use" ? "Số điện thoại này đã được đăng ký." : prev.phoneNumber,
           form: errorMessage !== "Email already in use" && errorMessage !== "Phone number already in use" ? errorMessage : prev.form,
         }));
       } else {
-        setErrors((prev) => ({ ...prev, form: "An unexpected error occurred. Please try again." }));
+        setErrors((prev) => ({ ...prev, form: "Đã xảy ra lỗi. Vui lòng thử lại." }));
       }
     }
   };
@@ -121,16 +126,16 @@ export default function RegisterPage() {
       <div className="flex items-center justify-center h-auto max-h-screen overflow-auto relative flex-grow">
         <div className="absolute inset-0 bg-[url(/images/forgotpassword_resetpassword.png)] bg-cover bg-center bg-no-repeat opacity-50 z-0" />
         <div className="relative z-10 w-full max-w-[400px] bg-white bg-opacity-90 rounded-xl shadow-lg p-5 mt-5 mb-9 mx-4">
-          <h2 className="text-center text-2xl font-bold text-[#c86c79] uppercase mb-6 md:mb-8">
-            Register
+         <h2 className="text-center text-2xl font-bold text-[#c86c79] uppercase mb-6 md:mb-8">
+            Đăng ký
           </h2>
 
           <form className="flex flex-col gap-4 md:gap-6" onSubmit={handleSubmit}>
-            {[{ label: "First Name", name: "firstName", type: "text", placeholder: "Enter first name" },
-            { label: "Last Name", name: "lastName", type: "text", placeholder: "Enter last name" },
-            { label: "Email", name: "email", type: "email", placeholder: "Enter email" },
-            { label: "Password", name: "password", type: "password", placeholder: "Enter password" },
-            { label: "Phone Number", name: "phoneNumber", type: "text", placeholder: "Enter phone number" },
+            {[{ label: "Họ", name: "firstName", type: "text", placeholder: "Nhập họ" },
+            { label: "Tên", name: "lastName", type: "text", placeholder: "Nhập tên" },
+            { label: "Email", name: "email", type: "email", placeholder: "Nhập email" },
+            { label: "Mật khẩu", name: "password", type: "password", placeholder: "Nhập mật khẩu" },
+            { label: "Số điện thoại", name: "phoneNumber", type: "text", placeholder: "Nhập số điện thoại" },
             ].map(({ label, name, type, placeholder }) => (
               <div key={name}>
                 <label className="block text-lg font-semibold text-gray-800 mb-1">{label}</label>
@@ -155,14 +160,14 @@ export default function RegisterPage() {
               className="w-full h-[50px] bg-[#c86c79] text-white text-lg font-bold rounded-lg shadow hover:bg-[#b25668] transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
               disabled={!isFormValid()}
             >
-              Register
+              Đăng ký
             </button>
           </form>
 
           <div className="text-center mt-8 text-gray-700 text-sm">
-            <span>Already have an account? </span>
+            <span>Bạn đã có tài khoản? </span>
             <a href="/login" className="font-bold text-[#c86c79] hover:underline">
-              Login
+              Đăng nhập
             </a>
           </div>
         </div>

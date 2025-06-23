@@ -32,9 +32,10 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import { motion } from "framer-motion";
 import { FaTrash, FaComment } from "react-icons/fa";
+import { axios } from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+// Nội dung tiếng việt
 const ViewBookingHistory = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ const ViewBookingHistory = () => {
 
   const handleChangeTime = (BookedConsultantId, bookingId, isRescheduled) => {
     if (isRescheduled) {
-      toast.warning("You can only reschedule once.");
+      toast.warning("Bạn đã thay đổi lịch hẹn này trước đó. Vui lòng chọn một lịch hẹn khác.");
       return;
     }
 
@@ -89,7 +90,7 @@ const ViewBookingHistory = () => {
 
   const handleSubmitReview = async () => {
     if (!reviewData.comment || !reviewData.rating) {
-      alert("Please enter your comment and rating.");
+      alert("Vui lòng điền đầy đủ thông tin đánh giá.");
       return;
     }
 
@@ -102,19 +103,16 @@ const ViewBookingHistory = () => {
 
     try {
       // Gửi request lưu review vào lịch sử đặt lịch
-      const response = await fetch("/api/historyBooking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reviewPayload),
-      });
-
-      if (!response.ok) throw new Error("Failed to submit review");
-
-      alert("Review submitted successfully!");
-      setShowReviewModal(false); // Đóng modal sau khi gửi
+      const response = await axios.post("/api/booking-requests/review", reviewPayload);
+      if (response.status === 201) {
+        toast.success("Đánh giá đã được gửi thành công!");
+        setShowReviewModal(false);
+        setReviewData({ bookingId: null, comment: "", rating: 0 }); // Reset review form
+        setRefresh((prev) => !prev); // 🔄 Refresh bookings
+      }
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert("Failed to submit review");
+      toast.error("Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại.");
     }
   };
 

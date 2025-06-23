@@ -5,7 +5,6 @@ import {
   CardContent,
   Typography,
   Container,
-  Grid,
   Dialog,
   DialogActions,
   DialogContent,
@@ -17,6 +16,7 @@ import {
   Alert,
   Pagination, // Import Pagination component
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
 import Sidebar from "../../components/ManagerSidebar";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -201,18 +201,18 @@ const QuestionManagement = () => {
           </Alert>
         ) : (
           <>
-            <Grid container spacing={3}>
+            <Grid2 container spacing={3}>
               {currentQuestions.map((question) => (
-                <Grid item xs={12} sm={6} key={question._id}>
+                <Grid2 xs={12} sm={6} key={question._id}>
                   <QuestionCard question={question} onDelete={handleDelete} onEdit={handleEdit} />
-                </Grid>
+                </Grid2>
               ))}
-            </Grid>
+            </Grid2>
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
               <Pagination
                 count={totalPages}
                 page={currentPage}
-                onChange={(event, value) => setCurrentPage(value)}
+                onChange={(_, value) => setCurrentPage(value)}
                 color="primary"
               />
             </Box>
