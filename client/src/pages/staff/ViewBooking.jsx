@@ -116,37 +116,44 @@ const ViewBooking = () => {
 
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const response = await axios.get("/api/booking-requests");
-        const bookingsData = response.data;
+  const fetchBookings = async () => {
+    try {
+      const response = await axios.get("/api/booking-requests");
+      const bookingsData = response.data;
 
-        // Map qua và fetch từng user
-        const bookingsWithCustomer = await Promise.all(
-          bookingsData.map(async (booking) => {
+      const bookingsWithCustomer = await Promise.all(
+        bookingsData.map(async (booking) => {
+          try {
+            if (!booking.customerID) throw new Error("No customerID");
             const customerRes = await axios.get(`/api/users/${booking.customerID}`);
             return {
               ...booking,
               customerInfo: customerRes.data,
             };
-          })
-        );
+          } catch (err) {
+            // Nếu không tìm thấy user, vẫn trả booking nhưng customerInfo là null
+            return {
+              ...booking,
+              customerInfo: null,
+            };
+          }
+        })
+      );
 
-        setBookings(bookingsWithCustomer);
-      } catch (err) {
-        console.error(
-          "Error fetching bookings:",
-          err.response ? err.response.data : err.message
-        );
-        setError(err.response ? err.response.data.message : err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setBookings(bookingsWithCustomer);
+    } catch (err) {
+      console.error(
+        "Error fetching bookings:",
+        err.response ? err.response.data : err.message
+      );
+      setError(err.response ? err.response.data.message : err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchBookings();
-  }, []);
-
+  fetchBookings();
+}, []);
   
   const handleConsultantClick = async (consultantID, bookingID) => {
     if (!bookingID) {
@@ -378,7 +385,7 @@ const ViewBooking = () => {
                 <td className="border p-2 text-center">
                   {booking.customerInfo
                     ? `${booking.customerInfo.firstName} ${booking.customerInfo.lastName}`
-                    : "Unknown"}
+                    : "Không có thông tin"}
                 </td>
                 <td className="border p-2 text-center">
                   {booking.serviceID?.name || "Not Available"}

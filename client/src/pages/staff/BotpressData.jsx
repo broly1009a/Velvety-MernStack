@@ -19,10 +19,17 @@ const ROWS_PER_PAGE = 10;
 const getSummaryFromTranscript = (transcript) => {
   if (!Array.isArray(transcript)) return "";
   const botMsgs = transcript.filter(msg => msg.sender === "bot").reverse();
+  // Regex tiếng Anh và tiếng Việt
   const regexArr = [
+    // Đặt lịch thành công
     /(has been (successfully )?booked|has been confirmed|has been scheduled|booking is successful|successfully booked|look forward to seeing you|appointment.*has been (successfully )?booked)/i,
+    /(đã được đặt thành công|đã xác nhận|đã được lên lịch|đặt lịch thành công|hẹn.*đã được đặt|chúng tôi mong được gặp bạn|cảm ơn bạn đã đặt lịch|đặt lịch thành công|đã xác nhận lịch hẹn|đã xác nhận đặt lịch)/i,
+    // Không xác nhận được lịch
     /(couldn[’']?t confirm|not available|would you like me to check|I couldn[’']?t confirm)/i,
-    /(thank you|we look forward|feel free to let me know)/i
+    /(không thể xác nhận|không có sẵn|bạn có muốn tôi kiểm tra|không xác nhận được|rất tiếc|xin lỗi)/i,
+    // Cảm ơn, kết thúc
+    /(thank you|we look forward|feel free to let me know)/i,
+    /(cảm ơn|chúng tôi mong được gặp bạn|nếu cần hỗ trợ thêm|liên hệ lại với chúng tôi|chúc bạn một ngày tốt lành)/i,
   ];
   for (const regex of regexArr) {
     const found = botMsgs.find(msg => regex.test(msg.preview));
@@ -35,14 +42,29 @@ const getSummaryFromTranscript = (transcript) => {
 const getSentimentFromTranscript = (transcript) => {
   if (!Array.isArray(transcript)) return "N/A";
   const botMsgs = transcript.filter(msg => msg.sender === "bot").reverse();
-  if (botMsgs.some(msg => /successfully|confirmed|look forward|thank you|happy|great|wonderful|glad/i.test(msg.preview))) {
-    return "positive";
+  // Tích cực
+  if (
+    botMsgs.some(msg =>
+      /successfully|confirmed|look forward|thank you|happy|great|wonderful|glad|đặt thành công|đã xác nhận|cảm ơn|chúc bạn một ngày tốt lành|mong được gặp bạn|thành công|tuyệt vời|hài lòng|vui vẻ|xin cảm ơn/i.test(msg.preview)
+    )
+  ) {
+    return "Tích cực";
   }
-  if (botMsgs.some(msg => /couldn[’']?t|not available|unfortunately|sorry|fail|unable|problem|issue/i.test(msg.preview))) {
-    return "negative";
+  // Tiêu cực
+  if (
+    botMsgs.some(msg =>
+      /couldn[’']?t|not available|unfortunately|sorry|fail|unable|problem|issue|không thể|không có sẵn|rất tiếc|xin lỗi|thất bại|lỗi|vấn đề|không xác nhận được/i.test(msg.preview)
+    )
+  ) {
+    return "Tiêu cực";
   }
-  if (botMsgs.some(msg => /please confirm|could you|would you|let me know|need more information|waiting/i.test(msg.preview))) {
-    return "neutral";
+  // Trung lập
+  if (
+    botMsgs.some(msg =>
+      /please confirm|could you|would you|let me know|need more information|waiting|vui lòng xác nhận|bạn có thể|bạn muốn|hãy cho tôi biết|cần thêm thông tin|đang chờ/i.test(msg.preview)
+    )
+  ) {
+    return "Trung lập";
   }
   return "N/A";
 };
@@ -52,8 +74,8 @@ const getTopicsFromTranscript = (transcript) => {
   if (!Array.isArray(transcript)) return ["N/A"];
   // Lấy các message của user
   const userMsgs = transcript.filter(msg => msg.sender === "user");
-  // Regex các từ khóa dịch vụ phổ biến
-  const serviceRegex = /(booking|service|facial|massage|treatment|appointment|consultant|pro|skin|hydrat|bright|dermaplaning)/i;
+  // Regex các từ khóa dịch vụ phổ biến (Anh + Việt)
+  const serviceRegex = /(booking|service|facial|massage|treatment|appointment|consultant|pro|skin|hydrat|bright|dermaplaning|đặt lịch|dịch vụ|spa|chăm sóc da|tư vấn|liệu trình|làm sáng|dưỡng ẩm|làm sạch|chuyên viên|điều trị|da dầu|da khô|da hỗn hợp|da thường)/i;
   // Tìm message user chứa từ khóa
   const found = userMsgs.find(msg => serviceRegex.test(msg.preview));
   if (found) {
@@ -130,7 +152,7 @@ const BotpressData = () => {
     currentPage * ROWS_PER_PAGE
   );
 
-  const handlePageChange = (_, value) => {
+  const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
@@ -144,7 +166,7 @@ const BotpressData = () => {
       <div className="flex-1 p-8">
         <div className="flex items-center justify-between mb-4">
           <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: '#C86C79' }}>
-            Tất cả cuộc hội thoại (Chatbot Argent AI)
+            Tất cả hội thoại (Chatbot Argent AI)
           </Typography>
           <Tooltip title="Làm mới dữ liệu">
             <IconButton onClick={handleRefresh} color="primary" sx={{ ml: 2 }}>
@@ -161,7 +183,7 @@ const BotpressData = () => {
             size="small"
             value={date}
             onChange={e => setDate(e.target.value)}
-            slotProps={{ inputLabel: { shrink: true } }}
+            InputLabelProps={{ shrink: true }}
           />
           <TextField
             select
@@ -171,11 +193,10 @@ const BotpressData = () => {
             onChange={e => setSentiment(e.target.value)}
             style={{ minWidth: 120 }}
           >
-            {sentimentOptions.map(opt => (
-              <MenuItem key={opt.value} value={opt.value}>
-                {opt.value === '' ? 'Tất cả' : opt.value === 'positive' ? 'Tích cực' : opt.value === 'neutral' ? 'Trung lập' : 'Tiêu cực'}
-              </MenuItem>
-            ))}
+            <MenuItem value="">Tất cả</MenuItem>
+            <MenuItem value="Tích cực">Tích cực</MenuItem>
+            <MenuItem value="Trung lập">Trung lập</MenuItem>
+            <MenuItem value="Tiêu cực">Tiêu cực</MenuItem>
           </TextField>
           <TextField
             label="Từ khóa trong tóm tắt"
@@ -186,13 +207,15 @@ const BotpressData = () => {
           <Button type="submit" variant="contained" sx={{ background: "#C86C79" }}>
             Lọc
           </Button>
+        </form>
+
         {loading ? (
           <Box className="flex justify-center items-center h-64">
             <CircularProgress />
           </Box>
         ) : paginatedRows.length === 0 ? (
           <Typography variant="body1" color="text.secondary">
-            Không tìm thấy cuộc hội thoại nào.
+            Không tìm thấy hội thoại nào.
           </Typography>
         ) : (
           <>
@@ -220,10 +243,10 @@ const BotpressData = () => {
                     return (
                       <TableRow key={row.id} hover>
                         <TableCell>{row.id}</TableCell>
-                        <TableCell>{new Date(row.updatedAt).toLocaleString()}</TableCell>
+                        <TableCell>{new Date(row.updatedAt).toLocaleString("vi-VN")}</TableCell>
                         <TableCell>{topicsValue}</TableCell>
                         <TableCell>{summary}</TableCell>
-                        <TableCell>{sentimentValue === 'positive' ? 'Tích cực' : sentimentValue === 'neutral' ? 'Trung lập' : sentimentValue === 'negative' ? 'Tiêu cực' : sentimentValue}</TableCell>
+                        <TableCell>{sentimentValue}</TableCell>
                         <TableCell>{lastMsg}</TableCell>
                         <TableCell>{row.conversationId}</TableCell>
                       </TableRow>
@@ -243,7 +266,6 @@ const BotpressData = () => {
             </Box>
           </>
         )}
-        </form>
       </div>
     </div>
   );
