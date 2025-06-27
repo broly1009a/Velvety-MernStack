@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "../../utils/axiosInstance";
 import StaffSidebar from "../../components/StaffSidebar";
 import { toast, ToastContainer } from "react-toastify";
-import { Pagination, Dialog,
+import {
+  Pagination, Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
@@ -10,7 +11,8 @@ import { Pagination, Dialog,
   Button,
   Modal,
   Box,
-  CircularProgress } from "@mui/material"; // Import Pagination component
+  CircularProgress
+} from "@mui/material"; // Import Pagination component
 
 
 const ITEMS_PER_PAGE = 10; // Number of bookings per page
@@ -30,7 +32,7 @@ const ViewBooking = () => {
   const [checkinInput, setCheckinInput] = useState("");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [checkinLoading, setCheckinLoading] = useState(false);
-  // const [checkoutLoadingId, setCheckoutLoadingId] = useState(null);
+  const [checkoutLoadingId, setCheckoutLoadingId] = useState(null);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
 
   const handleOpenCheckoutModal = (booking) => {
@@ -48,7 +50,7 @@ const ViewBooking = () => {
     setCheckinInput("");
     setCheckinModalOpen(true);
   };
-  
+
   const handleCloseCheckinModal = () => {
     setCheckinModalOpen(false);
     setSelectedBooking(null);
@@ -57,19 +59,19 @@ const ViewBooking = () => {
 
   const handleCheckinSubmit = async () => {
     if (!selectedBooking) return;
-  
+
     if (checkinInput.trim() !== selectedBooking.CheckinCode) {
       toast.error("❌ Incorrect Check-in Code");
       return;
     }
-  
+
     try {
       setCheckinLoading(true);
 
       await axios.put(`/api/booking-requests/${selectedBooking._id}/status`, {
         status: "Confirmed",
       });
-  
+
       setBookings((prev) =>
         prev.map((booking) =>
           booking._id === selectedBooking._id
@@ -112,49 +114,49 @@ const ViewBooking = () => {
       setLoading(false);
       handleCloseCheckoutModal();
     }
-};
+  };
 
 
   useEffect(() => {
-  const fetchBookings = async () => {
-    try {
-      const response = await axios.get("/api/booking-requests");
-      const bookingsData = response.data;
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get("/api/booking-requests");
+        const bookingsData = response.data;
 
-      const bookingsWithCustomer = await Promise.all(
-        bookingsData.map(async (booking) => {
-          try {
-            if (!booking.customerID) throw new Error("No customerID");
-            const customerRes = await axios.get(`/api/users/${booking.customerID}`);
-            return {
-              ...booking,
-              customerInfo: customerRes.data,
-            };
-          } catch (err) {
-            // Nếu không tìm thấy user, vẫn trả booking nhưng customerInfo là null
-            return {
-              ...booking,
-              customerInfo: null,
-            };
-          }
-        })
-      );
+        const bookingsWithCustomer = await Promise.all(
+          bookingsData.map(async (booking) => {
+            try {
+              if (!booking.customerID) throw new Error("No customerID");
+              const customerRes = await axios.get(`/api/users/${booking.customerID}`);
+              return {
+                ...booking,
+                customerInfo: customerRes.data,
+              };
+            } catch (err) {
+              // Nếu không tìm thấy user, vẫn trả booking nhưng customerInfo là null
+              return {
+                ...booking,
+                customerInfo: null,
+              };
+            }
+          })
+        );
 
-      setBookings(bookingsWithCustomer);
-    } catch (err) {
-      console.error(
-        "Error fetching bookings:",
-        err.response ? err.response.data : err.message
-      );
-      setError(err.response ? err.response.data.message : err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setBookings(bookingsWithCustomer);
+      } catch (err) {
+        console.error(
+          "Error fetching bookings:",
+          err.response ? err.response.data : err.message
+        );
+        setError(err.response ? err.response.data.message : err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchBookings();
-}, []);
-  
+    fetchBookings();
+  }, []);
+
   const handleConsultantClick = async (consultantID, bookingID) => {
     if (!bookingID) {
       console.error("Invalid booking ID:", bookingID);
@@ -280,14 +282,14 @@ const ViewBooking = () => {
       sortField === "customerInfo"
         ? `${a.customerInfo?.firstName || ""} ${a.customerInfo?.lastName || ""}`
         : sortField === "serviceID.name"
-        ? a.serviceID?.name || ""
-        : a[sortField] || "";
+          ? a.serviceID?.name || ""
+          : a[sortField] || "";
     const fieldB =
       sortField === "customerInfo"
         ? `${b.customerInfo?.firstName || ""} ${b.customerInfo?.lastName || ""}`
         : sortField === "serviceID.name"
-        ? b.serviceID?.name || ""
-        : b[sortField] || "";
+          ? b.serviceID?.name || ""
+          : b[sortField] || "";
 
     if (!isNaN(Date.parse(fieldA)) && !isNaN(Date.parse(fieldB))) {
       // Sort by date if fields are valid dates
@@ -431,47 +433,47 @@ const ViewBooking = () => {
                   </span>
                 </td>
                 <td className="border p-2 text-center space-y-1">
-                {booking.status === "Pending" && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => handleOpenCheckinModal(booking)}
-                    disabled={new Date().toLocaleDateString() !== new Date(booking.date).toLocaleDateString()}
-                  >
-                    Điểm danh
-                  </Button>
-                )}
+                  {booking.status === "Pending" && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={() => handleOpenCheckinModal(booking)}
+                      disabled={new Date().toLocaleDateString() !== new Date(booking.date).toLocaleDateString()}
+                    >
+                      Điểm danh
+                    </Button>
+                  )}
 
-                {booking.status === "Confirmed" && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    size="small"
-                    onClick={() => handleOpenCheckoutModal(booking)} // Pass booking to the modal
-                    disabled={checkoutLoadingId === booking._id || new Date() < new Date(`${booking.date} ${booking.time}`)}
-                  >
-                    {checkoutLoadingId === booking._id ? (
-                      <CircularProgress size={20} color="inherit" />
-                    ) : (
-                      "Thanh toán"
-                    )}
-                  </Button>
-                )}
+                  {booking.status === "Confirmed" && (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      onClick={() => handleOpenCheckoutModal(booking)} // Pass booking to the modal
+                      disabled={checkoutLoadingId === booking._id || new Date() < new Date(`${booking.date} ${booking.time}`)}
+                    >
+                      {checkoutLoadingId === booking._id ? (
+                        <CircularProgress size={20} color="inherit" />
+                      ) : (
+                        "Thanh toán"
+                      )}
+                    </Button>
+                  )}
 
-                {/* If Completed or Cancelled, show something else instead of status */}
-                {booking.status === "Completed" && (
-                  <span className="text-yellow-500 font-semibold">
-                    <i className="fas fa-lock"></i> Đã khóa
-                  </span> // Adding a lock icon for "Locked"
-                )}
+                  {/* If Completed or Cancelled, show something else instead of status */}
+                  {booking.status === "Completed" && (
+                    <span className="text-yellow-500 font-semibold">
+                      <i className="fas fa-lock"></i> Đã khóa
+                    </span> // Adding a lock icon for "Locked"
+                  )}
 
-                {booking.status === "Cancelled" && (
-                  <span className="text-red-500 font-semibold">
-                    <i className="fas fa-ban"></i> Đã hủy
-                  </span> // Adding a block icon for "Blocked"
-                )}
-              </td>
+                  {booking.status === "Cancelled" && (
+                    <span className="text-red-500 font-semibold">
+                      <i className="fas fa-ban"></i> Đã hủy
+                    </span> // Adding a block icon for "Blocked"
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -581,8 +583,8 @@ const ViewBooking = () => {
         </Dialog>
 
 
-      {/* Checkout Modal */}
-      <Modal
+        {/* Checkout Modal */}
+        <Modal
           open={checkoutModalOpen}
           onClose={handleCloseCheckoutModal}
           aria-labelledby="checkout-modal-title"

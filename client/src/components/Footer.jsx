@@ -10,7 +10,7 @@ const Footer = () => {
           <h2 className="text-4xl font-normal tracking-tight pacifico-regular text-[#E27585] whitespace-nowrap mb-4">Chăm sóc làn da của bạn</h2>
           <p className="mb-4 text-left">Không Parabens, Phthalates, Sulfates, Dầu khoáng, Dầu mỏ hoặc các thành phần có hại khác - Chúng tôi cam kết!</p>
           <p className="text-lg mb-2 text-left">
-            © 2025 <span className="font-normal tracking-tight pacifico-regular text-[#E27585]">Velvety</span> - Chuyên gia chăm sóc da tự nhiên®
+            © 2025 <span className="font-normal tracking-tight pacifico-regular text-[#E27585]">Ocean mist spa</span> - Chuyên gia chăm sóc da tự nhiên®
           </p>
         </div>
 

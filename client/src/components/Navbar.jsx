@@ -54,7 +54,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-[80px] bg-[#F9FAEF] flex items-center justify-between px-6 md:px-12 lg:px-10 shadow-md relative z-10">
-      <NavLink to="/" className="w-[150px] h-[50px]">
+      <NavLink to="/" className="w-[160px] h-[50px]">
         <div className="w-full h-full bg-[url(/images/logo.png)] bg-cover bg-no-repeat"></div>
       </NavLink>
 

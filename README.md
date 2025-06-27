@@ -1,1 +1,1 @@
-# Velvety-MernStack
+# Ocean mist spa-MernStack

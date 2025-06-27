@@ -78,7 +78,7 @@ export default function About() {
 
       <Container sx={{ textAlign: "center", py: 5 }}>
         <Typography variant="h3" fontWeight={200} gutterBottom>
-          Kể từ khi thành lập năm 1973, Velvety đã có một mục tiêu duy nhất: Tạo ra các giải pháp chăm sóc da an toàn, hiệu quả với kết quả rõ rệt… với mức giá hợp lý.
+          Kể từ khi thành lập năm 1973, Ocean mist spa đã có một mục tiêu duy nhất: Tạo ra các giải pháp chăm sóc da an toàn, hiệu quả với kết quả rõ rệt… với mức giá hợp lý.
         </Typography>
         <Typography variant="h5" color="text.secondary" gutterBottom>
           <span style={{ color: "#c86c79" }}>Chăm sóc da tự nhiên</span> tuyệt vời, giá cả phải chăng và hiệu quả!
@@ -98,7 +98,7 @@ export default function About() {
 
       <Container sx={{ textAlign: "center", py: 5 }}>
         <Typography variant="h4" fontWeight={600} gutterBottom>
-          Velvety – Chăm sóc da qua nhiều thế hệ
+          Ocean mist spa – Chăm sóc da qua nhiều thế hệ
         </Typography>
         <Typography variant="h6" color="text.secondary" gutterBottom>
           Hãy tìm hiểu về chúng tôi và trải nghiệm di sản chăm sóc da tự nhiên chất lượng.
@@ -120,7 +120,7 @@ export default function About() {
             transition={{ delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Bên trong Velvety, bạn sẽ nhanh chóng nhận ra “gia đình” của chúng tôi còn bao gồm nhiều gia đình khác đã gắn bó lâu dài...
+            Bên trong Ocean mist spa, bạn sẽ nhanh chóng nhận ra “gia đình” của chúng tôi còn bao gồm nhiều gia đình khác đã gắn bó lâu dài...
           </motion.span>
 
           <motion.span
@@ -130,7 +130,7 @@ export default function About() {
             transition={{ delay: 0.6 }}
             viewport={{ once: true }}
           >
-            Thật tuyệt vời khi Velvety đã trở thành thương hiệu tự nhiên được tin tưởng và truyền từ thế hệ này sang thế hệ khác.
+            Thật tuyệt vời khi Ocean mist spa đã trở thành thương hiệu tự nhiên được tin tưởng và truyền từ thế hệ này sang thế hệ khác.
           </motion.span>
         </div>
 
@@ -154,25 +154,25 @@ export default function About() {
         {/* Đoạn văn bản bên trái */}
         <div className="max-w-[803px] text-left text-[18px] font-light leading-[32px] tracking-[0.8px] text-gray-900">
           <span>
-            Velvety đã trở thành một dòng sản phẩm chăm sóc da tự nhiên đa thế hệ theo nhiều cách khác nhau.{" "}
+            Ocean mist spa đã trở thành một dòng sản phẩm chăm sóc da tự nhiên đa thế hệ theo nhiều cách khác nhau.{" "}
           </span>
           <span className="text-[#c86c79] font-medium">Stephen Strassler{" "}</span>
           <span>
-            đã qua đời vào cuối năm 2016, để lại công ty cho người vợ Judy – người đã tin tưởng giao phó cho một đội ngũ tài năng – thế hệ lãnh đạo mới của Velvety. Đáng buồn, Velvety đã mất{" "}
+            đã qua đời vào cuối năm 2016, để lại công ty cho người vợ Judy – người đã tin tưởng giao phó cho một đội ngũ tài năng – thế hệ lãnh đạo mới của Ocean mist spa. Đáng buồn, Ocean mist spa đã mất{" "}
           </span>
           <span className="text-[#c86c79] font-medium">Judith Strassler{" "}</span>
-          <span>vào đầu năm 2020 và hiện Velvety được quản lý bởi một quỹ gia đình.</span>
+          <span>vào đầu năm 2020 và hiện Ocean mist spa được quản lý bởi một quỹ gia đình.</span>
         </div>
 
         {/* Đoạn văn bản bên phải */}
         <div className="max-w-[500px] text-left text-[18px] font-medium leading-[32px] tracking-[0.8px] text-gray-900">
           <span>
-            Hãy làm quen với Velvety mới – chuyên gia chăm sóc da tự nhiên.
+            Hãy làm quen với Ocean mist spa mới – chuyên gia chăm sóc da tự nhiên.
             Liên hệ đại diện bán hàng, truy cập website hoặc kết nối với chúng tôi qua mạng xã hội. Nếu cần thêm thông tin, vui lòng gọi{" "}
           </span>
           <span className="text-[#c86c79] font-semibold">800.257.7774</span>
           <span>{" "}hoặc truy cập{" "}</span>
-          <span className="text-[#ffc0cb] underline">velvety.com</span>.
+          <span className="text-[#ffc0cb] underline">www.oceanmistspa.online</span>.
         </div>
       </motion.div>
 

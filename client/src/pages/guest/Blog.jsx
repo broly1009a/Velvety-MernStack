@@ -57,7 +57,7 @@ export default function Blog() {
           <span className="block font-['Lato'] text-[23px] font-normal leading-[30px] text-[#E68A98] mt-4 px-4 mx-auto">
             Khám phá Blog của chúng tôi để cập nhật những kiến thức mới nhất về khoa học làn da và xu hướng làm đẹp.
             Tìm hiểu bí quyết từ chuyên gia, đánh giá chuyên sâu và những góc nhìn độc quyền về sản phẩm chăm sóc da tự nhiên.
-            Nâng tầm sức khỏe và vẻ đẹp làn da cùng Velvety ngay hôm nay!
+            Nâng tầm sức khỏe và vẻ đẹp làn da cùng Ocean mist spa ngay hôm nay!
           </span>
         </div>
       </div>
