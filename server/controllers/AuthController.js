@@ -188,8 +188,7 @@ exports.forgotPassword = async (req, res) => {
 // Reset Password
 exports.resetPassword = async (req, res) => {
     try {
-        const { token } = req.query;
-        const { newPassword } = req.body;
+       const { token, newPassword } = req.body; 
     
         const user = await User.findOne({
           resetPasswordToken: token,

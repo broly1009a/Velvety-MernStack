@@ -102,6 +102,7 @@ export default function ConsultantManagement() {
       await axios.delete(`/api/consultants/${id}`);
       setConsultants((prev) => prev.filter((c) => c._id !== id));
       toast.success("Xóa chuyên gia tư vấn thành công");
+        fetchConsultants(); 
     } catch (err) {
       toast.error("Lỗi khi xóa chuyên gia tư vấn");
     }
@@ -156,6 +157,7 @@ export default function ConsultantManagement() {
         setConsultants((prev) => [...prev, res.data.consultant]);
         toast.success("Thêm chuyên gia tư vấn thành công");
       }
+       fetchConsultants();
     } catch (err) {
       toast.error("Lỗi khi lưu chuyên gia tư vấn");
     }
@@ -175,13 +177,13 @@ export default function ConsultantManagement() {
         >
           Thêm Chuyên gia tư vấn
         </button>
-          <input
-            type="text"
-            placeholder="Tìm kiếm..."
-            className="p-2 mb-4 border rounded w-full"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <input
+          type="text"
+          placeholder="Tìm kiếm..."
+          className="p-2 mb-4 border rounded w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
           <table className="w-full table-auto">
             <thead className="bg-gray-200">
@@ -279,17 +281,31 @@ export default function ConsultantManagement() {
                       className="cursor-pointer text-blue-500 underline"
                       onClick={() =>
                         setSelectedNote(
-                          consultant.certifications?.join(", ") || "Không có chứng chỉ"
+                          consultant.certifications?.join(", ") || "No Certifications"
                         )
                       }
                     >
                       {consultant.certifications?.length > 2
                         ? `${consultant.certifications.slice(0, 2).join(", ")}...`
-                        : consultant.certifications?.join(", ") || "Không có chứng chỉ"}
+                        : consultant.certifications?.join(", ") || "No Certifications"}
                     </span>
                   </td>
                   <td className="p-3 text-sm">
-                    {consultant.category?.join(", ") || "Không có danh mục"}
+                    {(consultant.category && consultant.category.length > 0)
+                      ? consultant.category
+                        .map((cat) =>
+                          cat === "Oily"
+                            ? "Da dầu"
+                            : cat === "Dry"
+                              ? "Da khô"
+                              : cat === "Combination"
+                                ? "Da hỗn hợp"
+                                : cat === "Normal"
+                                  ? "Da thường"
+                                  : cat
+                        )
+                        .join(", ")
+                      : "Không có danh mục"}
                   </td>
                   <td className="p-3 text-sm">
                     <button
@@ -341,11 +357,10 @@ export default function ConsultantManagement() {
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index}
-              className={`px-4 py-2 rounded ${
-                currentPage === index + 1
+              className={`px-4 py-2 rounded ${currentPage === index + 1
                   ? "bg-blue-500 text-white"
                   : "bg-gray-300"
-              }`}
+                }`}
               onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}
@@ -358,7 +373,12 @@ export default function ConsultantManagement() {
 }
 
 function ConsultantForm({ data, onSubmit, onClose }) {
-  const categories = ["Da dầu", "Da khô", "Da hỗn hợp", "Da thường"]; // Danh mục có sẵn
+  const categories = [
+    { value: "Oily", label: "Da dầu" },
+    { value: "Dry", label: "Da khô" },
+    { value: "Combination", label: "Da hỗn hợp" },
+    { value: "Normal", label: "Da thường" },
+  ]; // Danh mục có sẵn
   const {
     register,
     handleSubmit,
@@ -464,15 +484,15 @@ function ConsultantForm({ data, onSubmit, onClose }) {
             </label>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((cat) => (
-                <label key={cat} className="flex items-center space-x-2">
+                <label key={cat.value} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
-                    value={cat}
+                    value={cat.value}
                     {...register("category")}
-                    defaultChecked={data.category?.includes(cat)}
+                    defaultChecked={data.category?.includes(cat.value)}
                     className="form-checkbox h-4 w-4 text-green-500"
                   />
-                  <span className="text-sm text-gray-700">{cat}</span>
+                  <span className="text-sm text-gray-700">{cat.label}</span>
                 </label>
               ))}
             </div>

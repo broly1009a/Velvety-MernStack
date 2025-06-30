@@ -50,11 +50,11 @@ export default function Blog() {
       <Navbar />
       <div className="relative w-screen h-[300px] mx-50px">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-[1]">
-          <span className="block font-['Lato'] text-[70px] font-bold leading-[100px] text-[#C54759] whitespace-nowrap">
+          <span className="block  text-[70px] font-bold leading-[100px] text-[#C54759] whitespace-nowrap">
             Chia sẻ bí quyết, xu hướng & kiến thức chăm sóc da
           </span>
 
-          <span className="block font-['Lato'] text-[23px] font-normal leading-[30px] text-[#E68A98] mt-4 px-4 mx-auto">
+          <span className="block  text-[23px] font-normal leading-[30px] text-[#E68A98] mt-4 px-4 mx-auto">
             Khám phá Blog của chúng tôi để cập nhật những kiến thức mới nhất về khoa học làn da và xu hướng làm đẹp.
             Tìm hiểu bí quyết từ chuyên gia, đánh giá chuyên sâu và những góc nhìn độc quyền về sản phẩm chăm sóc da tự nhiên.
             Nâng tầm sức khỏe và vẻ đẹp làn da cùng Ocean mist spa ngay hôm nay!

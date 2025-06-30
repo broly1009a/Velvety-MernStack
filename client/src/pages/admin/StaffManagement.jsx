@@ -9,12 +9,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaEdit, FaTrash, FaLock } from "react-icons/fa";
 
 const schema = yup.object().shape({
-  firstName: yup.string().min(2, "First name must be at least 2 letters").required("First name is required"),
-  lastName: yup.string().min(2, "Last name must be at least 2 letters").required("Last name is required"),
-  email: yup.string().email("Invalid email format").required("Email is required"),
-  phoneNumber: yup.string().matches(/^\d{10,15}$/, "Phone number must be 10-15 digits long").required("Phone number is required"),
+  firstName: yup.string().min(2, "Họ phải có ít nhất 2 ký tự").required("Họ là bắt buộc"),
+  lastName: yup.string().min(2, "Tên phải có ít nhất 2 ký tự").required("Tên là bắt buộc"),
+  email: yup.string().email("Email không hợp lệ").required("Email là bắt buộc"),
+  phoneNumber: yup.string().matches(/^\d{10,15}$/, "Số điện thoại phải từ 10-15 số").required("Số điện thoại là bắt buộc"),
   note: yup.string(),
-  image: yup.string().url("Invalid image URL").nullable(),
+  image: yup.string().url("Đường dẫn ảnh không hợp lệ").nullable(),
 });
 
 export default function StaffManagement() {
@@ -38,18 +38,18 @@ export default function StaffManagement() {
         verified: s.verified
       })));
     } catch (err) {
-      toast.error("Failed to fetch staff");
+      toast.error("Không thể lấy danh sách nhân viên");
     }
   };
 
   const handleResetPassword = async (id) => {
-    if (!window.confirm("Are you sure you want to reset this staff member's password?")) return;
+    if (!window.confirm("Bạn có chắc chắn muốn đặt lại mật khẩu cho nhân viên này?")) return;
   
     try {
       await axios.post(`/api/staff/${id}/reset-password`);
-      toast.success("Password has been reset successfully!");
+      toast.success("Đặt lại mật khẩu thành công!");
     } catch (err) {
-      toast.error("Failed to reset password.");
+      toast.error("Đặt lại mật khẩu thất bại.");
     }
   };
 
@@ -57,9 +57,9 @@ export default function StaffManagement() {
     try {
       await axios.delete(`/api/staff/${id}`);
       setStaff((prev) => prev.filter((s) => s._id !== id));
-      toast.success("Staff deleted successfully");
+      toast.success("Xóa nhân viên thành công");
     } catch (err) {
-      toast.error("Error deleting staff");
+      toast.error("Lỗi khi xóa nhân viên");
     }
   };
 
@@ -67,7 +67,7 @@ export default function StaffManagement() {
     try {
       const updatedData = {
         ...data,
-        verified: Boolean(data.verified), // Ensure it's a boolean
+        verified: Boolean(data.verified),
       };
 
       if (modalData?._id) {
@@ -75,7 +75,7 @@ export default function StaffManagement() {
         setStaff((prev) =>
           prev.map((s) => (s._id === modalData._id ? { ...s, ...res.data.staff } : s))
         );
-        toast.success("Staff updated successfully");
+        toast.success("Cập nhật nhân viên thành công");
       } else {
         const res = await axios.post("/api/staff", { 
           ...updatedData, 
@@ -84,10 +84,10 @@ export default function StaffManagement() {
           verified: Boolean(data.verified)
         });
         setStaff((prev) => [...prev, res.data.staff]);
-        toast.success("Staff added successfully");
+        toast.success("Thêm nhân viên thành công");
       }
     } catch (err) {
-      toast.error("Error saving staff");
+      toast.error("Lỗi khi lưu nhân viên");
     }
     setModalData(null);
   };
@@ -119,16 +119,17 @@ export default function StaffManagement() {
     <div className="flex h-screen bg-gray-100">
       <Sidebar />
       <div className="flex-1 p-8 bg-gray-100 shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Staff Management</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">Quản lý nhân viên</h2>
+        <p className="text-gray-600 mb-4">Quản lý danh sách nhân viên, thêm, sửa, xóa và xác minh thông tin.</p>
         <button
           className="bg-blue-500 text-white px-6 py-2 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300"
           onClick={() => setModalData({})}
         >
-          Add Staff
+          Thêm nhân viên
         </button>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Tìm kiếm..."
             className="p-2 border mt-5 rounded w-full"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -137,12 +138,12 @@ export default function StaffManagement() {
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-gray-200">
-                <th className="border-b p-3 text-left">First Name</th>
-                <th className="border-b p-3 text-left">Last Name</th>
+                <th className="border-b p-3 text-left">Họ</th>
+                <th className="border-b p-3 text-left">Tên</th>
                 <th className="border-b p-3 text-left">Email</th>
-                <th className="border-b p-3 text-left">Phone</th>
-                <th className="border-b p-3 text-left">Verified</th>
-                <th className="border-b p-3 text-left">Actions</th>
+                <th className="border-b p-3 text-left">Số điện thoại</th>
+                <th className="border-b p-3 text-left">Xác minh</th>
+                <th className="border-b p-3 text-left">Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -198,7 +199,7 @@ function StaffForm({ data, onSubmit, onClose }) {
       lastName: data.lastName || "",
       email: data.email || "",
       phoneNumber: data.phoneNumber || "",
-      verified: data.verified || false, // Ensure `verified` has a default boolean value
+      verified: data.verified || false,
     },
   });
 
@@ -208,21 +209,26 @@ function StaffForm({ data, onSubmit, onClose }) {
       lastName: data.lastName || "",
       email: data.email || "",
       phoneNumber: data.phoneNumber || "",
-      verified: !!data.verified, // Ensure it's always a boolean (true/false)
+      verified: !!data.verified,
     });
   }, [data, reset]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-1/3">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">{data?._id ? "Update" : "Add"} Staff</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800">{data?._id ? "Cập nhật nhân viên" : "Thêm nhân viên"}</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {["firstName", "lastName", "email", "phoneNumber"].map((field) => (
             <div key={field}>
               <input
                 {...register(field)}
                 className="w-full p-3 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                placeholder={
+                  field === "firstName" ? "Họ" :
+                  field === "lastName" ? "Tên" :
+                  field === "email" ? "Email" :
+                  field === "phoneNumber" ? "Số điện thoại" : ""
+                }
               />
               {errors[field] && <p className="text-red-500 text-sm">{errors[field]?.message}</p>}
             </div>
@@ -238,19 +244,19 @@ function StaffForm({ data, onSubmit, onClose }) {
               checked={watch("verified")}
               onChange={(e) => reset({ ...watch(), verified: e.target.checked })}
             />
-            <label htmlFor="verified" className="text-sm font-medium">Verified</label>
+            <label htmlFor="verified" className="text-sm font-medium">Xác minh</label>
           </div>
 
           <div className="flex justify-end space-x-4 mt-6">
             <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-all duration-300">
-              Save
+              Lưu
             </button>
             <button
               type="button"
               className="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition-all duration-300"
               onClick={onClose}
             >
-              Cancel
+              Hủy
             </button>
           </div>
         </form>

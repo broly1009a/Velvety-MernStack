@@ -96,7 +96,8 @@ export default function ServiceDetails() {
           onClick={() => navigate("/services")}
           className="mb-2 text-lg text-[#C86C79] hover:text-[#ffc0cb] self-end"
         >
-          ← Back to Services
+          {/* tiếng viêt */}
+          ← Trở lại danh sách dịch vụ
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white p-8 rounded-lg shadow-lg">
@@ -142,10 +143,22 @@ export default function ServiceDetails() {
             {/* Recommended for */}
             <div className="mt-3 text-lg bold text-gray-700 leading-relaxed">
               <h3>
-                Recommended for:{" "}
+                Phù hợp cho:{" "}
                 {service.category && service.category.length > 0
-                  ? service.category.join(", ")
-                  : "All skin types"}
+                  ? service.category
+                    .map((cat) =>
+                      cat === "Oily"
+                        ? "Da dầu"
+                        : cat === "Dry"
+                          ? "Da khô"
+                          : cat === "Combination"
+                            ? "Da hỗn hợp"
+                            : cat === "Normal"
+                              ? "Da thường"
+                              : cat
+                    )
+                    .join(", ")
+                  : "Mọi loại da"}
               </h3>
             </div>
 
@@ -172,7 +185,7 @@ export default function ServiceDetails() {
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
                 }}
               >
-                Booking Now
+                Đặt lịch ngay
               </button>
             </div>
 

@@ -220,7 +220,17 @@ const QuizResultHistory = () => {
                         <TableCell align="center">
                           {new Date(result.createdDate).toLocaleTimeString()}
                         </TableCell>
-                        <TableCell align="center">{result.skinType}</TableCell>
+                        <TableCell align="center">
+                          {result.skinType === "Oily"
+                            ? "Da dầu"
+                            : result.skinType === "Dry"
+                              ? "Da khô"
+                              : result.skinType === "Combination"
+                                ? "Da hỗn hợp"
+                                : result.skinType === "Normal"
+                                  ? "Da thường"
+                                  : result.skinType}
+                        </TableCell>
                         <TableCell align="center">
                           {result.recommendedServices.length > 0 ? (
                             <div>
@@ -249,7 +259,7 @@ const QuizResultHistory = () => {
                                       r._id === result._id ? { ...r, showAll: !r.showAll } : r
                                     );
                                     setQuizResults(updatedResults);
-                                  }} 
+                                  }}
                                   style={{
                                     cursor: "pointer",
                                     transition: "transform 0.3s, color 0.3s",
@@ -299,8 +309,8 @@ const QuizResultHistory = () => {
           onClick={() => navigate("/")}
           sx={{
             position: "fixed",
-           bottom: 110,
-                      right: 30,
+            bottom: 110,
+            right: 30,
             backgroundColor: "#E27585",
             "&:hover": { backgroundColor: "#a92a4e" },
           }}

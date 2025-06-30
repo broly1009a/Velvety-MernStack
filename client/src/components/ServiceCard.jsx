@@ -16,7 +16,7 @@ const capitalizeFirstLetter = (string) => {
 const ServiceCard = ({ image, name, description, price, rating, category, onChoose }) => {
   return (
     <motion.div
-      className="flex flex-col items-center justify-between w-[300px] h-[500px] relative font-['Lato'] bg-white p-6 rounded-lg shadow-lg border border-gray-200"
+      className="flex flex-col items-center justify-between w-[300px] h-[500px] relative bg-white p-6 rounded-lg shadow-lg border border-gray-200"
       animate={{ y: [0, -10, 0] }}
       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
     >
@@ -41,8 +41,20 @@ const ServiceCard = ({ image, name, description, price, rating, category, onChoo
       <div className="text-[15px] font-bold leading-[20px] text-[#fb8c9e] text-center">
         <h3>
           Phù hợp cho:{" "}
-          {category && category.length > 0 
-            ? category.join(", ") 
+          {category && category.length > 0
+            ? category
+                .map((cat) =>
+                  cat === "Oily"
+                    ? "Da dầu"
+                    : cat === "Dry"
+                    ? "Da khô"
+                    : cat === "Combination"
+                    ? "Da hỗn hợp"
+                    : cat === "Normal"
+                    ? "Da thường"
+                    : cat
+                )
+                .join(", ")
             : "Mọi loại da"}
         </h3>
       </div>

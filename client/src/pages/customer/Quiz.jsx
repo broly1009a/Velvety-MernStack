@@ -207,7 +207,17 @@ const Quiz = () => {
         <div className="fixed inset-0 bg-[#faf5f0] bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full">
             <h3 className="text-xl font-bold text-gray-800 mb-4 pacifico-regular">
-              Loại da của bạn: {quizResult.skinType}
+              Loại da của bạn: {
+                quizResult.skinType === "Oily"
+                  ? "Da dầu"
+                  : quizResult.skinType === "Dry"
+                    ? "Da khô"
+                    : quizResult.skinType === "Combination"
+                      ? "Da hỗn hợp"
+                      : quizResult.skinType === "Normal"
+                        ? "Da thường"
+                        : quizResult.skinType
+              }
             </h3>
             <p>{quizResult.recommendation}</p>
 
@@ -282,7 +292,7 @@ const Quiz = () => {
         </div>
       )}
       {/* Booking Now Button */}
-          <div className="fixed bottom-28 right-4">
+      <div className="fixed bottom-28 right-4">
         {/* Ping effect */}
         <span className="absolute -inset-1 inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
 

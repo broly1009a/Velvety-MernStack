@@ -91,26 +91,26 @@ export default function ServiceGuest() {
 
       {/* Main content section */}
       <div className="w-full max-w-[1490px] h-auto font-['Libre_Franklin'] text-[20px] font-bold leading-[43px] tracking-[1px] relative text-center mx-auto mt-[40px]">
-        <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[60px] font-normal leading-[100px] text-[#000] tracking-[-2.24px] relative z-[2] mx-auto">
+        <span className="block w-full max-w-[1200px] h-auto  text-[60px] font-normal leading-[100px] text-[#000] tracking-[-2.24px] relative z-[2] mx-auto">
           Đừng để quy trình chăm sóc da của bạn phụ thuộc vào may rủi!
         </span>
 
-        <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[20px] font-normal leading-[38.4px] text-[#000] tracking-[-0.64px] relative z-[3] mt-[42.663px] mx-auto">
+        <span className="block w-full max-w-[1200px] h-auto  text-[20px] font-normal leading-[38.4px] text-[#000] tracking-[-0.64px] relative z-[3] mt-[42.663px] mx-auto">
           <span className="text-[30px]">C</span>húng tôi tin rằng làn da đẹp đến từ một phương pháp lâu dài với quy trình chăm sóc da theo mùa và lối sống lành mạnh. Sử dụng đúng sản phẩm và phương pháp là chìa khóa cho làn da khỏe mạnh tối ưu. Các buổi tư vấn của chúng tôi mang đến cho bất kỳ ai, ở bất cứ đâu, lời khuyên tốt nhất từ đội ngũ chuyên gia.
         </span>
 
-        <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[20px] font-normal leading-[35.2px] text-[#000] tracking-[-0.59px] relative z-[4] mt-[39.331px] mx-auto">
+        <span className="block w-full max-w-[1200px] h-auto  text-[20px] font-normal leading-[35.2px] text-[#000] tracking-[-0.59px] relative z-[4] mt-[39.331px] mx-auto">
           <span className="text-[30px]">T</span>rong các buổi tư vấn trực tuyến, chúng ta sẽ cùng đánh giá tình trạng da, lối sống, sản phẩm hiện tại và mục tiêu với chuyên gia. Sau đó, bạn sẽ nhận được “đơn thuốc” sản phẩm cá nhân hóa qua email hướng dẫn và/hoặc chỉ dẫn.
         </span>
 
         <div className="w-full max-w-[1384px] h-auto relative z-[6] mt-[54px] mx-auto text-center">
           <div className="w-[1000px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat absolute top-0 left-1/2 transform -translate-x-1/2 z-[10]" />
-          <span className="w-full max-w-[1339px] h-auto font-['Lato'] text-[50px] font-normal text-[#000] tracking-[-1.87px] block pt-[30px] z-[6]">
+          <span className="w-full max-w-[1339px] h-auto  text-[50px] font-normal text-[#000] tracking-[-1.87px] block pt-[30px] z-[6]">
             Chúng tôi mong được gặp bạn…
           </span>
         </div>
 
-        <span className="block w-full max-w-[1200px] h-auto font-['Lato'] text-[30px] font-normal leading-[64px] text-[#000] relative text-center z-[7] mt-[37.332px] mx-auto">
+        <span className="block w-full max-w-[1200px] h-auto  text-[30px] font-normal leading-[64px] text-[#000] relative text-center z-[7] mt-[37.332px] mx-auto">
           Đặt lịch tư vấn chăm sóc da trực tuyến miễn phí ngay hôm nay!
         </span>
       </div>
@@ -118,7 +118,7 @@ export default function ServiceGuest() {
       <div ref={chooseServiceRef} className="w-full max-w-[1800px] h-[48px] relative z-10 mt-[37.33px] mx-auto flex items-center justify-between">
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
 
-        <div className="flex-shrink-0 font-['Lato'] text-[40px] font-normal leading-[48px] text-[#000] tracking-[-0.8px] text-center px-[80px] text-[#C54759] pacifico-regular">
+        <div className="flex-shrink-0  text-[40px] font-normal leading-[48px] text-[#000] tracking-[-0.8px] text-center px-[80px] text-[#C54759] pacifico-regular">
           <span className="text-[50px]">C</span>
           họn dịch vụ của bạn
         </div>

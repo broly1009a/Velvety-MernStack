@@ -71,7 +71,7 @@ export default function ConsultantGuest() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="main-container w-full h-auto bg-[#f9faef] relative overflow-hidden mx-auto my-0 font-['Lato']">
+    <div className="main-container w-full h-auto bg-[#f9faef] relative overflow-hidden mx-auto my-0 ">
       <Navbar />
       <div className="w-full h-[70vh] bg-[url(/images/anhdatrang.png)] bg-cover bg-center bg-no-repeat relative"
         style={{ backgroundAttachment: "fixed" }}>
@@ -81,7 +81,7 @@ export default function ConsultantGuest() {
 
       <div className="w-full max-w-[1800px] h-[48px] relative z-10 mt-[37.33px] mx-auto flex items-center justify-between">
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
-        <span className="flex-shrink-0 font-['Lato'] text-[40px] text-[#C54759] pacifico-regular leading-[48px] tracking-[-0.8px] text-center px-[80px]">
+        <span className="flex-shrink-0  text-[40px] text-[#C54759] pacifico-regular leading-[48px] tracking-[-0.8px] text-center px-[80px]">
            <span className="text-[50px]">Đ</span>
           ội ngũ Chuyên Viên
         </span>

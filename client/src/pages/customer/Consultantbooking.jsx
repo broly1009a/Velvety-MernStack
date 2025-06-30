@@ -46,7 +46,7 @@ export default function ConsultantGuest() {
   };
 
   return (
-    <div className="main-container w-full h-auto bg-[#f9faef] relative overflow-hidden mx-auto my-0 font-['Lato']">
+    <div className="main-container w-full h-auto bg-[#f9faef] relative overflow-hidden mx-auto my-0 ">
       <Navbar />
       <div className="w-full h-[97.333px] bg-[#ffc0cb] relative z-[2] flex items-center justify-center">
 
