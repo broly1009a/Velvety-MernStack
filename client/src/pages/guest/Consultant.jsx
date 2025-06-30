@@ -82,7 +82,7 @@ export default function ConsultantGuest() {
       <div className="w-full max-w-[1800px] h-[48px] relative z-10 mt-[37.33px] mx-auto flex items-center justify-between">
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
         <span className="flex-shrink-0  text-[40px] text-[#C54759] pacifico-regular leading-[48px] tracking-[-0.8px] text-center px-[80px]">
-           <span className="text-[50px]">Đ</span>
+          <span className="text-[50px]">Đ</span>
           ội ngũ Chuyên Viên
         </span>
         <div className="w-[300px] h-[1px] bg-[url(/images/line.png)] bg-cover bg-no-repeat flex-1" />
@@ -92,14 +92,14 @@ export default function ConsultantGuest() {
       <div className="w-full max-w-[1800px] h-auto relative z-10 mt-[20px] mb-[10px] mx-auto flex justify-end px-4">
         <input
           type="text"
-         placeholder="Tìm kiếm chuyên viên"
+          placeholder="Tìm kiếm chuyên viên"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full max-w-[300px] px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#C54759] focus:border-transparent border-[#C54759] rounded-lg"
         />
       </div>
 
-     <div className="w-full max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 px-4 mt-10">
+      <div className="w-full max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 px-4 mt-10">
         {currentConsultants.map((consultant, index) => (
           <div
             key={index}
@@ -137,7 +137,21 @@ export default function ConsultantGuest() {
             </div>
             <div className="mt-2 text-sm text-gray-600">
               <strong>Chuyên môn:</strong>{" "}
-              {consultant.category?.join(", ") || "Không có chuyên môn"}
+              {consultant.category && consultant.category.length > 0
+                ? consultant.category
+                  .map((cat) =>
+                    cat === "Oily"
+                      ? "Da dầu"
+                      : cat === "Dry"
+                        ? "Da khô"
+                        : cat === "Combination"
+                          ? "Da hỗn hợp"
+                          : cat === "Normal"
+                            ? "Da thường"
+                            : cat
+                  )
+                  .join(", ")
+                : "Không có chuyên môn"}
             </div>
             <motion.div
               className="relative mt-[15px] flex items-center justify-center w-full"
@@ -230,7 +244,17 @@ export default function ConsultantGuest() {
                 <ul className="list-disc list-inside text-sm text-gray-600 mt-2">
                   {selectedConsultant.category?.length > 0 ? (
                     selectedConsultant.category.map((cat, index) => (
-                      <li key={index}>{cat}</li>
+                      <li key={index}>
+                        {cat === "Oily"
+                          ? "Da dầu"
+                          : cat === "Dry"
+                            ? "Da khô"
+                            : cat === "Combination"
+                              ? "Da hỗn hợp"
+                              : cat === "Normal"
+                                ? "Da thường"
+                                : cat}
+                      </li>
                     ))
                   ) : (
                     <li>Không có chuyên môn</li>

@@ -97,7 +97,21 @@ export default function ConsultantGuest() {
               </div>
               <div className="mt-2 text-sm text-gray-600">
                 <strong>Chuyên môn:</strong>{" "}
-                {consultant.category?.join(", ") || "Không có chuyên mục"}
+                {consultant.category && consultant.category.length > 0
+                  ? consultant.category
+                    .map((cat) =>
+                      cat === "Oily"
+                        ? "Da dầu"
+                        : cat === "Dry"
+                          ? "Da khô"
+                          : cat === "Combination"
+                            ? "Da hỗn hợp"
+                            : cat === "Normal"
+                              ? "Da thường"
+                              : cat
+                    )
+                    .join(", ")
+                  : "Không có chuyên mục"}
               </div>
               {visibleNoteIndex === index && (
                 <span className="mt-2 text-[14px] font-normal leading-[20px] text-[#555] tracking-[-0.4px]">
