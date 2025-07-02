@@ -1,11 +1,13 @@
 const express = require("express");
-const mongoose = require("mongoose");
+require('dotenv').config();
+const connectDB = require("./models/mongoConnection");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bookingController = require('./controllers/BookingRequestController');
 
-dotenv.config();
+// Connect to MongoDB
+connectDB(); // ✅ Connect to MongoDB before starting the server
 
 const app = express();
 
@@ -34,12 +36,6 @@ const routes = require('./routes'); // Import the routes
 
 // Use routes with /api prefix
 app.use('/api', routes);  // All API routes will now be prefixed with /api
-
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
 
 bookingController.initializeBookingTasks(); // ✅ Start cron before server starts
 
