@@ -13,11 +13,12 @@ export default function ServiceGuest() {
   const servicesPerPage = 8;
   const navigate = useNavigate();
   const chooseServiceRef = useRef(null);
-
+  const [loading, setLoading] = useState(true);
   // Fetch data from the server
   useEffect(() => {
     const fetchServicesWithRatings = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/services/");
         const servicesWithRatings = await Promise.all(
           res.data.map(async (service) => {
@@ -36,6 +37,9 @@ export default function ServiceGuest() {
         setServices(servicesWithRatings);
       } catch (error) {
         console.error("Error fetching services:", error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -154,19 +158,27 @@ export default function ServiceGuest() {
       {/* Service cards section */}
       <div className="w-full px-4 flex justify-center ">
         <div className="w-full max-w-[1200px] px-4 md:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[60px] gap-y-[20px] mt-4 mb-[40px] mx-auto place-items-center">
-          {currentServices.map((service) => (
-            <ServiceCard
-              key={service._id}
-              image={service.image}
-              name={service.name}
-              description={service.description}
-              price={service.price}
-              rating={service.averageRating}
-              category={service.category}
-              onChoose={() => handleChoose(service._id)}
-              className="border border-[#C54759] rounded-lg"
-            />
-          ))}
+          {loading ? (
+            <div className="flex justify-center items-center w-full col-span-4 h-40">
+              <div className="spinner w-16 h-16"></div>
+            </div>
+          ) : currentServices.length === 0 ? (
+            <div className="col-span-4 text-center text-gray-500">Không tìm thấy dịch vụ phù hợp.</div>
+          ) : (
+            currentServices.map((service) => (
+              <ServiceCard
+                key={service._id}
+                image={service.image}
+                name={service.name}
+                description={service.description}
+                price={service.price}
+                rating={service.averageRating}
+                category={service.category}
+                onChoose={() => handleChoose(service._id)}
+                className="border border-[#C54759] rounded-lg"
+              />
+            ))
+          )}
         </div>
       </div>
 

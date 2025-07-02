@@ -14,13 +14,14 @@ export default function ConsultantGuest() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(""); // Add search term state
   const consultantsPerPage = 6;
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchConsultants();
   }, []);
 
   const fetchConsultants = async () => {
     try {
+      setLoading(true);
       const res = await axios.get("/api/consultants");
       const consultantsWithRatings = await Promise.all(
         res.data.map(async (c) => {
@@ -45,6 +46,9 @@ export default function ConsultantGuest() {
       setConsultants(consultantsWithRatings);
     } catch (err) {
       toast.error("Không thể tải danh sách chuyên viên. Vui lòng thử lại sau.");
+    }
+    finally {
+      setLoading(false); // Set loading to false after fetching data
     }
   };
 
@@ -100,77 +104,85 @@ export default function ConsultantGuest() {
       </div>
 
       <div className="w-full max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 px-4 mt-10">
-        {currentConsultants.map((consultant, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center bg-white p-5 rounded-xl shadow-lg transition-all duration-300 hover:border-2 hover:border-[#ffc0cb]"
-          >
-            {consultant.image ? (
-              <motion.img
-                src={consultant.image}
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                alt="Consultant"
-                className="w-[120px] h-[120px] rounded-full"
-              />
-            ) : (
-              <span className="text-gray-500">Không có ảnh</span>
-            )}
-            <span className="text-[18px] font-semibold text-[#000] mt-3">
-              {consultant.firstName} {consultant.lastName}
-            </span>
-            <div className="flex items-center mt-2">
-              {Array.from({ length: 5 }, (_, index) => {
-                const starValue = index + 1;
-                if (consultant.rating >= starValue) {
-                  return <FaStar key={index} className="text-[#C54759] w-4 h-4" />;
-                } else if (consultant.rating >= starValue - 0.5) {
-                  return <FaStarHalfAlt key={index} className="text-[#C54759] w-4 h-4" />;
-                } else {
-                  return <FaRegStar key={index} className="text-[#C54759] w-4 h-4" />;
-                }
-              })}
-            </div>
-            <div className="mt-2 text-sm text-gray-600">
-              <strong>Chuyên môn:</strong>{" "}
-              {consultant.category && consultant.category.length > 0
-                ? consultant.category
-                  .map((cat) =>
-                    cat === "Oily"
-                      ? "Da dầu"
-                      : cat === "Dry"
-                        ? "Da khô"
-                        : cat === "Combination"
-                          ? "Da hỗn hợp"
-                          : cat === "Normal"
-                            ? "Da thường"
-                            : cat
-                  )
-                  .join(", ")
-                : "Không có chuyên môn"}
-            </div>
-            <motion.div
-              className="relative mt-[15px] flex items-center justify-center w-full"
-              whileHover={{
-                scale: 1.05,
-                transition: { duration: 0.3, ease: "easeInOut" },
-              }}
-            >
-              <button
-                className="w-full max-w-[120px] h-[40px] bg-[#ffc0cb] rounded-full border hover:bg-[#ff8a8a] transition-all duration-300 flex items-center justify-center"
-                onClick={() => handleViewMore(consultant)}
-              >
-                <span className="text-[15px] font-bold text-[#C54759]">
-                  Xem thêm
-                </span>
-              </button>
-            </motion.div>
+        {loading ? (
+          <div className="col-span-3 flex justify-center items-center h-40 w-full">
+            <div className="spinner w-16 h-16"></div>
           </div>
-        ))}
+        ) : currentConsultants.length === 0 ? (
+          <div className="col-span-3 text-center text-gray-500 w-full">Không tìm thấy chuyên viên phù hợp.</div>
+        ) : (
+          currentConsultants.map((consultant, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center bg-white p-5 rounded-xl shadow-lg transition-all duration-300 hover:border-2 hover:border-[#ffc0cb]"
+            >
+              {consultant.image ? (
+                <motion.img
+                  src={consultant.image}
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  alt="Consultant"
+                  className="w-[120px] h-[120px] rounded-full"
+                />
+              ) : (
+                <span className="text-gray-500">Không có ảnh</span>
+              )}
+              <span className="text-[18px] font-semibold text-[#000] mt-3">
+                {consultant.firstName} {consultant.lastName}
+              </span>
+              <div className="flex items-center mt-2">
+                {Array.from({ length: 5 }, (_, index) => {
+                  const starValue = index + 1;
+                  if (consultant.rating >= starValue) {
+                    return <FaStar key={index} className="text-[#C54759] w-4 h-4" />;
+                  } else if (consultant.rating >= starValue - 0.5) {
+                    return <FaStarHalfAlt key={index} className="text-[#C54759] w-4 h-4" />;
+                  } else {
+                    return <FaRegStar key={index} className="text-[#C54759] w-4 h-4" />;
+                  }
+                })}
+              </div>
+              <div className="mt-2 text-sm text-gray-600">
+                <strong>Chuyên môn:</strong>{" "}
+                {consultant.category && consultant.category.length > 0
+                  ? consultant.category
+                    .map((cat) =>
+                      cat === "Oily"
+                        ? "Da dầu"
+                        : cat === "Dry"
+                          ? "Da khô"
+                          : cat === "Combination"
+                            ? "Da hỗn hợp"
+                            : cat === "Normal"
+                              ? "Da thường"
+                              : cat
+                    )
+                    .join(", ")
+                  : "Không có chuyên môn"}
+              </div>
+              <motion.div
+                className="relative mt-[15px] flex items-center justify-center w-full"
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.3, ease: "easeInOut" },
+                }}
+              >
+                <button
+                  className="w-full max-w-[120px] h-[40px] bg-[#ffc0cb] rounded-full border hover:bg-[#ff8a8a] transition-all duration-300 flex items-center justify-center"
+                  onClick={() => handleViewMore(consultant)}
+                >
+                  <span className="text-[15px] font-bold text-[#C54759]">
+                    Xem thêm
+                  </span>
+                </button>
+              </motion.div>
+            </div>
+          ))
+        )}
       </div>
 
       <div className="flex justify-center mt-6">

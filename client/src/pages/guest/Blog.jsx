@@ -13,6 +13,7 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(1);
   const blogPostsPerPage = 6; // Define the number of blog posts per page
   const navigate = useNavigate(); // Hook to programmatically navigate
+    const [loading, setLoading] = useState(true);
   const BlogPostWrapper = styled.div`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
@@ -22,15 +23,17 @@ export default function Blog() {
   }
 `;
   // Fetch blog posts data from server
-  useEffect(() => {
+    useEffect(() => {
+    setLoading(true);
     axios
-      .get('/api/blogs') // Update with your backend API
+      .get('/api/blogs')
       .then((response) => {
-        setBlogPosts(response.data); // Set blog posts data
+        setBlogPosts(response.data);
       })
       .catch((error) => {
         console.error('Error fetching blog posts:', error);
-      });
+      })
+      .finally(() => setLoading(false)); 
   }, []);
 
   // Handle "Read More" button click (Navigate to the full blog post)
@@ -64,19 +67,27 @@ export default function Blog() {
 
       {/* Render blog posts */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-[30px] mb-[30px] mx-auto px-4 max-w-screen-xl">
-        {currentBlogPosts.map((post) => (
-          <BlogPostWrapper
-            key={post._id}
-            onClick={() => handleReadMore(post._id)}
-          >
-            <BlogCard
-              image={post.image}
-              title={<span className="text-[#E68A98]">{post.title}</span>}
-              description={post.description}
-              createdDate={post.createdDate}
-            />
-          </BlogPostWrapper>
-        ))}
+       {loading ? (
+          <div className="col-span-3 flex justify-center items-center h-40">
+            <div className="spinner w-16 h-16"></div>
+          </div>
+        ) : currentBlogPosts.length === 0 ? (
+          <div className="col-span-3 text-center text-gray-500">Không có bài viết nào.</div>
+        ) : (
+          currentBlogPosts.map((post) => (
+            <BlogPostWrapper
+              key={post._id}
+              onClick={() => handleReadMore(post._id)}
+            >
+              <BlogCard
+                image={post.image}
+                title={<span className="text-[#E68A98]">{post.title}</span>}
+                description={post.description}
+                createdDate={post.createdDate}
+              />
+            </BlogPostWrapper>
+          ))
+        )}
       </div>
 
       {/* Pagination */}
