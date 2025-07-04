@@ -82,6 +82,7 @@ const Dashboard = () => {
             return {
               name: service.name,
               avgRating: ratingRes.data[0]?.averageRating || 0,
+              totalReviews: ratingRes.data[0]?.totalReviews || 0,
             };
           })
         );
@@ -440,6 +441,7 @@ const Dashboard = () => {
                   <Grid item xs={12} sm={6} md={4} key={idx}>
                     <Box sx={{ p: 1, border: "1px solid #eee", borderRadius: 2 }}>
                       <Typography>{s.name}</Typography>
+                      <Typography>Tổng số đánh giá: {s.totalReviews || 0}</Typography>
                       <Typography>Trung bình: {s.avgRating.toFixed(2)} ⭐</Typography>
                     </Box>
                   </Grid>

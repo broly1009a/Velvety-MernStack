@@ -87,14 +87,42 @@ exports.getAverageServiceRating = async (req, res) => {
       {
         $group: {
           _id: "$serviceId",
-          averageRating: { $avg: "$serviceRating" }, // Calculate average rating
+          averageRating: { $avg: "$serviceRating" },
           totalReviews: { $sum: 1 }
+        }
+      },
+      {
+        $addFields: {
+          serviceId: "$_id"
+        }
+      },
+      {
+        $lookup: {
+          from: "feedbacks",
+          let: { sid: "$serviceId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$serviceId", "$$sid"] } } }
+          ],
+          as: "allFeedbacks"
+        }
+      },
+      {
+        $addFields: {
+          totalFeedbacks: { $size: "$allFeedbacks" }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          averageRating: 1,
+          totalReviews: 1,
+          totalFeedbacks: 1
         }
       }
     ]);
 
     if (result.length === 0) {
-      return res.status(200).json([{ averageRating: 0, totalReviews: 0 }]); // Default response if no ratings
+      return res.status(200).json([{ averageRating: 0, totalReviews: 0, totalFeedbacks: 0 }]);
     }
 
     res.status(200).json(result);
