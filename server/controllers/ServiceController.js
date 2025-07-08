@@ -118,20 +118,23 @@ const getRecommendedServices = async (req, res) => {
   }
 };
 
-// Lấy chi tiết dịch vụ kèm thống kê
+
 const getServiceDetailStats = async (req, res) => {
   try {
     const { id } = req.params;
     const service = await Service.findById(id);
     if (!service) return res.status(404).json({ message: "Service not found" });
 
-    // Đếm số lượt đặt và tổng doanh thu
-    const orders = await Order.find({ serviceId: id, status: "Paid" });
+    
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    
+    const orders = await Order.find({ serviceId: objectId, status: "Paid" });
     const totalRevenue = orders.reduce((sum, o) => sum + (o.amount || 0), 0);
     const totalOrders = orders.length;
 
-    // Lấy rating trung bình
-    const feedbacks = await Feedback.find({ serviceId: id });
+    
+    const feedbacks = await Feedback.find({ serviceId: objectId });
     const avgRating =
       feedbacks.length > 0
         ? feedbacks.reduce((sum, f) => sum + (f.serviceRating || 0), 0) /
