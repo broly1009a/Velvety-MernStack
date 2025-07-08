@@ -36,8 +36,8 @@ const Dashboard = () => {
   const [stats, setStats] = useState({});
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
-  const [mostOrderedServiceId, setMostOrderedServiceId] = useState(null);
-  const [mostOrderedServiceName, setMostOrderedServiceName] = useState(null);
+  // const [mostOrderedServiceId, setMostOrderedServiceId] = useState(null);
+  // const [mostOrderedServiceName, setMostOrderedServiceName] = useState(null);
   const [topServices, setTopServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState({
     day: moment().format("YYYY-MM-DD"),
