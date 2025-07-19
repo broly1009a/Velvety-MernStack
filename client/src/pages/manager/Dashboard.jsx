@@ -447,6 +447,12 @@ const Dashboard = () => {
                   </Grid>
                 ))}
               </Grid>
+              {/* Tổng số đánh giá tất cả dịch vụ */}
+              <Box sx={{ mt: 2, p: 2, background: "#f9f9f9", borderRadius: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: '#C54759' }}>
+                  Tổng số đánh giá tất cả dịch vụ: {serviceRatings.reduce((sum, s) => sum + (s.totalReviews || 0), 0)}
+                </Typography>
+              </Box>
             </Card>
           </Grid>
           {/* Top Ordered Services */}
